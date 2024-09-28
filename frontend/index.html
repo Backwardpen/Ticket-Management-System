@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Management</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/theme.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Link Seite für das Login-form -->
+        <div class="left-side">
+            <h2>Login</h2>
+            <form>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                
+                <button type="submit">Login</button>
+            </form>
+        </div>
+
+        <!-- Rechte Seite für das Ticket Managment -->
+        <div class="right-side">
+            <h2>Ticket Management</h2>
+            <button onclick="createTicket()">Create New Ticket</button>
+            </a>
+            <button onclick="viewTickets()">View Tickets</button>
+        </div>
+    </div>
+
+    <script>
+        function createTicket() {
+            // Redirect to createTicket.html
+            window.location.href = "createTicket.html";
+        }
+    
+        function viewTickets() {
+            // Redirect to viewoldTickets.html
+            window.location.href = "viewTicket.html";
+        }
+    </script>
+</body>
+</html>

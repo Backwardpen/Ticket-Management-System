@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Management</title>
+    <link rel="stylesheet" href="css/createTicket.css">
+    <link rel="stylesheet" href="css/theme.css">
+</head>
+
+<body>
+    <header>
+        <h1>Ticket Management</h1>
+    </header>
+
+    <main>
+        <form action="new_ticket" method="post">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" placeholder="Whats your Problem" required>
+
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+            <label for="description">Description</label>
+            <textarea id="description" name="description" placeholder="Descripe your Problem" required></textarea>
+
+            <label for="raum">Room</label>
+            <input type="text" id="raum" name="raum" placeholder="Enter your room" required list="rooms">
+
+            <!-- Liste muss von O01 bis O62 und E01 bis E62 gehen-->
+            <datalist id="rooms">
+                <option value="Hier geht das Untergeschoss los">
+                <option value="E01">
+                <option value="E02">
+                <option value="E03">
+                <option value="E04">
+                <option value="E05">
+                <option value="E06">
+                <option value="E07">
+                <option value="E08">
+                <option value="E09">
+                <option value="E10 Sekretariat">
+                <option value="E11 Schulleitung">
+                <option value="E12 Schulleitung">
+                <option value="E13">
+                <option value="E14">
+                <option value="E15">
+                <option value="E16">
+                <option value="E17">
+                <option value="E18 Lehrerarbeitsraum (LAR)">
+                <option value="E19">
+                <option value="E20">
+                <option value="E21">
+                <option value="E21a">
+                <option value="E22">
+                <option value="E23 Netzwerkstatt">
+                <option value="E24">
+                <option value="E25">
+                <option value="E26">
+                <option value="E27">
+                <option value="E28">
+                <option value="E29">
+                <option value="E30 Kunstraum">
+                <option value="E31">
+                <option value="E32">
+                <option value="E33">
+                <option value="E34">
+                <option value="E35">
+                <option value="E36">
+                <option value="E37">
+                <option value="E38">
+                <option value="E39">
+                <option value="E40">
+                <option value="E41">
+                <option value="E42">
+                <option value="E43">
+                <option value="E44">
+                <option value="E45">
+                <option value="E46">
+                <option value="E47">
+                <option value="E48">
+                <option value="E49">
+                <option value="E50">
+                <option value="E51">
+                <option value="E52">
+                <option value="E53">
+                <option value="E54">
+                <option value="E55">
+                <option value="E56">
+                <option value="E57">
+                <option value="E58">
+                <option value="E59">
+                <option value="E60">
+                <option value="E61">
+                <option value="E62">
+
+                <!-- O Options -->
+                <option value="Hier geht das Obergeschoss los">
+                <option value="O01">
+                <option value="O02">
+                <option value="O03">
+                <option value="O04">
+                <option value="O05">
+                <option value="O06">
+                <option value="O07">
+                <option value="O08">
+                <option value="O09">
+                <option value="O10">
+                <option value="O11">
+                <option value="O12">
+                <option value="O13">
+                <option value="O14">
+                <option value="O15">
+                <option value="O16">
+                <option value="O17">
+                <option value="O18">
+                <option value="O19">
+                <option value="O20">
+                <option value="O21">
+                <option value="O22">
+                <option value="O23">
+                <option value="O24">
+                <option value="O25">
+                <option value="O26">
+                <option value="O27">
+                <option value="O28">
+                <option value="O29">
+                <option value="O30">
+                <option value="O31">
+                <option value="O32">
+                <option value="O33">
+                <option value="O34">
+                <option value="O35">
+                <option value="O36">
+                <option value="O37">
+                <option value="O38">
+                <option value="O39">
+                <option value="O40">
+                <option value="O41">
+                <option value="O42">
+                <option value="O43">
+                <option value="O44">
+                <option value="O45">
+                <option value="O46">
+                <option value="O47">
+                <option value="O48 MMR2">
+                <option value="O49 MMR1">
+                <option value="O50">
+                <option value="O51">
+                <option value="O52">
+                <option value="O53">
+                <option value="O54">
+                <option value="O55">
+                <option value="O56">
+                <option value="O57 Chemieraum">
+                <option value="O58 Chemieraum">
+                <option value="O59 Bioraum">
+                <option value="O60 Bioraum">
+                <option value="O61 Physikraum">
+                <option value="O62 Physikraum">
+            </datalist>
+
+            <!-- Stellt sicher, dass die angegebene Option mit O(bergeschoss) oder E(rdgeschoss) anfängt, da wir keine andere Aufteilung in Räume haben -->
+            <script>
+                document.getElementById('raum').addEventListener('input', function (e) {
+                    const value = e.target.value.toUpperCase();
+                    if (!/^([EO]\d{0,2})$/.test(value)) {
+                        e.target.value = value.slice(0, -1);
+                    }
+                });
+            </script>
+
+            <label for="priority">Priority</label>
+            <select id="priority" name="priority" required>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+
+            <button type="submit" id="button">Create Ticket</button>
+            <button onclick="viewTickets()" id="button">View Tickets</button>
+        </form>
+    </main>
+    <script>
+        function viewTickets() {
+            // Redirect to viewTickets.html
+            window.location.href = "viewTicket.html";
+        }
+    </script>
+</body>
+
+</html>
