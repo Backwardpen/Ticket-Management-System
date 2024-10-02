@@ -4,7 +4,13 @@
 - Links zum Ticket erstellen
 
 ## Ticket erstellen
-- siehe Backend - Ticket
+- siehe Backend - Ticket^
+
+## Header
+- Header auf alle Seiten mit Buttons für alles 
+
+## Footer
+- Footer mit Credentials
 
 ## Backend
 
