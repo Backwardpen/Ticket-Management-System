@@ -1,16 +1,17 @@
 ## Frontend
-### Homepage
-- Login
-- Links zum Ticket erstellen
 
-## Ticket erstellen
-- siehe Backend - Ticket^
+### Homepage
+🔄- Login
+✅- Links zum Ticket erstellen 
 
 ## Header
-- Header auf alle Seiten mit Buttons für alles 
+- Header auf alle Seiten mit Buttons für zurück und Logout 
 
 ## Footer
-- Footer mit Credentials
+✅- Footer mit Credentials
+
+## Ticket erstellen
+- siehe Backend - Ticket
 
 ## Backend
 

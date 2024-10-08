@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/theme.css">
 </head>
 <body>
-    <header>
+    <header >
         <h1>Ticket Management System</h1>
     </header>
 
@@ -18,24 +18,26 @@
             <h2>Login</h2>
             <form>
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <input type="email" id="email" name="email" placeholder="Beispiel@mail.com" required>
                 
                 <label for="password">Password:</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password" required>
-                
-                <button type="submit">Login</button>
+                <input type="password" id="password" name="password" placeholder="Geben Sie ihr Passwort ein" required>
+                <button type="submit" class="ticket-button">Anmelden</button>
             </form>
         </div>
 
         <!-- Rechte Seite für das Ticket Managment -->
         <div class="right-side">
-            <h2>Ticket Management</h2>
-            <button onclick="createTicket()">Create New Ticket</button>
-            </a>
-            <button onclick="viewTickets()">View Tickets</button>
+            <div class="text-align">
+                <h2 class="h2_besonders">Ticket Management</h2>
+            </div>
+                <button onclick="createTicket()" class="ticket-button">Erstelle ein Ticket</button>
+                </a>
+                <button onclick="viewTickets()" class="ticket-button">Tickets anschauen</button>
         </div>
     </div>
 
+    <!-- Footer -->
     <footer class="footer">
         <p>© 2024 Ticket System von Jonas Niggemann</p>
     </footer>

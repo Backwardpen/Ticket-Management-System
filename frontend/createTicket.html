@@ -1,35 +1,36 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ticket Management</title>
+    <title>Ticket Management System</title>
     <link rel="stylesheet" href="css/createTicket.css">
     <link rel="stylesheet" href="css/theme.css">
 </head>
-
 <body>
     <header>
-        <h1>Ticket Management</h1>
+        <h1>Ticket Management System</h1>
+        <nav>
+            <a href="index.html" class="home-button">Home</a>
+        </nav>
     </header>
 
     <main>
-        <form action="new_ticket" method="post">
+        <form action="⚠️PLATZHALTER⚠️" method="post">
             <label for="title">Title</label>
-            <input type="text" id="title" name="title" placeholder="Whats your Problem" required>
+            <input type="text" id="title" name="title" placeholder="Was ist dein Problem?" required>
 
             <label for="name">Name</label>
-            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+            <input type="text" id="name" name="name" placeholder="Max Mustermann" required>
 
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            <input type="email" id="email" name="email" placeholder="Beispiel@mail.com" required>
 
-            <label for="description">Description</label>
-            <textarea id="description" name="description" placeholder="Descripe your Problem" required></textarea>
+            <label for="description">Problematik</label>
+            <textarea id="description" name="description" placeholder="Beschreibe dein Problem." required></textarea>
 
-            <label for="raum">Room</label>
-            <input type="text" id="raum" name="raum" placeholder="Enter your room" list="rooms" required >
+            <label for="raum">Raum</label>
+            <input type="text" id="raum" name="raum" placeholder="Welcher Raum?" list="rooms" required >
 
             <!-- Liste muss von O01 bis O62 und E01 bis E62 gehen-->
             <datalist id="rooms">
@@ -162,12 +163,12 @@
                     <option value="O54">
                     <option value="O55">
                     <option value="O56">
-                    <option value="O57 Chemieraum">
-                    <option value="O58 Chemieraum">
-                    <option value="O59 Bioraum">
-                    <option value="O60 Bioraum">
-                    <option value="O61 Physikraum">
-                    <option value="O62 Physikraum">
+                    <option value="O57 Chemieraum 1">
+                    <option value="O58 Chemieraum 2">
+                    <option value="O59 Bioraum 1">
+                    <option value="O60 Bioraum 2">
+                    <option value="O61 Physikraum 1">
+                    <option value="O62 Physikraum 2">
                     <option value="O63 Physiklager">
                     <option value="O64 Biologielager">
                     <option value="O65 Chemielager">
@@ -186,23 +187,29 @@
                 });
             </script>
 
-            <label for="priority">Priority</label>
+            <label for="priority">Priorität</label>
             <select id="priority" name="priority" required>
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
+                <option value="low">Niedrig</option>
+                <option value="medium">Mittel</option>
+                <option value="high">Hoch</option>
             </select>
 
-            <button type="submit" id="button">Create Ticket</button>
-            <button onclick="viewTickets()" id="button">View Tickets</button>
+            <button type="submit" class="ticket-button">Erstelle Ticket</button>
+            <button onclick="viewTickets()" class="ticket-button">Tickets ansehen</button>
         </form>
     </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2024 Ticket System von Jonas Niggemann</p>
+    </footer>
+
     <script>
         function viewTickets() {
             // Redirect to viewTickets.html
             window.location.href = "viewTicket.html";
         }
     </script>
-</body>
 
+</body>
 </html>
