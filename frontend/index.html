@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ticket Management System</title>
+    <title>Ticket System</title>
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/theme.css">
 </head>
 <body>
-    <header >
-        <h1>Ticket Management System</h1>
+    <header>
+        <h1>Ticket System</h1>
     </header>
 
     <div class="container">
@@ -18,10 +18,10 @@
             <h2>Login</h2>
             <form>
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" placeholder="Beispiel@mail.com" required>
+                <input type="email" id="email" name="email" placeholder="Beispiel@mail.com" autocomplete="on" required>
                 
                 <label for="password">Password:</label>
-                <input type="password" id="password" name="password" placeholder="Geben Sie ihr Passwort ein" required>
+                <input type="password" id="password" name="password" placeholder="Geben Sie ihr Passwort ein" autocomplete="on" required>
                 <button type="submit" class="ticket-button">Anmelden</button>
             </form>
         </div>
@@ -32,7 +32,9 @@
                 <h2 class="h2_besonders">Ticket Management</h2>
             </div>
                 <button onclick="createTicket()" class="ticket-button">Erstelle ein Ticket</button>
-                </a>
+                <br>
+                <label for="view-email">Hier ihre Email eingeben um ihr(e) Ticket(s) einzusehen:</label>
+                <input type="email" id="email" name="email" placeholder="Beispiel@mail.com" autocomplete="on" required>
                 <button onclick="viewTickets()" class="ticket-button">Tickets anschauen</button>
         </div>
     </div>
@@ -44,13 +46,20 @@
 
     <script>
         function createTicket() {
-            // Redirect to createTicket.html
+            // Redirect zu createTicket.html
             window.location.href = "createTicket.html";
         }
     
         function viewTickets() {
-            // Redirect to viewoldTickets.html
-            window.location.href = "viewTicket.html";
+            // Nimmt sich die Email aus dem Input-Feld
+            const email = document.getElementById('view-email').value;
+            if (email) {
+                // Leitet auf viewTicket.html weiter und übergibt die Email als Parameter
+                window.location.href = `viewTicket.html?email=${encodeURIComponent(email)}`;
+            } else {
+                // Fehlermeldung, wenn keine oder eine nicht vorhandene Email eingegeben wurde
+                alert('Bitte geben Sie eine gültige Email-Adresse ein.');
+            }
         }
     </script>
 </body>

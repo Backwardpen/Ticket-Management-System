@@ -1,0 +1,14 @@
+Entweder muss mann die Dockerfiles über die Console erstellen:
+docker run --name MySQL -d --network=dockernetwork -e MYSQL_ROOT_PASSWORD=10uzb24 -e MYSQL_DATABASE=local_database -p 3306:3306 --restart=unless-stopped mysql:latest
+docker run -d --name=phpmyadmin --network=dockernetwork -e PMA_HOST=MySQL -e PMA_PORT=3306 -e MYSQL_ROOT_PASSWORD=10uzb24 -p 8080:80 phpmyadmin/phpmyadmin:latest
+Oder man kann die Dockerfiles über die Docker-Compose.yml erstellen, nachdem man in den Ordner navigiert ist in der die Datei liegt:
+docker-compose up -d
+docker-compose down
+
+Befehl um den Rust-Server zu starten:
+cargo run
+
+Als Hintergrundinformation:
+https://www.youtube.com/watch?v=2HVKizgcfjo
+https://www.raghwendra.com/blog/how-to-connect-html-to-database-with-mysql-using-php-example/#Step_1_Filter_your_HTML_form_requirements_for_your_contact_us_web_page
+https://medium.com/@elaurichetoho/unlock-the-power-of-docker-effortlessly-run-mysql-and-phpmyadmin-containers-for-seamless-database-3d56fd496c4d

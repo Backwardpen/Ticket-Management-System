@@ -1,17 +1,14 @@
 ## Frontend
 
 ### Homepage
-🔄- Login
-✅- Links zum Ticket erstellen 
+- Login
+- createTicket
+- ViewTicket
 
-## Header
+## Grundlegendes
+- Footer mit Credentials
 - Header auf alle Seiten mit Buttons für zurück und Logout 
 
-## Footer
-✅- Footer mit Credentials
-
-## Ticket erstellen
-- siehe Backend - Ticket
 
 ## Backend
 
@@ -36,37 +33,50 @@
     - Kategorisierung
 
 ### User Funktionalität
-- Authentifizierung
-
 ## Datenbank (MySQL)
 - Tickets
 - User
+ - Id
+    - Name
+    - Email
+    - Passwort
+    - Berechtigungen (Rollen)
 
-## Weitere benötigte Funktionen
-### Dashboard
+
+### Dashboard(viewTickets) User
 - Übersicht offener Tickets
 - Statistiken
 
+### Dashboard(viewTickets) Admin
+- Übersicht aller Tickets
+- Statistiken
+- Filteroptionen
+- Suche nach Ticketname oder ID
+
 ### Benachrichtigungen
 - Email-Benachrichtigungen
-- Push-Benachrichtigungen
-
-### Suche
-- Volltextsuche
-- Filteroptionen
 
 ### Anhänge
 - Datei-Uploads
     - Fotos
     - Files
-- Verknüpfung mit Tickets
 
 ### Dokumentation
 - Benutzerhandbuch
 - Entwicklerdokumentation
 
---> Interaktion des Ganzen
-
-
 **potentieller Raumplan mit Tickets verbinden und dann bei Klick auf den Raum alle Tickets anzeigen lassen.**
 **Die Farben verändern sich wenn ein oder mehrere Tickets auf einem Raum liegen**
+
+
+
+## Ziggys Ansatz
+
+### Server
+#### Rust Backend
+- Kontinuierlich laufender Server
+- Leitet Anfragen vom Frontend an die Datenbank weiter nachdem auf validität geprüft wird saniert wird
+- Sorgt dafür, dass anmeldungen möglich sind
+
+#### Web Server
+- Sendet über js anfragen an den Backend Server

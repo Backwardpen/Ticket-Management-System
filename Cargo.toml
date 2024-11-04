@@ -5,3 +5,7 @@ edition = "2021"
 
 [dependencies]
 mysql = "25.0.1"
+dotenv = "0.15.0"
+warp = "0.3.7"
+serde = {version = "1.0.214", features = ["derive"]}
+tokio = { version = "1.41", features = ["full"] }
