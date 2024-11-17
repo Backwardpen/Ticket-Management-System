@@ -9,4 +9,5 @@ CREATE TABLE IF NOT EXISTS tickets (
     email VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     raum VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
