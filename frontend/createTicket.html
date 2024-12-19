@@ -20,8 +20,8 @@
     <main>
         <!-- Erstellen des Tickets -->
         <form id="createTicketForm" action="http://127.0.0.1:5555/tickets" method="post">
-            <label for="title">Titel</label>
-            <input type="text" id="ticketTitle" name="title" placeholder="Was ist dein Problem?" required>
+            <label for="ticketTitle">Titel</label>
+            <input type="text" id="ticketTitle" name="ticket_title" placeholder="Was ist dein Problem?" required>
 
             <label for="name">Name</label>
             <input type="text" id="name" name="name" placeholder="Max Mustermann" autocomplete="on" required>
@@ -29,8 +29,8 @@
             <label for="email">Email</label>
             <input type="email" id="email" name="email" placeholder="Beispiel@mail.com" autocomplete="on" required>
 
-            <label for="description">Problematik</label>
-            <textarea id="ticketDescription" name="description" placeholder="Beschreibe dein Problem." required></textarea>
+            <label for="ticketDescription">Problematik</label>
+            <textarea id="ticketDescription" name="ticket_description" placeholder="Beschreibe dein Problem." required></textarea>
 
             <label for="raum">Raum</label>
             <input type="text" id="raum" name="raum" placeholder="Welcher Raum?" list="rooms" required>
@@ -55,7 +55,7 @@
                         <option value="E13">
                         <option value="E14 Stellvertretende Schulleitung">
                         <option value="E15 Lehrertoiletten">
-                        <option value="E16 Lehrertoiletten">
+                        <option value="E16 Archiv">
                         <option value="E17 Lehrertoiletten">
                         <option value="E18 Lehrerarbeitsraum (LAR)">
                         <option value="E19 LAR Besprechungsraum">
@@ -67,7 +67,7 @@
                         <option value="E23 Netzwerkstatt">
                         <option value="E24">
                         <option value="E25">
-                        <option value="E26 Q2 Aufenthalsraum">
+                        <option value="E26 Q2 Aufenthaltsraum">
                         <option value="E27 E-Phase Aufenthalsraum">
                         <option value="E28 alter Kiosk">
                         <option value="E29 alter Kiosk">
@@ -187,6 +187,45 @@
     <footer class="footer">
         <p>© 2024 Ticket System von Jonas </p>
     </footer>
+        <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('createTicketForm');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Verhindere das normale Absenden des Formulars
+
+            const formData = new FormData(form);
+            const formDataJson = {};
+
+            formData.forEach((value, key) => {
+              formDataJson[key] = value;
+             });
+
+           try{
+            const response = await fetch(form.action, {
+                method: 'POST',
+                headers:{
+                     'Content-Type': 'application/json', // Set the content type for sending JSON
+                 },
+                body: JSON.stringify(formDataJson), // Convert data to json string.
+             });
+
+             const result = await response.json()
+             if (response.ok) {
+                 // Success case:
+                 alert('Ticket erstellt!\n' + result);
+             }else{
+                alert('Fehler beim erstellen des Tickets!\n' + result)
+             }
+
+
+        }
+          catch(error){
+              console.log(error);
+           }
+        });
+    });
+     </script>
 </body>
 
 </html>

@@ -13,7 +13,6 @@ USE ticketsystem;
 INSERT INTO tickets (title, email, name, description, raum) 
 VALUES ("Test Title", "test@example.com", "Test User", "Test Description", "E01");
 
-
 Als Hintergrundinformation:
 https://www.youtube.com/watch?v=2HVKizgcfjo
 https://www.raghwendra.com/blog/how-to-connect-html-to-database-with-mysql-using-php-example/#Step_1_Filter_your_HTML_form_requirements_for_your_contact_us_web_page

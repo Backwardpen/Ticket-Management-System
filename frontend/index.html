@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/theme.css">
 </head>
+
 <body>
     <header>
         <h1>Ticket Management System</h1>
@@ -19,9 +21,10 @@
             <form>
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" placeholder="Beispiel@mail.com" autocomplete="on" required>
-                
+
                 <label for="password">Password:</label>
-                <input type="password" id="password" name="password" placeholder="Geben Sie ihr Passwort ein" autocomplete="on" required>
+                <input type="password" id="password" name="password" placeholder="Geben Sie ihr Passwort ein"
+                    autocomplete="on" required>
                 <button type="submit" class="ticket-button">Anmelden</button>
             </form>
         </div>
@@ -31,11 +34,11 @@
             <div class="text-align">
                 <h2 class="h2_besonders">Ticket Management</h2>
             </div>
-                <button onclick="createTicket()" class="ticket-button">Erstelle ein Ticket</button>
-                <br>
-                <label for="view-email">Hier ihre Email eingeben um ihr(e) Ticket(s) einzusehen:</label>
-                <input type="email" id="email" name="email" placeholder="Beispiel@mail.com" autocomplete="on" required>
-                <button onclick="viewTickets()" class="ticket-button">Tickets anschauen</button>
+            <button onclick="createTicket()" class="ticket-button">Erstelle ein Ticket</button>
+            <br>
+            <label for="view-email">Hier ihre Email eingeben um ihr(e) Ticket(s) einzusehen:</label>
+            <input type="email" id="email" name="email" placeholder="Beispiel@mail.com" autocomplete="on" required>
+            <button onclick="viewTickets()" class="ticket-button">Tickets anschauen</button>
         </div>
     </div>
 
@@ -46,16 +49,31 @@
 
     <script>
         function createTicket() {
-            // Redirect zu createTicket.html
+            // Weiterleitung auf meine Ticket-erstell-Seite (createTicket.html)
             window.location.href = "createTicket.html";
         }
-    
+
         function viewTickets() {
             // Nimmt sich die Email aus dem Input-Feld
-            const email = document.getElementById('view-email').value;
+            const emailInput = document.getElementById('email');
+            const email = emailInput.value;
             if (email) {
                 // Leitet auf viewTicket.html weiter und übergibt die Email als Parameter
-                window.location.href = `viewTicket.html?email=${encodeURIComponent(email)}`;
+                fetch(`http://127.0.0.1:5555/tickets/by_email/${email}`)
+                    // Gibt eine Antwort als JSON zurück
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("Success: ", data);
+                        // Speichert die Daten im Browser Session Storage ab, damit der nachgelagerte Html Call auch zugreifen kann
+                        sessionStorage.setItem('tickets', JSON.stringify(data)); 
+                        // Weiterleitung auf die viewTicket.html
+                        window.location.href = `viewTicket.html`;
+                    }).catch(error => {
+                        // Fehlermeldung, wenn die Email nicht gefunden wurde
+                        console.error('There has been a problem with your fetch operation:', error);
+                        alert('Fehler beim abrufen der Daten')
+                    });
+
             } else {
                 // Fehlermeldung, wenn keine oder eine nicht vorhandene Email eingegeben wurde
                 alert('Bitte geben Sie eine gültige Email-Adresse ein.');
@@ -63,4 +81,5 @@
         }
     </script>
 </body>
+
 </html>
