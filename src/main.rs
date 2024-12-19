@@ -77,31 +77,32 @@ async fn create_ticket(ticket: Ticket, mysql_pool: &mysql::Pool) -> Result<Strin
     }
 }
 
-    async fn get_tickets_by_email(email: String, mysql_pool: &mysql::Pool) -> Result<Vec<Ticket>, warp::Rejection> {
-           println!("Email die abgerufen werden soll: {}", email);
-            let result = mysql_pool.get_conn().and_then(move |mut conn| {
-                conn.exec_map(
-                  "SELECT title, email, name, description, raum FROM tickets WHERE lower(email) = lower(?)",
-                   (email,),
-                  |(ticket_title, email, name, ticket_description, raum)| Ticket {
-                       ticket_title,
-                      email,
-                        name,
-                      ticket_description,
-                      raum,
-                   },
-            )
-          });
 
-       match result {
+// Diese Funktion wird genutzt, um Tickets anhand der Email-Adresse abzurufen
+async fn get_tickets_by_email(email: String, mysql_pool: &mysql::Pool) -> Result<Vec<Ticket>, warp::Rejection> {
+        println!("Email die abgerufen werden soll: {}", email);
+        let result = mysql_pool.get_conn().and_then(move |mut conn| {
+            conn.exec_map(
+                "SELECT title, email, name, description, raum FROM tickets WHERE lower(email) = lower(?)",
+                (email,),
+                |(ticket_title, email, name, ticket_description, raum)| Ticket { 
+                    ticket_title,
+                    email,
+                    name,
+                    ticket_description,
+                    raum,
+                },
+            )
+        });
+
+        match result {
             Ok(tickets) => Ok(tickets),
-         Err(err) => {
+            Err(err) => {
                 eprintln!("Fehler beim Abrufen der Tickets: {:?}", err);
                 Err(warp::reject::custom(CustomError { message: format!("{:?}", err) }))
-              }
-          }
-    }
-    
+            }
+        }
+}
 
 // Hier wird die Konfiguration der Datenbank definiert
 #[derive(Debug)]
@@ -189,57 +190,55 @@ async fn main() {
         }
     }
 
-    // Cors Konfiguration wird erstellt
-    // Cors ist eine Sicherheitsfunktion, welche die Kommunikation zwischen Frontend und Backend regelt
-    // Diese nutze ich, um meinem Browser zu sagen, dass er Anfragen von einer bestimmten URL akzeptieren soll, obwohl sie angeblich von einer anderen URL stammen (Hier von meinem Test-Frontend)
+    // CORS Konfiguration
     let cors = warp::cors()
-        .allow_origin("http://127.0.0.1:5501") // Frontend URL hier eingeben
-        .allow_methods(vec!["POST", "GET", "OPTIONS"])
-        .allow_headers(vec!["Content-Type"])
-        .build();
-    
-     // Warp-Routen erstellen
-    let tickets = warp::post()
-        // warp::path() definiert den Pfad, auf den der Server reagieren soll
-        .and(warp::path("tickets"))
-        // warp::body::json() definiert, dass der Server JSON-Daten erwartet
-        .and(warp::body::json())
-        .and_then({
-            let pool = mysql_pool.clone();
-            // move |ticket: Ticket| definiert, dass die Funktion ein Ticket erwartet
-            move |ticket: Ticket| {
-                let pool = pool.clone();
-                async move {
-                    // create_ticket() wird aufgerufen und das Ticket wird übergeben
-                    // Ich überprüfe das Ticket mit meinem erwarteten Pool
-                    match create_ticket(ticket, &pool).await {
-                        // Wenn das Ticket erfolgreich erstellt wurde, wird eine Erfolgsmeldung zurückgegeben
-                        Ok(msg) => Ok::<_, warp::Rejection>(warp::reply::with_status(warp::reply::json(&msg), warp::http::StatusCode::OK)),
-                        // Wenn das Ticket nicht erstellt werden konnte, wird eine Fehlermeldung zurückgegeben
-                        Err(err) => Ok::<_, warp::Rejection>(warp::reply::with_status(warp::reply::json(&format!("{:?}", err)), warp::http::StatusCode::INTERNAL_SERVER_ERROR)),
-                     }
-             }
-          }
-     });
-        // Hier wird die Cors-Konfiguration hinzugefügt
-       let tickets_by_email = warp::get()
-           .and(warp::path("tickets"))
-           .and(warp::path("by_email"))
-           .and(warp::path::param::<String>())
-          .and_then({
-               let pool = mysql_pool.clone();
-              move |email: String| {
-                    let pool = pool.clone();
-                   async move {
-                     match get_tickets_by_email(email, &pool).await {
-                          Ok(tickets) =>  Ok::<_, warp::Rejection>(warp::reply::with_status(warp::reply::json(&tickets), warp::http::StatusCode::OK)),
-                           Err(err) =>   Ok::<_, warp::Rejection>(warp::reply::with_status(warp::reply::json(&format!("{:?}", err)), warp::http::StatusCode::INTERNAL_SERVER_ERROR)),
-                        }
-                 }
-             }
-        }).with(cors.clone());
-       
-      let routes = tickets.or(tickets_by_email);
+    .allow_origin("http://127.0.0.1:5501") // erlaube Anfragen von dieser URL
+    .allow_methods(vec!["POST", "GET", "OPTIONS"]) // erlaube POST, GET und OPTIONS
+    .allow_headers(vec!["Content-Type","*"]) // erlaube alle Header
+    .build(); // baue die CORS-Konfiguration
+
+    // Hier wird der Endpunkt für das Erstellen eines Tickets definiert
+    let tickets = warp::post() 
+    .and(warp::path("tickets")) // Endpunkt /tickets
+    .and(warp::body::json()) // JSON-Body wird erwartet
+    .and_then({
+        let pool = mysql_pool.clone();
+        move |ticket: Ticket| {
+            let pool = pool.clone();
+            async move {
+                // Matched die Rückgabe der Funktion create_ticket
+                match create_ticket(ticket, &pool).await {
+                    Ok(msg) => Ok::<_, warp::Rejection>(warp::reply::with_status(warp::reply::json(&msg), warp::http::StatusCode::OK)),
+                    Err(err) =>  {
+                        // sehr spezifischer Fehler, der nur in der Konsole ausgegeben wird
+                        // eigentlich nur zum Debuggen wichtig
+                        let response = warp::reply::with_status(warp::reply::json(&format!("{:?}", err)), warp::http::StatusCode::INTERNAL_SERVER_ERROR);
+                        Ok::<_, warp::Rejection>(response)
+                    },
+                }   
+            }
+        }
+    }).with(cors.clone()); // Cors nun im Endpoint einfügen
+
+    // Hier wird der Endpunkt für das Abrufen von Tickets anhand der Email-Adresse definiert
+    let tickets_by_email = warp::get()
+    .and(warp::path("tickets")) // Endpunkt /tickets
+    .and(warp::path("by_email")) // Endpunkt /by_email
+    .and(warp::path::param::<String>()) // Email-Adresse wird erwartet
+    .and_then({ // alles wie oben
+        let pool = mysql_pool.clone();
+        move |email: String| {
+            let pool = pool.clone();
+            async move {
+                match get_tickets_by_email(email, &pool).await {
+                    Ok(tickets) => Ok::<_, warp::Rejection>(warp::reply::with_status(warp::reply::json(&tickets), warp::http::StatusCode::OK)),
+                    Err(err) => Ok::<_, warp::Rejection>(warp::reply::with_status(warp::reply::json(&format!("{:?}", err)), warp::http::StatusCode::INTERNAL_SERVER_ERROR)),
+                }
+            }
+        }
+    }).with(cors.clone());
+
+    let routes = tickets.or(tickets_by_email);
     // Server starten und auf Port 5555 laufen lassen
     let log = warp::log("ticketsystem");
     warp::serve(routes.with(log)).run(([127, 0, 0, 1], 5555)).await;

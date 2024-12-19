@@ -15,7 +15,7 @@
 ### User
 - Berechtigungen
     - Admin/Supporter
-    - normal User
+    - Standard User
 #### Rollen und Berechtigungen
 - Unterschiedliche Rollen und Rechte
 - Anpassbare Berechtigungen

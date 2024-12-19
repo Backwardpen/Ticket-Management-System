@@ -34,198 +34,242 @@
 
             <label for="raum">Raum</label>
             <input type="text" id="raum" name="raum" placeholder="Welcher Raum?" list="rooms" required>
+                <div id="roomError" class="error-message" style="display: none;">Bitte wählen Sie einen Raum aus der Liste aus.</div>
 
             <!-- Datalist für die Räume -->
             <datalist id="rooms">
                 <!-- Erdgeschoss Optionen -->
-                <option disabled="disabled" value="Hier geht das Untergeschoss los">
-                    <optgroup label="Erdgeschoss">
-                        <option value="E01">
-                        <option value="E02">
-                        <option value="E03">
-                        <option value="E04">
-                        <option value="E05">
-                        <option value="E06">
-                        <option value="E07">
-                        <option value="E08">
-                        <option value="E09">
-                        <option value="E10 Sekretariat">
-                        <option value="E11 Schulleitung">
-                        <option value="E12 Schulleitung">
-                        <option value="E13">
-                        <option value="E14 Stellvertretende Schulleitung">
-                        <option value="E15 Lehrertoiletten">
-                        <option value="E16 Archiv">
-                        <option value="E17 Lehrertoiletten">
-                        <option value="E18 Lehrerarbeitsraum (LAR)">
-                        <option value="E19 LAR Besprechungsraum">
-                        <option value="E20 Mittelstufenleitung">
-                        <option value="E21">
-                        <option value="E21a">
-                        <option value="E22">
-                        <option value="E22a Oberstufenleitung">
-                        <option value="E23 Netzwerkstatt">
-                        <option value="E24">
-                        <option value="E25">
-                        <option value="E26 Q2 Aufenthaltsraum">
-                        <option value="E27 E-Phase Aufenthalsraum">
-                        <option value="E28 alter Kiosk">
-                        <option value="E29 alter Kiosk">
-                        <option value="E30 Kunstraum">
-                        <option value="E31 Kunstlager">
-                        <option value="E32 Kunstraum">
-                        <option value="E33">
-                        <option value="E34">
-                        <option value="E35">
-                        <option value="E36">
-                        <option value="E37">
-                        <option value="E38">
-                        <option value="E39">
-                        <option value="E40">
-                        <option value="E41 Festsaalkiosk">
-                        <option value="E42">
-                        <option value="E43">
-                        <option value="E43a Festsaaltechnik">
-                        <option value="E44">
-                        <option value="E45">
-                        <option value="E46 SV-Raum">
-                        <option value="E47 Beinträchtigtentoilette">
-                        <option value="E48">
-                        <option value="E49 Jungstoiletten">
-                        <option value="E50 Mädchentoiletten">
-                        <option value="E51">
-                        <option value="E52">
-                        <option value="E53">
-                        <option value="E54">
-                        <option value="E55">
-                        <option value="E56">
-                        <option value="E57">
-                        <option value="E58">
-                        <option value="E59">
-                        <option value="E60">
-                        <option value="E61">
-                        <option value="E62">
-                    </optgroup>
+                <optgroup label="Erdgeschoss">
+                    <option value="E01">
+                    <option value="E02">
+                    <option value="E03">
+                    <option value="E04">
+                    <option value="E05">
+                    <option value="E06">
+                    <option value="E07">
+                    <option value="E08">
+                    <option value="E09">
+                    <option value="E10 Sekretariat">
+                    <option value="E11 Schulleitung">
+                    <option value="E12 Schulleitung">
+                    <option value="E13">
+                    <option value="E14 Stellvertretende Schulleitung">
+                    <option value="E15 Lehrertoiletten">
+                    <option value="E16 Archiv">
+                    <option value="E17 Lehrertoiletten">
+                    <option value="E18 Lehrerarbeitsraum (LAR)">
+                    <option value="E19 LAR Besprechungsraum">
+                    <option value="E20 Mittelstufenleitung">
+                    <option value="E21">
+                    <option value="E21a">
+                    <option value="E22">
+                    <option value="E22a Oberstufenleitung">
+                    <option value="E23 Netzwerkstatt">
+                    <option value="E24">
+                    <option value="E25">
+                    <option value="E26 Q2 Aufenthaltsraum">
+                    <option value="E27 E-Phase Aufenthalsraum">
+                    <option value="E28 alter Kiosk">
+                    <option value="E29 alter Kiosk">
+                    <option value="E30 Kunstraum">
+                    <option value="E31 Kunstlager">
+                    <option value="E32 Kunstraum">
+                    <option value="E33">
+                    <option value="E34">
+                    <option value="E35">
+                    <option value="E36">
+                    <option value="E37">
+                    <option value="E38">
+                    <option value="E39">
+                    <option value="E40">
+                    <option value="E41 Festsaalkiosk">
+                    <option value="E42">
+                    <option value="E43">
+                    <option value="E43a Festsaaltechnik">
+                    <option value="E44">
+                    <option value="E45">
+                    <option value="E46 SV-Raum">
+                    <option value="E47 Beinträchtigtentoilette">
+                    <option value="E48">
+                    <option value="E49 Jungstoiletten">
+                    <option value="E50 Mädchentoiletten">
+                    <option value="E51">
+                    <option value="E52">
+                    <option value="E53">
+                    <option value="E54">
+                    <option value="E55">
+                    <option value="E56">
+                    <option value="E57">
+                    <option value="E58">
+                    <option value="E59">
+                    <option value="E60">
+                    <option value="E61">
+                    <option value="E62">
+                </optgroup>
 
-                    <!-- Obergeschoss Optionen -->
-                <option disabled="disabled" value="Hier geht das Obergeschoss los">
-                    <optgroup label="Obergeschoss">
-                        <option value="O01">
-                        <option value="O02">
-                        <option value="O03">
-                        <option value="O04">
-                        <option value="O05">
-                        <option value="O06">
-                        <option value="O07">
-                        <option value="O08">
-                        <option value="O09">
-                        <option value="O10">
-                        <option value="O11">
-                        <option value="O12">
-                        <option value="O13">
-                        <option value="O14">
-                        <option value="O15 Schulbibliotek">
-                        <option value="O16">
-                        <option value="O17">
-                        <option value="O18">
-                        <option value="O19">
-                        <option value="O20">
-                        <option value="O21">
-                        <option value="O22">
-                        <option value="O23">
-                        <option value="O24">
-                        <option value="O25">
-                        <option value="O26">
-                        <option value="O27 Schulbücherei">
-                        <option value="O28">
-                        <option value="O29">
-                        <option value="O30">
-                        <option value="O31">
-                        <option value="O32">
-                        <option value="O33">
-                        <option value="O34">
-                        <option value="O35">
-                        <option value="O36">
-                        <option value="O37">
-                        <option value="O38">
-                        <option value="O39">
-                        <option value="O40">
-                        <option value="O41">
-                        <option value="O42">
-                        <option value="O43">
-                        <option value="O44">
-                        <option value="O45">
-                        <option value="O46">
-                        <option value="O47">
-                        <option value="O48 MMR2">
-                        <option value="O49 MMR1">
-                        <option value="O50 Festsallempore">
-                        <option value="O51">
-                        <option value="O52">
-                        <option value="O53">
-                        <option value="O54">
-                        <option value="O55">
-                        <option value="O56">
-                        <option value="O57 Chemieraum 1">
-                        <option value="O58 Chemieraum 2">
-                        <option value="O59 Bioraum 1">
-                        <option value="O60 Bioraum 2">
-                        <option value="O61 Physikraum 1">
-                        <option value="O62 Physikraum 2">
-                        <option value="O63 Physiklager">
-                        <option value="O64 Biologielager">
-                        <option value="O65 Chemielager">
-                        <option value="O66 Schülerlabor/3D-Drucker">
-                        <option value="067 Schülerlabor">
+                <!-- Obergeschoss Optionen -->
+                <optgroup label="Obergeschoss">
+                     <option value="O01">
+                    <option value="O02">
+                    <option value="O03">
+                    <option value="O04">
+                    <option value="O05">
+                    <option value="O06">
+                    <option value="O07">
+                    <option value="O08">
+                    <option value="O09">
+                    <option value="O10">
+                    <option value="O11">
+                    <option value="O12">
+                    <option value="O13">
+                    <option value="O14">
+                    <option value="O15 Schulbibliotek">
+                    <option value="O16">
+                    <option value="O17">
+                    <option value="O18">
+                    <option value="O19">
+                    <option value="O20">
+                    <option value="O21">
+                    <option value="O22">
+                    <option value="O23">
+                    <option value="O24">
+                    <option value="O25">
+                    <option value="O26">
+                    <option value="O27 Schulbücherei">
+                    <option value="O28">
+                    <option value="O29">
+                    <option value="O30">
+                    <option value="O31">
+                    <option value="O32">
+                    <option value="O33">
+                    <option value="O34">
+                    <option value="O35">
+                    <option value="O36">
+                    <option value="O37">
+                    <option value="O38">
+                    <option value="O39">
+                    <option value="O40">
+                    <option value="O41">
+                    <option value="O42">
+                    <option value="O43">
+                    <option value="O44">
+                    <option value="O45">
+                    <option value="O46">
+                    <option value="O47">
+                    <option value="O48 MMR2">
+                    <option value="O49 MMR1">
+                    <option value="O50 Festsallempore">
+                    <option value="O51">
+                    <option value="O52">
+                    <option value="O53">
+                    <option value="O54">
+                    <option value="O55">
+                    <option value="O56">
+                    <option value="O57 Chemieraum 1">
+                    <option value="O58 Chemieraum 2">
+                    <option value="O59 Bioraum 1">
+                    <option value="O60 Bioraum 2">
+                    <option value="O61 Physikraum 1">
+                    <option value="O62 Physikraum 2">
+                    <option value="O63 Physiklager">
+                    <option value="O64 Biologielager">
+                    <option value="O65 Chemielager">
+                    <option value="O66 Schülerlabor/3D-Drucker">
+                    <option value="067 Schülerlabor">
                     </optgroup>
             </datalist>
 
             <button type="submit" class="ticket-button">Erstelle Ticket</button>
+            <div id="formStatus" class="form-status" style="display:none;"></div>
         </form>
+        <button id="viewTicketsBtn" class="view-tickets-button">Ticket-Übersicht</button>
     </main>
 
     <footer class="footer">
         <p>© 2024 Ticket System von Jonas </p>
     </footer>
-        <script>
+
+    <script>
     document.addEventListener('DOMContentLoaded', () => {
         const form = document.getElementById('createTicketForm');
+        const formStatusDiv = document.getElementById('formStatus');
+        const roomInput = document.getElementById('raum');
+        const roomErrorDiv = document.getElementById('roomError');
+        const roomOptions = Array.from(document.querySelectorAll('#rooms option')).map(option => option.value);
+        const viewTicketsBtn = document.getElementById('viewTicketsBtn');
+
+        viewTicketsBtn.addEventListener('click', () => {
+            window.location.href = "viewTicket.html";
+        });
 
         form.addEventListener('submit', async (event) => {
-            event.preventDefault(); // Verhindere das normale Absenden des Formulars
+            event.preventDefault(); // Formular nicht absenden
+
+            const selectedRoom = roomInput.value.trim();
+
+            if (selectedRoom === "" || !roomOptions.includes(selectedRoom)) {
+                roomErrorDiv.style.display = "block";
+                roomInput.focus();
+                return;
+            } else {
+                roomErrorDiv.style.display = "none";
+            }
+
+            formStatusDiv.style.display = "none";
+            formStatusDiv.textContent = "";
 
             const formData = new FormData(form);
             const formDataJson = {};
 
             formData.forEach((value, key) => {
-              formDataJson[key] = value;
-             });
+                formDataJson[key] = value;
+            });
 
-           try{
-            const response = await fetch(form.action, {
-                method: 'POST',
-                headers:{
-                     'Content-Type': 'application/json', // Set the content type for sending JSON
-                 },
-                body: JSON.stringify(formDataJson), // Convert data to json string.
-             });
+            try {
+       
+       
+       const response = await fetch(form.action, {
+            method: 'POST',
+           headers: {
+               'Content-Type': 'application/json',
+           },
+           body: JSON.stringify(formDataJson),
+           });
+    
+          
+       console.log('Fetch Response', response);  
+        if (response.ok) {
 
-             const result = await response.json()
-             if (response.ok) {
-                 // Success case:
-                 alert('Ticket erstellt!\n' + result);
-             }else{
-                alert('Fehler beim erstellen des Tickets!\n' + result)
-             }
+               const result = await response.json();
+              console.log('Response JSON', result);   
+                formStatusDiv.textContent = 'Ticket erstellt!\n';
+               formStatusDiv.style.display = "block";
+               form.reset();
 
+        } else{
+
+               const result = await response.json();
+           formStatusDiv.textContent = 'Fehler beim Erstellen des Tickets!\n' + (result.message || 'Unbekannter Fehler');
+               console.log('Fehler beim Fetch (NOT OK)',result)   
+          
+          formStatusDiv.style.display = "block";
 
         }
-          catch(error){
-              console.log(error);
-           }
+     }
+     catch (error) {
+            console.error('Fehler beim Senden des Tickets (ERROR CATCH):', error);
+               formStatusDiv.textContent = 'Fehler beim Senden des Tickets!\n' + (error.message || 'Unbekannter Fehler');
+          
+         formStatusDiv.style.display = "block";
+
+   }
+        });
+
+        roomInput.addEventListener('input', () => {
+        roomErrorDiv.style.display = 'none'; // Versteckt den Fehler sobald input geschieht
         });
     });
-     </script>
+    </script>
+    
 </body>
-
 </html>
