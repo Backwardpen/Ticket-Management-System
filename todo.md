@@ -2,12 +2,12 @@
 
 ### Homepage
 - Login
-- createTicket
+✅ createTicket
 - ViewTicket
 
 ## Grundlegendes
-- Footer mit Credentials
-- Header auf alle Seiten mit Buttons für zurück und Logout 
+✅ Footer mit Credentials
+✅ Header auf alle Seiten mit Buttons für zurück und Logout 
 
 
 ## Backend
@@ -16,6 +16,9 @@
 - Berechtigungen
     - Admin/Supporter
     - Standard User
+- Passwortörter
+    - Hashen
+
 #### Rollen und Berechtigungen
 - Unterschiedliche Rollen und Rechte
 - Anpassbare Berechtigungen
@@ -36,7 +39,7 @@
 ## Datenbank (MySQL)
 - Tickets
 - User
- - Id
+    - Id
     - Name
     - Email
     - Passwort
