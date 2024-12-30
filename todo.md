@@ -1,5 +1,4 @@
 ## Frontend
-
 ### Homepage
 - Login
 ✅ createTicket
@@ -17,7 +16,7 @@
     - Admin/Supporter
     - Standard User
 - Passwortörter
-    - Hashen
+    ✅ Hashen
 
 #### Rollen und Berechtigungen
 - Unterschiedliche Rollen und Rechte
@@ -38,16 +37,24 @@
 ### User Funktionalität
 ## Datenbank (MySQL)
 - Tickets
+    ✅ Id
+    ✅ Name
+    ✅ Datum
+    ✅ Inhalt
+    ✅ Email
+    - Tags
+    - Kategorie
+    - Status
 - User
-    - Id
+    ✅ Id
     - Name
-    - Email
+    ✅ Email
     - Passwort
     - Berechtigungen (Rollen)
 
 
 ### Dashboard(viewTickets) User
-- Übersicht offener Tickets
+✅ Übersicht offener Tickets
 - Statistiken
 
 ### Dashboard(viewTickets) Admin

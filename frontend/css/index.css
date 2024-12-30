@@ -1,64 +1,69 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f9;
-  overflow: hidden;
-}
-
 form {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .left-side, .right-side {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
 }
 
 .right-side {
-  border-left: 2px solid #ddd;
+    border-left: 2px solid #ddd;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+h1 {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+    flex: 1;
+    text-align: center;
 }
 
 h2 {
-  margin-bottom: 20px;
-  color: #333;
+    margin-bottom: 20px;
+    color: #333;
 }
 
 label {
-  margin-bottom: 5px;
-  font-weight: bold;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 
 input {
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 .form-status {
-  background: #f5c418;
-  padding: 10px;
-  margin-top: 10px;
-  border: 1px solid #ffdc6c;
-  border-radius: 5px;
-  color: #000000;
-  max-width: 70%;
+    background: #f5c418;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ffdc6c;
+    border-radius: 5px;
+    color: #000000;
+    max-width: 70%;
 }

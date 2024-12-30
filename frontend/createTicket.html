@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ticket System</title>
+    <title>Ticket Management System</title>
     <link rel="stylesheet" href="css/theme.css">
     <link rel="stylesheet" href="css/createTicket.css">
 </head>
@@ -30,11 +30,13 @@
             <input type="email" id="email" name="email" placeholder="Beispiel@mail.com" autocomplete="on" required>
 
             <label for="ticketDescription">Problematik</label>
-            <textarea id="ticketDescription" name="ticket_description" placeholder="Beschreibe dein Problem." required></textarea>
+            <textarea id="ticketDescription" name="ticket_description" placeholder="Beschreibe dein Problem."
+                required></textarea>
 
             <label for="raum">Raum</label>
             <input type="text" id="raum" name="raum" placeholder="Welcher Raum?" list="rooms" required>
-                <div id="roomError" class="error-message" style="display: none;">Bitte wählen Sie einen Raum aus der Liste aus.</div>
+            <div id="roomError" class="error-message" style="display: none;">Bitte wählen Sie einen Raum aus der Liste
+                aus.</div>
 
             <!-- Datalist für die Räume -->
             <datalist id="rooms">
@@ -109,7 +111,7 @@
 
                 <!-- Obergeschoss Optionen -->
                 <optgroup label="Obergeschoss">
-                     <option value="O01">
+                    <option value="O01">
                     <option value="O02">
                     <option value="O03">
                     <option value="O04">
@@ -176,93 +178,94 @@
                     <option value="O65 Chemielager">
                     <option value="O66 Schülerlabor/3D-Drucker">
                     <option value="067 Schülerlabor">
-                    </optgroup>
+                </optgroup>
             </datalist>
 
-            <button type="submit" class="ticket-button">Erstelle Ticket</button>
+           <div style = "display: flex; flex-direction: row; justify-content: space-around;">
+                <button type="submit" class="ticket-button">Erstelle Ticket</button>
+                <button id="viewTicketsBtn" class="ticket-button">Ticket-Übersicht</button>
+            </div>
             <div id="formStatus" class="form-status" style="display:none;"></div>
-        </form>
-        <button id="viewTicketsBtn" class="view-tickets-button">Ticket-Übersicht</button>
+         </form>
     </main>
 
     <footer class="footer">
-        <p>© 2024 Ticket System von Jonas </p>
+        <p>© 2024 Ticket System von Jonas Niggemann</p>
     </footer>
 
     <script>
-    // DOMContentLoaded Event wird ausgeführt, sobald der gesamte HTML-Inhalt geladen wurde
-    document.addEventListener('DOMContentLoaded', () => {
-        const form = document.getElementById('createTicketForm'); // Formular
-        const formStatusDiv = document.getElementById('formStatus'); // Statusmeldung 
-        const roomInput = document.getElementById('raum'); // Raum Eingabefeld
-        const roomErrorDiv = document.getElementById('roomError'); // Fehlermeldung für Raum Eingabe
-        const roomOptions = Array.from(document.querySelectorAll('#rooms option')).map(option => option.value); // Alle Raum Optionen
-        const viewTicketsBtn = document.getElementById('viewTicketsBtn'); // Button für Ticket-Übersicht
+        // DOMContentLoaded Event wird ausgeführt, sobald der gesamte HTML-Inhalt geladen wurde
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('createTicketForm');
+            const formStatusDiv = document.getElementById('formStatus');
+            const roomInput = document.getElementById('raum');
+            const roomErrorDiv = document.getElementById('roomError');
+            const roomOptions = Array.from(document.querySelectorAll('#rooms option')).map(option => option.value);
+            const viewTicketsBtn = document.getElementById('viewTicketsBtn');
 
-        viewTicketsBtn.addEventListener('click', () => { // Event-Listener für Ticket-Übersicht Button
-            window.location.href = "viewTicket.html"; // Weiterleitung zur Ticket-Übersicht
-        });
-
-        form.addEventListener('submit', async (event) => { // Event-Listener für Formular-Submit
-            event.preventDefault(); // Formular nicht absenden
-
-            const selectedRoom = roomInput.value.trim(); // Ausgewählter Raum (Eingabe)
-
-            if (selectedRoom === "" || !roomOptions.includes(selectedRoom)) { // Überprüfung ob Raum ausgewählt wurde
-                roomErrorDiv.style.display = "block"; // Fehlermeldung anzeigen
-                roomInput.focus(); // Fokus auf Raum Eingabefeld setzen
-                return; 
-            } else {
-                roomErrorDiv.style.display = "none"; // Fehlermeldung verstecken
-            }
-
-            formStatusDiv.style.display = "none"; // Statusmeldung verstecken
-            formStatusDiv.textContent = ""; // Statusmeldung zurücksetzen
-
-            const formData = new FormData(form); // Formular-Daten in FormData-Objekt speichern
-            const formDataJson = {}; // FormData-Objekt in JSON-Objekt umwandeln
-
-            formData.forEach((value, key) => { // FormData-Objekt durchlaufen und in JSON-Objekt speichern
-                formDataJson[key] = value;
+            viewTicketsBtn.addEventListener('click', () => {
+                window.location.href = "viewTicket.html";
             });
 
-            try { // Versuch, das Ticket zu erstellen
-                const response = await fetch(form.action, { // Fetch-Request an Backend 
-                    method: 'POST', 
-                    headers: { // Header mit Content-Type und Body (FormData als JSON)
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formDataJson), // FormData als JSON-String übergeben
-                });
-                
-                console.log('Fetch Response', response);
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
 
-                if (response.ok) { // Überprüfung, ob Response OK ist
-                    const result = await response.json();
-                    console.log('Response JSON', result);   
-                    formStatusDiv.textContent = 'Ticket erstellt!\n';
-                    formStatusDiv.style.display = "block";
-                    form.reset();
-                } else { // Fehlermeldung, falls Response nicht OK ist
-                    const result = await response.json();
-                    formStatusDiv.textContent = 'Fehler beim Erstellen des Tickets!\n' + (result.message || 'Unbekannter Fehler');
-                    console.log('Fehler beim Fetch (NOT OK)',result)   
+                const selectedRoom = roomInput.value.trim();
+
+                if (selectedRoom === "" || !roomOptions.includes(selectedRoom)) {
+                    roomErrorDiv.style.display = "block";
+                    roomInput.focus();
+                    return;
+                } else {
+                    roomErrorDiv.style.display = "none";
+                }
+
+                formStatusDiv.style.display = "none";
+                formStatusDiv.textContent = "";
+
+                const formData = new FormData(form);
+                const formDataJson = {};
+
+                formData.forEach((value, key) => {
+                    formDataJson[key] = value;
+                });
+
+                try {
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formDataJson),
+                    });
+
+                    console.log('Fetch Response', response);
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        console.log('Response JSON', result);
+                        formStatusDiv.textContent = 'Ticket erstellt!\n';
+                        formStatusDiv.style.display = "block";
+                        form.reset();
+                    } else {
+                        const result = await response.json();
+                        formStatusDiv.textContent = 'Fehler beim Erstellen des Tickets!\n' + (result.message || 'Unbekannter Fehler');
+                        console.log('Fehler beim Fetch (NOT OK)', result)
+                        formStatusDiv.style.display = "block";
+                    }
+                } catch (error) {
+                    console.error('Fehler beim Senden des Tickets (ERROR CATCH):', error);
+                    formStatusDiv.textContent = 'Fehler beim Senden des Tickets!\n' + (error.message || 'Unbekannter Fehler');
                     formStatusDiv.style.display = "block";
                 }
-            }
-            
-            catch (error) { // Fehlerbehandlung bei Fetch-Fehler
-                console.error('Fehler beim Senden des Tickets (ERROR CATCH):', error);
-                formStatusDiv.textContent = 'Fehler beim Senden des Tickets!\n' + (error.message || 'Unbekannter Fehler'); 
-                formStatusDiv.style.display = "block";
-            }
-        });
+            });
 
-        roomInput.addEventListener('input', () => {
-        roomErrorDiv.style.display = 'none'; // Versteckt den Fehler sobald input geschieht
+            roomInput.addEventListener('input', () => {
+                roomErrorDiv.style.display = 'none';
+            });
         });
-    });
     </script>
-    
+
 </body>
+
 </html>

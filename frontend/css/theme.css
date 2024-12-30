@@ -3,12 +3,10 @@
         width: 100%;
         padding: 20px;
     }
-  
     form {
         width: 100%;
         max-width: 100%;
     }
-  
     button {
         width: 100%;
     }
@@ -18,24 +16,49 @@
     .container {
         flex-direction: row;
     }
-  
     .left-side, .right-side {
         width: 50%;
     }
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    overflow: hidden;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #333;
+    padding: 10px 20px;
+    color: white;
+    text-align: center;
+}
+
+h1 {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+    flex: 1;
+    text-align: center;
+}
+
 .home-button {
     display: inline-block;
     padding: 5px 20px;
-    margin-top: 5px;
+    margin-top: auto;
     background-color: #4CAF50;
     color: white;
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s ease;
-    position: absolute;
-    top: 10px;
-    right: 10px;
 }
 
 .home-button:hover {
@@ -62,23 +85,16 @@
     margin-right: auto;
 }
 
-.ticket-button:hover {
+ .ticket-button:hover {
     background: linear-gradient(135deg, #2575fc, #6a11cb);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     transform: translateY(-3px);
-}
-  
-.ticket-button:active {
+ }
+
+ .ticket-button:active {
     transform: translateY(2px);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-header {
-    background-color: #333;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-}
+ }
 
 footer {
     background-color: #f1f1f1;

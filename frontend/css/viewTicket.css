@@ -1,0 +1,44 @@
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+#tickets-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 80vw;
+    align-items: center;
+
+}
+
+.ticket {
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1000px;
+}
+
+.ticket h3 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.ticket p {
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.ticket strong {
+    font-weight: bold;
+    color: #222;
+}
