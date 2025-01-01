@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Management System</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/theme.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="createTicket.html" class="ticket-header-dashboard">Neues Ticket</a> <!-- Seite muss noch erstellt werden -->
+            <a href="stashedTickets.html" class="ticket-header-dashboard">Archivierte Tickets</a> <!-- Seite muss noch erstellt werden -->
+        </nav>
+        <h1>Ticket Management System - Dashboard</h1>
+        <div class="dashboard-dropdown">
+            <button onclick="toggleDropdown()" class="dropbtn">Profil &#9662;</button> <!-- &#9662; ist das Unicode-Zeichen für ein nach unten zeigendes Dreieck -->
+            <div id="dropdown-content" class="dropdown-content">
+                <a href="einstellungen.html">Einstellungen</a> <!-- Seite muss noch erstellt werden -->
+                <a href="nutzer.html">Nutzer bearbeiten</a> <!-- Seite muss noch erstellt werden -->
+                <a href="index.html">Abmelden</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <h1 id="greeting">Willkommen, Gast!</h1>
+
+        <div class="container">
+            <!-- Link Seite für alle aktiven Tickets -->
+            <div class="left-side">
+                <h2>Aktive Tickets</h2>
+                <form class="search-form">
+                    <label for="search">Suche:</label>
+                    <input type="text" id="search" name="search" placeholder="Suche nach Tickets" autocomplete="on">
+                </form>
+                <div id="activeTickets">
+                    <!-- Hier werden die Tickets angezeigt -->
+
+                </div>
+            </div>
+    
+            <!-- Rechte Seite für die zugeordneten Tickets -->
+            <div class="right-side">
+                <h2>Zugeordnete Tickets</h2>
+                <div id="assignedTickets">
+                    <!-- Hier werden die Tickets angezeigt -->
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2024 Ticket System von Jonas Niggemann</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userEmail = localStorage.getItem('userEmail');
+            const emailToShow = userEmail ||  "Gast"; // Gast wird nie erreicht werden, sollte aber vorhanden sein als Fallback
+            const greetingElement = document.getElementById('greeting');
+            greetingElement.textContent = `Willkommen, ${emailToShow}!`;
+        });
+
+        function toggleDropdown() {
+            document.getElementById("dropdown-content").classList.toggle("show");
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

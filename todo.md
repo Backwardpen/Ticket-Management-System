@@ -1,13 +1,33 @@
 ## Frontend
-### Homepage
-- Login
+### Seiten
+- Index
+    ✅ Login
+    - Registrieren muss noch verschoben werden aufs Dashboard, da der Zugang nur für Admins ist
 ✅ createTicket
-- ViewTicket
+- ViewTickets
+    - Tickets anzeigen
+    - Tickets bearbeiten
+    - Tickets löschen
+    - Tickets archivieren
+    - Tickets schließen
 
 ## Grundlegendes
 ✅ Footer mit Credentials
 ✅ Header auf alle Seiten mit Buttons für zurück und Logout 
 
+## Dashboard
+- Anzeige aller Tickets (aktive Tickets)
+
+
+## User Management
+- Anzeigen aller vorhandenen User
+- Löschen von Usern
+- User umbenennen
+    - Username selber erstellen
+- Einstellen der User Berechtigungen
+
+## Archivierte Tickets
+- Anzeigen aller archivierten Tickets
 
 ## Backend
 
@@ -15,8 +35,11 @@
 - Berechtigungen
     - Admin/Supporter
     - Standard User
-- Passwortörter
+✅ Passwörter
     ✅ Hashen
+- Username
+- Einstellungen
+    - Passwort ändern
 
 #### Rollen und Berechtigungen
 - Unterschiedliche Rollen und Rechte
@@ -29,10 +52,13 @@
     - Überschrift
     - Bilder
     - Text
-- Email des Ticketerstellers
+✅ Email des Ticketerstellers
 - Tags
     - Status
     - Kategorisierung
+- Tickets schließen
+- Tickets bearbeiten
+- Tickets löschen
 
 ### User Funktionalität
 ## Datenbank (MySQL)
@@ -47,11 +73,10 @@
     - Status
 - User
     ✅ Id
-    - Name
     ✅ Email
-    - Passwort
+    ✅ Passwort
     - Berechtigungen (Rollen)
-
+        - Berechtigungen soll im Adminbereich angepasst werden können
 
 ### Dashboard(viewTickets) User
 ✅ Übersicht offener Tickets
@@ -85,8 +110,8 @@
 ### Server
 #### Rust Backend
 - Kontinuierlich laufender Server
-- Leitet Anfragen vom Frontend an die Datenbank weiter nachdem auf validität geprüft wird saniert wird
-- Sorgt dafür, dass anmeldungen möglich sind
+- Leitet Anfragen vom Frontend an die Datenbank weiter nachdem auf Validität geprüft wird saniert wird
+- Sorgt dafür, dass Anmeldungen möglich sind
 
 #### Web Server
-- Sendet über js anfragen an den Backend Server
+- Sendet über Js Anfragen an den Backend Server

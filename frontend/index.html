@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ticket System</title>
+    <title>Ticket Management System</title>
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/theme.css">
 </head>
@@ -17,15 +17,13 @@
     <div class="container">
         <!-- Link Seite für das Login-form -->
         <div class="left-side">
-            <h2>Login</h2>
+            <h2>Login ins Dashboard</h2>
             <form id="loginForm">
                 <label for="loginEmail">Email:</label>
-                <input type="email" id="loginEmail" name="email" placeholder="Beispiel@mail.com" autocomplete="on"
-                    required>
+                <input type="email" id="loginEmail" name="email" placeholder="Beispiel@mail.com" autocomplete="on" required>
 
                 <label for="loginPassword">Password:</label>
-                <input type="password" id="loginPassword" name="password" placeholder="Geben Sie ihr Passwort ein"
-                    autocomplete="on" required>
+                <input type="password" id="loginPassword" name="password" placeholder="Geben Sie ihr Passwort ein" autocomplete="on" required>
                 <button type="submit" class="ticket-button">Anmelden</button>
             </form>
             <br>
@@ -33,16 +31,12 @@
             <div id="loginStatus" class="form-status" style="display: none;"></div>
         </div>
 
-        <!-- Rechte Seite für das Ticket Managment -->
+        <!-- Rechte Seite für das Ticket Management -->
         <div class="right-side">
             <div class="text-align">
                 <h2 class="h2_besonders">Tickets</h2>
             </div>
             <button onclick="createTicket()" class="ticket-button">Erstelle ein Ticket</button>
-            <br>
-            <label for="view-email">Hier ihre Email eingeben um ihr(e) Ticket(s) einzusehen:</label>
-            <input type="email" id="email" name="email" placeholder="Beispiel@mail.com" autocomplete="on" required>
-            <button onclick="viewTickets()" class="ticket-button">Tickets anschauen</button>
         </div>
     </div>
 
@@ -51,54 +45,23 @@
         <p>© 2024 Ticket System von Jonas Niggemann</p>
     </footer>
 
-     <script>
-        const loginStatusDiv = document.getElementById('loginStatus'); // Fehlerstatus-Meldung Div
-        function createTicket() {
-            // Weiterleitung auf meine Ticket-erstell-Seite (createTicket.html)
-            window.location.href = "createTicket.html";
-        }
+    <script>
+        const loginStatusDiv = document.getElementById('loginStatus');
 
-        function viewTickets() {
-            // Nimmt sich die Email aus dem Input-Feld
-            const emailInput = document.getElementById('email');
-            const email = emailInput.value;
-            if (email) {
-                // Leitet auf viewTicket.html weiter und übergibt die Email als Parameter
-                fetch(`http://127.0.0.1:5555/tickets/by_email/${email}`)
-                    // Gibt eine Antwort als JSON zurück
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log("Success: ", data);
-                        // Speichert die Daten im Browser Session Storage ab, damit der nachgelagerte Html Call auch zugreifen kann
-                        sessionStorage.setItem('tickets', JSON.stringify(data));
-                        // Weiterleitung auf die viewTicket.html
-                        window.location.href = `viewTicket.html`;
-                    }).catch(error => {
-                        // Fehlermeldung, wenn die Email nicht gefunden wurde
-                        console.error('There has been a problem with your fetch operation:', error);
-                        loginStatusDiv.textContent = 'Fehler beim abrufen der Daten!\n' + (error.message || 'Unbekannter Fehler');
-                        loginStatusDiv.style.display = "block";
-                    });
-            } else {
-                // Fehlermeldung, wenn keine oder eine nicht vorhandene Email eingegeben wurde
-                loginStatusDiv.textContent = 'Bitte geben Sie eine gültige Email-Adresse ein';
-                loginStatusDiv.style.display = "block";
-            }
+        function createTicket() {
+            window.location.href = "createTicket.html";
         }
 
         // Event Listener für Register Button
         document.getElementById('registerButton').addEventListener('click', async function () {
-            // Nimmt sich die Email und das Passwort aus dem Login-Formular
             const emailInput = document.getElementById('loginEmail');
             const passwordInput = document.getElementById('loginPassword');
             const email = emailInput.value;
             const password = passwordInput.value;
 
-            // Log Status
-            loginStatusDiv.style.display = "none"; // verstecken div container
-            loginStatusDiv.textContent = ""; // Zurücksetzen des Status Textes
+            loginStatusDiv.style.display = "none";
+            loginStatusDiv.textContent = "";
 
-            // Erstellt den JSON-Body, welcher an den Server geschickt wird
             const registerData = {
                 email: email,
                 password: password
@@ -112,7 +75,6 @@
                     },
                     body: JSON.stringify(registerData)
                 });
-
                 if (response.ok) {
                     const result =  await response.json();
                     console.log('Response Json:', result);
@@ -124,58 +86,88 @@
                     loginStatusDiv.textContent = 'Fehler bei der Registrierung:\n' + (result.message || 'Unbekannter Fehler');
                     loginStatusDiv.style.display = "block";
                 }
-            } 
-            catch(error) {
+            } catch(error) {
                 console.error("Fehler: ", error)
                 loginStatusDiv.textContent = 'Ein Fehler beim Registrieren ist aufgetreten: \n' + (error.message || 'Unbekannter Fehler');
                 loginStatusDiv.style.display = "block";
             }
-    });
+        });
 
-    document.getElementById('loginForm').addEventListener('submit', async function(event) {
-        // Verhindert das Standard-verhalten des Forms
-        event.preventDefault();
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
 
-        // Nimmt sich die Email und das Passwort aus dem Login-Formular
-        const emailInput = document.getElementById('loginEmail');
-        const passwordInput = document.getElementById('loginPassword');
-        const email = emailInput.value;
-        const password = passwordInput.value;
-        loginStatusDiv.style.display = "none";
-        loginStatusDiv.textContent = "";
+            const emailInput = document.getElementById('loginEmail');
+            const passwordInput = document.getElementById('loginPassword');
+            const  loginStatusDiv = document.getElementById('loginStatus');
+            const email = emailInput.value;
+            const password = passwordInput.value;
+            
+            loginStatusDiv.style.display = "none";
+            loginStatusDiv.textContent = "";
+            
+            const   loginData = {
+                email: email,
+                password: password
+            }
+    
+            try {
+                const response =  await fetch("http://127.0.0.1:5555/login", {
+                    method: "POST",
+                    headers: {
+                       'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(loginData)
+                });
 
-        // Erstellt den JSON-Body, welcher an den Server geschickt wird
-        const loginData = {
-            email: email,
-            password: password
-        }
-        try {
-            const response =  await fetch("http://127.0.0.1:5555/login", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(loginData)
-            });
+                if (response.ok) {
 
-            if (response.ok) {
-                const token = await response.json();
-                console.log('Response JSON', token);
-                loginStatusDiv.textContent = "Login erfolgreich";
-                loginStatusDiv.style.display = "block";
-            } else {
-                const result =  await response.json();
-                console.error("Fehler beim Anmelden: ",result);
-                loginStatusDiv.textContent = 'Fehler beim Anmelden:\n' + (result.message || 'Unbekannter Fehler');
+                    try {
+                        const token =  await response.json();
+                        console.log('Response JSON', token);
+              
+                        if(typeof(token) === 'string' ) { // JWT Decodierung wenn er ein Token  ist (falls die backend api anders liefert, dass hier die anpassungen gemacht werden können)
+                            const base64Url = token.split('.')[1]; // header.payload.signature
+                            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                            }).join('')); // Decodierung mit utf-8 struktur (atob gibt sonst error bei speziellen symbole. Der urlencoded format ist auch in den string kodiert, was in einer anderen encoding zu "not a valid structure" error liefern könnte, was das decode fehlschlagen lassen könnte). Da diese Format eine Url formatiert ist werden spezielle character noch mals encoded in URL, das durch decodieren (uri) wieder korrigiert wird, um wieder einen korrekt formatierten String zu geben)
+                            let decodedPayload;
+
+                            try{
+                                decodedPayload = JSON.parse(jsonPayload)
+                                console.log("decoded Token", decodedPayload)
+                            } catch (e) {
+                                console.error('Could not decode, its not a correct token JSON. Output will be: ' ,jsonPayload )
+                                localStorage.setItem('userEmail',token) // Token ohne struktur als output 
+                            }
+                            localStorage.setItem('userEmail', decodedPayload.email  || token)
+                        } else {
+                         localStorage.setItem('userEmail',token.email)   // normale json dekodierung wie er eigentlich ankommen soll
+                        }
+                        window.location.href = "dashboard.html";
+                    } catch (jsonError) {
+                        console.error("Fehler beim Lesen der JSON Daten nach login : ", jsonError);
+                        loginStatusDiv.textContent = 'Fehler bei Login-Auswertung:\n'+ (jsonError.message || 'Unbekannter Fehler');
+                        loginStatusDiv.style.display = "block";
+                    }
+                } else {   // Wenn der response code NOT OK. (also fehlerhafter login etc. wird versucht)
+                    try {
+                        const result = await response.json();
+                        console.error("Fehler beim Anmelden: ", result);
+                        loginStatusDiv.textContent = 'Fehler beim Anmelden:\n' + (result.message || 'Unbekannter Fehler');
+                        loginStatusDiv.style.display = "block";
+                    } catch (error) { // kein valid json
+                        console.error("Fehler beim Auslesen der Daten vom Response", error);
+                        loginStatusDiv.textContent = 'Fehler bei der Response\n';
+                        loginStatusDiv.style.display = "block";
+                    }
+                }
+            } catch (error) {
+                console.error("Fehler beim Anmelden: ", error)
+                loginStatusDiv.textContent = 'Ein Fehler beim Login ist aufgetreten:\n' + (error.message || 'Unbekannter Fehler');
                 loginStatusDiv.style.display = "block";
             }
-        }
-        catch(error) {
-            console.error("Fehler beim Anmelden: ",error)
-            loginStatusDiv.textContent = 'Ein Fehler beim Login ist aufgetreten:\n' + (error.message || 'Unbekannter Fehler');
-             loginStatusDiv.style.display = "block";
-        }
-    });
+        });
     </script>
     
 </body>
