@@ -1,15 +1,19 @@
 ## Frontend
-### Seiten
-- Index
+### Pages
+
+## Index
     ✅ Login
     - Registrieren muss noch verschoben werden aufs Dashboard, da der Zugang nur für Admins ist
 ✅ createTicket
-- ViewTickets
+
+## ViewTickets
     - Tickets anzeigen
     - Tickets bearbeiten
     - Tickets löschen
-    - Tickets archivieren
-    - Tickets schließen
+    - Tickets schließen/archivieren
+
+## createTicket
+    - wenn eine Emailadresse keine Tickets hat, dann sollte man auch nicht weitergeleitet werden auf viewTickets
 
 ## Grundlegendes
 ✅ Footer mit Credentials
@@ -17,7 +21,9 @@
 
 ## Dashboard
 - Anzeige aller Tickets (aktive Tickets)
-
+- Willkommensnachricht ist noch nicht korrekt (JSON-String statt Name/Email)
+- Profil-Button muss noch angepasst werden
+    - Falsche Position
 
 ## User Management
 - Anzeigen aller vorhandenen User
@@ -33,7 +39,7 @@
 
 ### User
 - Berechtigungen
-    - Admin/Supporter
+    - Admin/Techniker
     - Standard User
 ✅ Passwörter
     ✅ Hashen

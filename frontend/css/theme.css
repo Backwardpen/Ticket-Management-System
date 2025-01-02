@@ -50,7 +50,7 @@ h1 {
     text-align: center;
 }
 
-.home-button {
+.nav-button {
     display: inline-block;
     padding: 5px 10px;
     margin-top: auto;
@@ -62,7 +62,7 @@ h1 {
     cursor: pointer;
 }
 
-.home-button:hover {
+.nav-button:hover {
     background-color: #696868;
 }
 
