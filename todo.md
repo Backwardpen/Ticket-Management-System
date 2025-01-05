@@ -7,17 +7,26 @@
 ✅ createTicket
 
 ## ViewTickets
+<<<<<<< HEAD
     ✅ Tickets anzeigen
     - Tickets bearbeiten
+=======
+    - Tickets anzeigen
+    - Tickets bearbeiten
+    - Tickets löschen
+>>>>>>> 1a68b1f3a3def8f8d440aa150609c392b4d668ac
     - Tickets schließen/archivieren
 
 ## createTicket
     - wenn eine Emailadresse keine Tickets hat, dann sollte man auch nicht weitergeleitet werden auf viewTickets
+<<<<<<< HEAD
 
 ## editTickets
     - Tickets bearbeiten
         - direkt reinpasten von viewTickets mit allen Angaben
     - Tickets schließen/archivieren
+=======
+>>>>>>> 1a68b1f3a3def8f8d440aa150609c392b4d668ac
 
 ## Grundlegendes
 ✅ Footer mit Credentials
@@ -25,6 +34,7 @@
 
 ## Dashboard
 - Anzeige aller Tickets (aktive Tickets)
+<<<<<<< HEAD
 ✅ Willkommensnachricht ist noch nicht korrekt (JSON-String statt Name/Email)
 ✅ Profil-Button muss noch angepasst werden
     ✅ Falsche Position
@@ -32,6 +42,11 @@
 - Des Weiteren sollten direkt die Email und der Name eingetragen sein, da man ja noch eingeloggt ist.
     - Eventuell muss hierfür eine neue Seite erstellt werden, die gleich aussieht wie das normale createTicket, aber den Funktionen des Dashboards entspricht.
 - Wenn man nicht eingeloggt ist, sollte man gar keinen Zugriff auf das Dashboard haben. Auch nicht als Gast, da das den Sinn eines Logins untergräbt.
+=======
+- Willkommensnachricht ist noch nicht korrekt (JSON-String statt Name/Email)
+- Profil-Button muss noch angepasst werden
+    - Falsche Position
+>>>>>>> 1a68b1f3a3def8f8d440aa150609c392b4d668ac
 
 ## User Management
 - Anzeigen aller vorhandenen User
