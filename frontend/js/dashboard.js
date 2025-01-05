@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => { // Methode wurde mittels KI generiert/verbessert, da mein Code nicht vollständig funktioniert hat bzw nicht so wie ich es wollte
 
     const userToken = localStorage.getItem('userEmail');   // Geholte text vom Localstore (z.b. hier = JWT string)
-
     // helper Funktion zur Base64 Dekodierung , ich suche das Value der EmailAdresse)
     function base64Decode(str) {    // JavaScript interne Methode: UTF-8 String zum auslesen der variablen `Subject`, da dieser ein encoded string als Payload  ist --> Payload ist der 2. Teil des JWT Tokens, der die eigentlichen Daten enthält.
         try {

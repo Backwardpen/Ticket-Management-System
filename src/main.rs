@@ -1,13 +1,15 @@
-mod models;
 mod db;
 mod error;
 mod handlers;
+mod models;
 
-use warp::Filter;
-use db::connection::get_db_pool;
-use handlers::ticket_handler::{create_ticket_handler, get_tickets_by_email_handler};
-use handlers::auth_handler::{register_handler, login_handler};
 use crate::models::auth::Auth;
+use db::connection::get_db_pool;
+use handlers::auth_handler::{login_handler, register_handler};
+use handlers::ticket_handler::{
+    create_ticket_handler, get_tickets_by_email_handler,
+};
+use warp::Filter;
 
 #[tokio::main]
 async fn main() {
@@ -24,7 +26,7 @@ async fn main() {
         .allow_methods(vec!["POST", "GET", "OPTIONS"])
         .allow_headers(vec!["Content-Type", "*"])
         .build();
-    
+
     // -------------------- Routen Definitionen --------------------
     // Route für die Registrierung
     let register = {
@@ -32,11 +34,10 @@ async fn main() {
         warp::post()
             .and(warp::path("register")) // Pfad: /register
             .and(warp::body::json()) // Erwartet einen JSON-Body
-            .and_then(move |auth: Auth| { // Übergibt die Auth-Daten an den Handler
+            .and_then(move |auth: Auth| {
+                // Übergibt die Auth-Daten an den Handler
                 let pool = pool.clone(); // Datenbankpool klonen (innerhalb des Handlers)
-                async move {
-                    register_handler(auth, &pool).await
-                }
+                async move { register_handler(auth, &pool).await }
             })
             .with(cors.clone()) // CORS-Middleware hinzufügen
     };
@@ -46,12 +47,11 @@ async fn main() {
         let pool = pool_clone.clone(); // Datenbankpool klonen
         warp::post()
             .and(warp::path("login")) // Pfad: /login
-            .and(warp::body::json())  // Erwartet einen JSON-Body
-            .and_then(move |auth: Auth| { // Übergibt die Auth-Daten an den Handler
+            .and(warp::body::json()) // Erwartet einen JSON-Body
+            .and_then(move |auth: Auth| {
+                // Übergibt die Auth-Daten an den Handler
                 let pool = pool.clone(); // Datenbankpool klonen (innerhalb des Handlers)
-                async move {
-                    login_handler(auth, &pool).await
-                }
+                async move { login_handler(auth, &pool).await }
             })
             .with(cors.clone()) // CORS-Middleware hinzufügen
     };
@@ -63,10 +63,8 @@ async fn main() {
             .and(warp::path("tickets")) // Pfad: /tickets
             .and(warp::body::json()) // Erwartet einen JSON-Body
             .and_then(move |ticket| {
-                let pool = pool.clone();  // Datenbankpool klonen (innerhalb des Handlers)
-                async move {
-                    create_ticket_handler(ticket, &pool).await
-                }
+                let pool = pool.clone(); // Datenbankpool klonen (innerhalb des Handlers)
+                async move { create_ticket_handler(ticket, &pool).await }
             })
             .with(cors.clone()) // CORS-Middleware hinzufügen
     };
@@ -75,26 +73,29 @@ async fn main() {
     let tickets_by_email = {
         let pool = pool_clone.clone(); // Datenbankpool klonen
         warp::get()
-        .and(warp::path("tickets")) // Pfad: /tickets
-        .and(warp::path("by_email")) // Pfad: /tickets/by_email
-        .and(warp::path::param::<String>()) // Nimmt die E-Mail als Pfadparameter entgegen
-        .and_then(move |email: String| { // Übergibt die E-Mail an den Handler
-            let pool = pool.clone(); // Datenbankpool klonen (innerhalb des Handlers)
-            async move {
-                get_tickets_by_email_handler(email, &pool).await
-            }
-        })
-        .with(cors.clone()) // CORS-Middleware hinzufügen
+            .and(warp::path("tickets")) // Pfad: /tickets
+            .and(warp::path("by_email")) // Pfad: /tickets/by_email
+            .and(warp::path::param::<String>()) // Nimmt die E-Mail als Pfadparameter entgegen
+            .and_then(move | email: String| {
+                // Übergibt die E-Mail an den Handler
+                let pool = pool.clone(); // Datenbankpool klonen (innerhalb des Handlers)
+                async move { get_tickets_by_email_handler(email, &pool).await }
+            })
+            .with(cors.clone()) // CORS-Middleware hinzufügen
     };
-
 
     // -------------------- Routen zusammenführen --------------------
     // Alle Routen mit 'or' kombinieren
-    let routes = register.or(login).or(tickets).or(tickets_by_email);
-    
+    let routes = register
+        .or(login)
+        .or(tickets)
+        .or(tickets_by_email);
+
     // Logging-Middleware hinzufügen
     let log = warp::log("ticketsystem");
-    
+
     // Server wird gestartet mit dem Port 5555
-    warp::serve(routes.with(log)).run(([127, 0, 0, 1], 5555)).await;
+    warp::serve(routes.with(log))
+        .run(([127, 0, 0, 1], 5555))
+        .await;
 }

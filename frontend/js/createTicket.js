@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const viewTicketForm = document.getElementById("viewTicketForm");
 
-    // ViewTicket Form soll die Email abrufen und dann weiterleiten auf die viewTicket.html Seite
+    // ViewTicket Form soll die Email abrufen und dann weiterleiten auf die viewTicket.html Seite mit der eingetragenen Email
     viewTicketForm.addEventListener('submit', (event) => {
         event.preventDefault();
         function viewTickets() {

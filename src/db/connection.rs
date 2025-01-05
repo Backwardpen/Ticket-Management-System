@@ -1,6 +1,6 @@
-use mysql::{Pool, PooledConn};
-use mysql::prelude::*;
 use dotenv::dotenv;
+use mysql::prelude::*;
+use mysql::{Pool, PooledConn};
 use std::env;
 
 // Hier wird eine Struktur definiert, die die Konfiguration für die Datenbank enthält
@@ -22,9 +22,9 @@ pub async fn get_db_pool() -> Pool {
         password: env::var("DB_PASSWORD").expect("DB_PASSWORD muss gesetzt sein"),
         host: env::var("DB_HOST").expect("DB_HOST muss gesetzt sein"),
         port: env::var("DB_PORT")
-            .expect("DB_PORT muss gesetzt sein")
-            .parse::<u16>()
-            .expect("DB_PORT muss eine Zahl sein"),
+        .expect("DB_PORT muss gesetzt sein")
+        .parse::<u16>()
+        .expect("DB_PORT muss eine Zahl sein"),
         db_name: env::var("DB_NAME").expect("DB_NAME muss gesetzt sein"),
     };
 
@@ -75,11 +75,17 @@ pub async fn get_db_pool() -> Pool {
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
     ";
+
     // Hier wird die Abfrage ausgeführt und das Ergebnis überprüft
-    match mysql_pool.get_conn().and_then(|mut conn: PooledConn| conn.query_drop(db_creation_query)) {
+    match mysql_pool
+    .get_conn()
+    .and_then(|mut conn: PooledConn| conn.query_drop(db_creation_query)) {
         Ok(_) => println!("Database und Tabelle vorhanden oder neu initialisiert."),
         Err(err) => {
-            eprintln!("Fehler beim Initialisieren oder Überprüfen der Datenbank: {:?}", err);
+            eprintln!(
+                "Fehler beim Initialisieren oder Überprüfen der Datenbank: {:?}",
+                err
+            );
             std::process::exit(1);
         }
     }

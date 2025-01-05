@@ -7,7 +7,9 @@ edition = "2021"
 mysql = "25.0.1"
 dotenv = "0.15.0"
 warp = "0.3.7"
-serde = {version = "1.0.216", features = ["derive"]}
+serde = {version = "1.0.217", features = ["derive"]}
 tokio = { version = "1.42.0", features = ["full"] }
 bcrypt = "0.16.0"
 jsonwebtoken = "9.3.0"
+uuid = {version = "1.11.0", features = ["v4"]}
+multipart = "0.18.0" 

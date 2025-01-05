@@ -4,36 +4,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ticket Management System</title>
+    <title>Edit Tickets</title>
     <link rel="stylesheet" href="css/theme.css">
-    <link rel="stylesheet" href="css/createTicket.css">
-    <script src="js/createTicket.js" defer></script>
+    <link rel="stylesheet" href="css/editTicket.css">
+    <script src="js/editTicket.js" defer></script>
 </head>
 
 <body>
     <header>
         <h1>Ticket Management System</h1>
         <nav>
+            <a href="createTicket.html" class="nav-button">Neues Ticket</a>
             <a href="index.html" class="nav-button">Home</a>
         </nav>
     </header>
 
     <main>
-        <!-- Erstellen des Tickets -->
-        <form id="createTicketForm" action="http://127.0.0.1:5555/tickets" method="post">
-            <label for="ticketTitle">Titel</label>
+        <form id="editTicketForm">
+            <h2 style="text-align: center;">Ticket bearbeiten</h2>
+
+            <input type="hidden" id="ticket_id" name="ticket_id" value="" />
+            <label for="ticketTitle">Titel:</label>
             <input type="text" id="ticketTitle" name="ticket_title" placeholder="Was ist das Problem?" required>
 
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" placeholder="Max Mustermann" autocomplete="on" required>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Max Mustermann" autocomplete="on" required readonly=true>
 
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="Beispiel@mail.com" autocomplete="on" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Beispiel@mail.com" autocomplete="on" required readonly=true>
 
-            <label for="ticketDescription">Problematik</label>
+            <label for="ticketDescription">Problematik:</label>
             <textarea id="ticketDescription" name="ticket_description" placeholder="Beschreibe das Problem." required></textarea>
-            
-            <label for="raum">Raum</label>
+
+            <label for="raum">Raum:</label>
             <input type="text" id="raum" name="raum" placeholder="Welcher Raum?" list="rooms" required>
             <div id="roomError" class="error-message" style="display: none;">Bitte wählen Sie einen Raum aus der Liste aus.</div>
 
@@ -181,20 +184,15 @@
             </datalist>
 
             <div>
-                <button type="submit" class="ticket-button">Erstelle Ticket</button>
+                <button type="submit" class="ticket-button">Ticket speichern</button>
             </div>
             <div id="formStatus" class="form-status" style="display:none;"></div>
-        </form>
-        <form id="viewTicketForm">
-            <label for="view-email">Hier die Email eingeben um die zugehörigen Ticket(s) einzusehen:</label>
-            <input type="email" id="emailView" name="email" placeholder="Beispiel@mail.com" autocomplete="on" required>
-            <button class="ticket-button" type ="submit">Tickets anschauen</button>
         </form>
     </main>
 
     <footer class="footer">
         <p>© 2024 Ticket System von Jonas Niggemann</p>
     </footer>
-    
 </body>
+
 </html>
