@@ -66,6 +66,36 @@ pub async fn create_ticket_query(
     }
 }
 
+// Funktion zum Abrufen eines einzelnen Tickets über die ID
+pub async fn get_ticket_by_id_query(
+    id: u32,
+    mysql_pool: &Pool,
+) -> Result<Option<Ticket>, warp::Rejection> {
+    let result = mysql_pool.get_conn().and_then(move |mut conn| {
+        conn.exec_first::<(String, String, String, String, String), _, _>(
+            "SELECT title, email, name, description, raum FROM tickets WHERE id = ?",
+            (id,),
+        )
+    });
+
+    match result {
+        Ok(Some((ticket_title, email, name, ticket_description, raum))) => Ok(Some(Ticket {
+            ticket_title,
+            email,
+            name,
+            ticket_description,
+            raum,
+        })),
+        Ok(None) => Ok(None),
+        Err(err) => {
+            eprintln!("Fehler beim Abrufen des Tickets: {:?}", err);
+            Err(warp::reject::custom(CustomError {
+                message: format!("{:?}", err),
+            }))
+        }
+    }
+}
+
 // Funktion zum Abrufen von Tickets aus der Datenbank anhand der E-Mail-Adresse
 pub async fn get_tickets_by_email_query(
     email: String,
@@ -97,8 +127,8 @@ pub async fn get_tickets_by_email_query(
     }
 }
 
-// Funktion zum Registrieren eines Nutzers in der Datenbank
-pub async fn register_user_query(auth: Auth, mysql_pool: &Pool) -> Result<String, warp::Rejection> {
+// Registrierung eines neuen Nutzers in der Anwendung
+pub async fn register_user_query(auth: Auth, mysql_pool: &Pool) -> Result<Auth, warp::Rejection> {
     let email_clone = auth.email.clone();
     let existing_user = mysql_pool.get_conn().and_then(move |mut conn| {
         conn.exec_first::<(String,), _, _>(
@@ -120,10 +150,11 @@ pub async fn register_user_query(auth: Auth, mysql_pool: &Pool) -> Result<String
                 ),
             }));
         }
+
         Ok(None) => {
             println!("Kein User mit Email gefunden: {}", auth.email);
 
-            let password_hash_result = hash(auth.password, bcrypt::DEFAULT_COST);
+            let password_hash_result = hash(auth.password.clone(), bcrypt::DEFAULT_COST);
 
             let password_hash = match password_hash_result {
                 Ok(hash) => hash,
@@ -136,17 +167,20 @@ pub async fn register_user_query(auth: Auth, mysql_pool: &Pool) -> Result<String
             };
             let result = mysql_pool.get_conn().and_then(|mut conn| {
                 conn.exec_drop(
-                    "INSERT INTO users (email, password_hash) VALUES (?, ?)",
-                    (&auth.email, &password_hash),
+                    "INSERT INTO users (email, username, password_hash) VALUES (?, ?, ?)",
+                    (&auth.email, &auth.username, &password_hash),
                 )
                 .map(move |_| Ok::<_, mysql::Error>(conn.last_insert_id()))
             });
 
             match result {
                 Ok(Ok(id)) => {
-                    let msg = format!("User erfolgreich erstellt mit ID: {:?}", id);
+                    let msg = format!(
+                        "User erfolgreich erstellt mit ID: {:?}; Username: {:?}; Email: {:?}",
+                        id, auth.username, auth.email
+                    );
                     println!("{}", msg);
-                    Ok(msg)
+                    Ok(auth)
                 }
                 Ok(Err(err)) => {
                     eprintln!("Fehler beim Erstellen des User: {:?}", err);
@@ -162,6 +196,7 @@ pub async fn register_user_query(auth: Auth, mysql_pool: &Pool) -> Result<String
                 }
             }
         }
+
         Err(err) => {
             eprintln!("Fehler beim Finden des Users: {:?}", err);
             Err(warp::reject::custom(CustomError {
@@ -195,6 +230,10 @@ pub async fn login_user_query(auth: Auth, mysql_pool: &Pool) -> Result<String, w
         }
     };
 
+    // Überprüfen des Passworts
+    // Falls das Passwort korrekt ist, wird ein JWT-Token erstellt und zurückgegeben
+    // 3600 für 1 Stunde Gültigkeit
+    // Die Gültigkeit des Tokens wird in der Claims-Struktur festgelegt
     match verify(auth.password, &password_hash) {
         Ok(true) => {
             let jwt_secret = env::var("JWT_SECRET").expect("JWT_SECRET muss gesetzt sein");

@@ -3,30 +3,25 @@
 
 ## Index
     ✅ Login
-    - Registrieren muss noch verschoben werden aufs Dashboard, da der Zugang nur für Admins ist
-✅ createTicket
+        - FIX LOGIN OR BAD
+            - Username sollte nicht abgefragt werden, wird aber versucht abzufragen, da ich es für die Registrierung brauche
+                --> Lösung: GET GOOD --> Backend Problem
+    ✅ Registrieren muss noch verschoben werden aufs Dashboard, da der Zugang nur für Admins ist
+    - Passwort vergessen?
+    - Passwort falsch eingegeben --> Fehlermeldung oder Fehlermeldung
 
 ## ViewTickets
-<<<<<<< HEAD
     ✅ Tickets anzeigen
     - Tickets bearbeiten
-=======
-    - Tickets anzeigen
-    - Tickets bearbeiten
-    - Tickets löschen
->>>>>>> 1a68b1f3a3def8f8d440aa150609c392b4d668ac
     - Tickets schließen/archivieren
 
 ## createTicket
-    - wenn eine Emailadresse keine Tickets hat, dann sollte man auch nicht weitergeleitet werden auf viewTickets
-<<<<<<< HEAD
+    ✅ wenn eine Emailadresse keine Tickets hat, dann sollte man auch nicht weitergeleitet werden auf viewTickets
 
 ## editTickets
     - Tickets bearbeiten
         - direkt reinpasten von viewTickets mit allen Angaben
     - Tickets schließen/archivieren
-=======
->>>>>>> 1a68b1f3a3def8f8d440aa150609c392b4d668ac
 
 ## Grundlegendes
 ✅ Footer mit Credentials
@@ -34,41 +29,36 @@
 
 ## Dashboard
 - Anzeige aller Tickets (aktive Tickets)
-<<<<<<< HEAD
 ✅ Willkommensnachricht ist noch nicht korrekt (JSON-String statt Name/Email)
 ✅ Profil-Button muss noch angepasst werden
     ✅ Falsche Position
 - Wenn man eingeloggt ist, dann sollte man wenn man ein neues Ticket erstellt nicht ausgeloggt werden, sondern im Dashboard bleiben.
 - Des Weiteren sollten direkt die Email und der Name eingetragen sein, da man ja noch eingeloggt ist.
     - Eventuell muss hierfür eine neue Seite erstellt werden, die gleich aussieht wie das normale createTicket, aber den Funktionen des Dashboards entspricht.
-- Wenn man nicht eingeloggt ist, sollte man gar keinen Zugriff auf das Dashboard haben. Auch nicht als Gast, da das den Sinn eines Logins untergräbt.
-=======
-- Willkommensnachricht ist noch nicht korrekt (JSON-String statt Name/Email)
-- Profil-Button muss noch angepasst werden
-    - Falsche Position
->>>>>>> 1a68b1f3a3def8f8d440aa150609c392b4d668ac
+- Ohne Login sollte man gar keinen Zugriff auf das Dashboard haben. 
+    - Auch nicht als "Gast", da das den Sinn eines Logins untergräbt und deshalb das Konzept von "Gast" nur ein Fallback für einen Fehler sein soll
+    - Wenn man auf eine Seite geht sucht man nach Login Daten und wenn diese nicht vorhanden sind und vom Server als valide zurückgegeben werden, dann wird man einfach wieder auf die Index.html geleitet
 
 ## User Management
 - Anzeigen aller vorhandenen User
 - Löschen von Usern
 - User umbenennen
-    - Username selber erstellen
 - Einstellen der User Berechtigungen
+- Benutzerliste richtig anzeigen lassen 
+    - Benutzerliste aus der Datenbank statt aus dem sessionStorage abfragen
 
 ## Archivierte Tickets
 - Anzeigen aller archivierten Tickets
 
 
 ## Backend
-
 ### User
 - Berechtigungen
-    - Admin/Techniker
+    - Admin
     - Standard User
 ✅ Passwörter
     ✅ Hashen
-- Username
-- Einstellungen
+✅ Username
     - Passwort ändern
 
 ### Tickets
@@ -77,10 +67,6 @@
 ✅ Inhalt
     ✅ Überschrift
     ✅ Text
-- Status
-    - Offen
-    - In Bearbeitung
-    - Abgeschlossen
 ✅ Email des Ticketerstellers
 - Tags
     - Status
@@ -102,8 +88,9 @@
 - User
     ✅ Id
     ✅ Email
+        - Email hashing? --> Vorschlag von CS Students
     ✅ Passwort
-    - Berechtigungen (Rollen)
+    ✅ Berechtigungen (Rollen)
         - Berechtigungen soll im Adminbereich angepasst werden können
 
 ### Dashboard(viewTickets) User

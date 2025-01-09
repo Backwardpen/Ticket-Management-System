@@ -1,4 +1,4 @@
-use crate::db::query::{create_ticket_query, get_tickets_by_email_query,};
+use crate::db::query::{create_ticket_query, get_tickets_by_email_query, get_ticket_by_id_query};
 use crate::models::ticket::Ticket;
 use mysql::Pool;
 use warp::{http::StatusCode, reply, Rejection}; // neue Import zu addiere /importiere!
@@ -30,6 +30,26 @@ pub async fn get_tickets_by_email_handler(
 ) -> Result<impl warp::Reply, Rejection> {
     match get_tickets_by_email_query(email, mysql_pool).await {
         Ok(tickets) => Ok(reply::with_status(reply::json(&tickets), StatusCode::OK)),
+        Err(err) => Ok(reply::with_status(
+            reply::json(&format!("{:?}", err)),
+            StatusCode::INTERNAL_SERVER_ERROR,
+        )),
+    }
+}
+
+// Hier wird ein Ticket anhand der ID geholt
+pub async fn get_ticket_by_id_handler(
+    id: u32,
+    mysql_pool: &Pool,
+) -> Result<impl warp::Reply, Rejection> {
+    match get_ticket_by_id_query(id, mysql_pool).await {
+        Ok(ticket) => match ticket {
+            Some(ticket) => Ok(reply::with_status(reply::json(&ticket), StatusCode::OK)),
+            None => Ok(reply::with_status(
+                reply::json(&"Ticket nicht gefunden"),
+                StatusCode::NOT_FOUND,
+            )),
+        },
         Err(err) => Ok(reply::with_status(
             reply::json(&format!("{:?}", err)),
             StatusCode::INTERNAL_SERVER_ERROR,

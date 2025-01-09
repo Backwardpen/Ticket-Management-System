@@ -22,9 +22,9 @@ pub async fn get_db_pool() -> Pool {
         password: env::var("DB_PASSWORD").expect("DB_PASSWORD muss gesetzt sein"),
         host: env::var("DB_HOST").expect("DB_HOST muss gesetzt sein"),
         port: env::var("DB_PORT")
-        .expect("DB_PORT muss gesetzt sein")
-        .parse::<u16>()
-        .expect("DB_PORT muss eine Zahl sein"),
+            .expect("DB_PORT muss gesetzt sein")
+            .parse::<u16>()
+            .expect("DB_PORT muss eine Zahl sein"),
         db_name: env::var("DB_NAME").expect("DB_NAME muss gesetzt sein"),
     };
 
@@ -56,6 +56,7 @@ pub async fn get_db_pool() -> Pool {
 
     // Hier wird überprüft, ob die Datenbank und die Tabelle existieren und ggf. neu erstellt
     let db_creation_query = "
+        SET SESSION sql_mode=(SELECT REPLACE(@@SESSION.sql_mode, 'STRICT_TRANS_TABLES', '')); -- komische Lösung aus dem Internet, nicht hinterfragen
         CREATE DATABASE IF NOT EXISTS ticketsystem;
         USE ticketsystem;
         CREATE TABLE IF NOT EXISTS tickets (
@@ -70,6 +71,7 @@ pub async fn get_db_pool() -> Pool {
         CREATE TABLE IF NOT EXISTS users (
             id INT AUTO_INCREMENT PRIMARY KEY,
             email VARCHAR(255) NOT NULL UNIQUE,
+            username VARCHAR(255) NOT NULL,
             password_hash VARCHAR(255) NOT NULL,
             role VARCHAR(50) NOT NULL DEFAULT 'user',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -78,8 +80,9 @@ pub async fn get_db_pool() -> Pool {
 
     // Hier wird die Abfrage ausgeführt und das Ergebnis überprüft
     match mysql_pool
-    .get_conn()
-    .and_then(|mut conn: PooledConn| conn.query_drop(db_creation_query)) {
+        .get_conn()
+        .and_then(|mut conn: PooledConn| conn.query_drop(db_creation_query))
+    {
         Ok(_) => println!("Database und Tabelle vorhanden oder neu initialisiert."),
         Err(err) => {
             eprintln!(
@@ -89,5 +92,43 @@ pub async fn get_db_pool() -> Pool {
             std::process::exit(1);
         }
     }
-    mysql_pool // Hier wird der Pool zurückgegeben
+
+    // Überprüfe ob ein User mit ID 1 existiert
+    // Wird genutzt, damit ich nicht jedes Mal den Standard User neu erstellen muss
+    // Der Standard User hat die ID 1 und ist ein Admin
+    // Der Standard User ist in der .env festgelegt, welche aber nicht mit hochgeladen wird aus Sicherheitsgründen
+    let check_user_query = "SELECT id FROM users WHERE id = 1";
+    let existing_user = mysql_pool
+        .get_conn()
+        .and_then(move |mut conn| conn.exec_first::<(u32,), _, _>(check_user_query, ()));
+    match existing_user {
+        Ok(Some(_)) => println!("Standard User (id=1) existiert bereits!"),
+        Ok(None) => {
+            let default_email =
+                env::var("DEFAULT_USER_EMAIL").expect("DEFAULT_USER_EMAIL muss gesetzt sein in der .env Datei");
+            let default_password =
+                env::var("DEFAULT_USER_PASSWORD").expect("DEFAULT_USER_PASSWORD muss gesetzt sein in der .env Datei");
+            let default_username =
+                env::var("DEFAULT_USER_USERNAME").expect("DEFAULT_USER_USERNAME muss gesetzt sein in der .env Datei");
+            let default_role =
+                env::var("DEFAULT_USER_ROLE").expect("DEFAULT_USER_ROLE muss gesetzt sein in der .env Datei");
+            let default_password_hash =
+                bcrypt::hash(default_password, bcrypt::DEFAULT_COST).unwrap();
+            let insert_default_user = "
+                INSERT INTO users (id, email, username, password_hash, role)
+                 VALUES (1, ?, ?, ?, ?)";
+
+            match mysql_pool.get_conn().and_then(|mut conn: PooledConn| {
+                conn.exec_drop(
+                    insert_default_user,
+                    (&default_email, &default_username, &default_password_hash, &default_role),
+                )
+            }) {
+                Ok(_) => println!("Standard User (id=1) erfolgreich erstellt!"),
+                Err(err) => eprintln!("Fehler beim erstellen des Standard Users: {:?}", err),
+            };
+        }
+        Err(err) => eprintln!("Fehler beim Überprüfen des Standard Users: {:?}", err),
+    }
+    mysql_pool
 }

@@ -1,54 +1,79 @@
-document.addEventListener('DOMContentLoaded', () => { // Methode wurde mittels KI generiert/verbessert, da mein Code nicht vollständig funktioniert hat bzw nicht so wie ich es wollte
-
-    const userToken = localStorage.getItem('userEmail');   // Geholte text vom Localstore (z.b. hier = JWT string)
-<<<<<<< HEAD
-=======
-
->>>>>>> 1a68b1f3a3def8f8d440aa150609c392b4d668ac
-    // helper Funktion zur Base64 Dekodierung , ich suche das Value der EmailAdresse)
-    function base64Decode(str) {    // JavaScript interne Methode: UTF-8 String zum auslesen der variablen `Subject`, da dieser ein encoded string als Payload  ist --> Payload ist der 2. Teil des JWT Tokens, der die eigentlichen Daten enthält.
-        try {
-            return decodeURIComponent(atob(str).split('').map(function (c) {    // "decodeURIComponent" zur de-codierung des JSON-Strings --> atob => ascii to  base 64
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);   // Das Array.Map liefert alle ASCII Zeichen
-            }).join(''));
-        }
-        catch (e) {
-            return "noPayloadGiven";
-        }
-    }
-    let emailToShow = "Gast";  // Standard output text --> sollte nie angezeigt werden
-
-    if (userToken) {
-        try {
-            let payload = base64Decode(userToken.split('.')[1])   // Splitte den Text des string auf der Basis des "." 
-            const emailFromToken = JSON.parse(payload);  // Hier werden Payload  mit  dem JS-Code von json.parse geparsed. (von string --> JS Objekt)
-            if (emailFromToken && emailFromToken.sub) {
-                emailToShow = emailFromToken.sub;
-            }
-        } catch (error) {
-            console.log(error, 'JSON Parse Error!');
-            loginStatusDiv.textContent = ` Ein Decodier-Fehler ist aufgetreten!\n   Bitte melden Sie dies der Technik-AG: \n` + (error.message || 'unbekannter Fehler');
-            loginStatusDiv.style.display = "block";
-        }
-    }
-    const greetingElement = document.getElementById('greeting');   // <h1> Tag Referenz! --> Hier wird der Text in h1 eingefügt
-    greetingElement.textContent = `Willkommen, ${emailToShow}!`;
+document.addEventListener('DOMContentLoaded', () => {
+    const email = localStorage.getItem('userEmail');
+    const greetingElement = document.getElementById('greeting');
+    greetingElement.textContent = `Willkommen, ${email}!`;
 });
 
 function toggleDropdown() {
     document.getElementById("dropdown-content").classList.toggle("show");
 }
 
-// Schliesst das Dropdown Menü, wenn der User auf ein Element ausserhalb des Dropdown Menüs klickt
+// Close the dropdown if the user clicks outside of it
 window.onclick = function (event) {
     if (!event.target.matches('.dropbtn')) {
         var dropdowns = document.getElementsByClassName("dropdown-content");
-        var i;
-        for (i = 0; i < dropdowns.length; i++) {
+        for (let i = 0; i < dropdowns.length; i++) {
             var openDropdown = dropdowns[i];
             if (openDropdown.classList.contains('show')) {
                 openDropdown.classList.remove('show');
             }
         }
+    }
+}
+
+async function loadTickets() {
+    const activeTicketsDiv = document.getElementById('activeTickets');
+    const assignedTicketsDiv = document.getElementById('assignedTickets');
+    const userEmail = localStorage.getItem('userEmail');
+
+    if (!userEmail) {
+        activeTicketsDiv.innerHTML = '<p>Bitte melde dich an.</p>';
+        assignedTicketsDiv.innerHTML = '<p>Bitte melde dich an.</p>';
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://127.0.0.1:5555/tickets/by_email/${userEmail}`);
+
+        if (!response.ok) {
+            activeTicketsDiv.innerHTML = '<p>Es konnten keine Tickets geladen werden.</p>';
+            assignedTicketsDiv.innerHTML = '<p>Es konnten keine Tickets geladen werden.</p>';
+
+            console.error(`HTTP error! status: ${response.status}`);
+            return;
+        }
+
+        const tickets = await response.json();
+        console.log(tickets);
+
+        if (tickets.length === 0) {
+            activeTicketsDiv.innerHTML = "<p>Keine aktiven Tickets vorhanden.</p>";
+            assignedTicketsDiv.innerHTML = "<p>Keine zugewiesenen Tickets vorhanden.</p>";
+            return;
+        }
+
+        // Aufteilung der Tickets
+        let activeTicketsHtml = '';
+        let assignedTicketsHtml = '';
+
+        tickets.forEach(ticket => {
+            activeTicketsHtml += `
+                <div class="ticket-card">
+                    <h3>${ticket.ticket_title}</h3>
+                    <p><strong>Name:</strong> ${ticket.name}</p>
+                    <p><strong>Raum:</strong> ${ticket.raum}</p>
+                    <p><strong>Beschreibung:</strong> ${ticket.ticket_description}</p>
+                </div>
+           `;
+            assignedTicketsHtml = activeTicketsHtml;
+        });
+        activeTicketsDiv.innerHTML = activeTicketsHtml;
+        assignedTicketsDiv.innerHTML = assignedTicketsHtml;
+
+    } catch (error) {
+        console.error("Fehler beim Laden der Tickets:", error);
+
+        activeTicketsDiv.innerHTML = '<p>Fehler beim Laden der Tickets.</p>';
+        assignedTicketsDiv.innerHTML = '<p>Fehler beim Laden der Tickets.</p>';
     }
 }

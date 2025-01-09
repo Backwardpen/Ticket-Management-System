@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const roomOptions = Array.from(document.querySelectorAll('#rooms option')).map(option => option.value);
 
     const viewTicketForm = document.getElementById("viewTicketForm");
+    const formStatusViewDiv = document.getElementById('formStatusView');
 
     // ViewTicket Form soll die Email abrufen und dann weiterleiten auf die viewTicket.html Seite mit der eingetragenen Email
     viewTicketForm.addEventListener('submit', (event) => {
@@ -17,17 +18,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 fetch(`http://127.0.0.1:5555/tickets/by_email/${email}`)
                     .then(response => response.json())
                     .then(data => {
-                        console.log("Success: ", data);
-                        sessionStorage.setItem('tickets', JSON.stringify(data));
-                        window.location.href = `viewTicket.html`;
+                        if (data && data.length > 0) { // Hier wird geprüft ob Daten vorhanden sind
+                            sessionStorage.setItem('tickets', JSON.stringify(data));
+                            window.location.href = `viewTicket.html`;
+                        } else {
+                            formStatusViewDiv.textContent = 'Keine Tickets für diese E-Mail-Adresse gefunden.';
+                            formStatusViewDiv.style.display = "block";
+                            formStatusViewDiv.className = 'form-status error';
+                        }
+
                     }).catch(error => {
                         console.error('There has been a problem with your fetch operation:', error);
-                        formStatusDiv.textContent = 'Fehler beim abrufen der Daten!\n' + (error.message || 'Unbekannter Fehler');
-                        formStatusDiv.style.display = "block";
+                        formStatusViewDiv.textContent = 'Fehler beim abrufen der Daten!\n' + (error.message || 'Unbekannter Fehler');
+                        formStatusViewDiv.style.display = "block";
+                        formStatusViewDiv.className = 'form-status error';
                     });
             } else {
-                formStatusDiv.textContent = 'Bitte geben Sie eine gültige Email-Adresse ein';
-                formStatusDiv.style.display = "block";
+                formStatusViewDiv.textContent = 'Bitte geben Sie eine gültige Email-Adresse ein';
+                formStatusViewDiv.style.display = "block";
+                formStatusViewDiv.className = 'form-status error';
             }
         }
         viewTickets();

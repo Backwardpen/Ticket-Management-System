@@ -7,7 +7,7 @@ use crate::models::auth::Auth;
 use db::connection::get_db_pool;
 use handlers::auth_handler::{login_handler, register_handler};
 use handlers::ticket_handler::{
-    create_ticket_handler, get_tickets_by_email_handler,
+    create_ticket_handler, get_ticket_by_id_handler, get_tickets_by_email_handler,
 };
 use warp::Filter;
 
@@ -74,12 +74,26 @@ async fn main() {
         let pool = pool_clone.clone(); // Datenbankpool klonen
         warp::get()
             .and(warp::path("tickets")) // Pfad: /tickets
-            .and(warp::path("by_email")) // Pfad: /tickets/by_email
-            .and(warp::path::param::<String>()) // Nimmt die E-Mail als Pfadparameter entgegen
-            .and_then(move | email: String| {
+            .and(warp::path("by_email"))
+            .and(warp::path::param::<String>())
+            .and_then(move |email: String| {
                 // Übergibt die E-Mail an den Handler
                 let pool = pool.clone(); // Datenbankpool klonen (innerhalb des Handlers)
                 async move { get_tickets_by_email_handler(email, &pool).await }
+            })
+            .with(cors.clone()) // CORS-Middleware hinzufügen
+    };
+
+    // Route für das Abrufen eines Tickets nach ID
+    let ticket_by_id = {
+        let pool = pool_clone.clone(); // Datenbankpool klonen
+        warp::get()
+            .and(warp::path("tickets"))
+            .and(warp::path::param::<u32>()) // Nimmt die ID als Pfadparameter entgegen
+            .and_then(move |id: u32| {
+                // Übergibt die ID an den Handler
+                let pool = pool.clone(); // Datenbankpool klonen (innerhalb des Handlers)
+                async move { get_ticket_by_id_handler(id, &pool).await }
             })
             .with(cors.clone()) // CORS-Middleware hinzufügen
     };
@@ -89,9 +103,11 @@ async fn main() {
     let routes = register
         .or(login)
         .or(tickets)
-        .or(tickets_by_email);
+        .or(tickets_by_email)
+        .or(ticket_by_id);
 
-    // Logging-Middleware hinzufügen
+    let routes = routes.with(cors.clone()); // CORS-Middleware hinzufügen
+                                            // Logging-Middleware hinzufügen
     let log = warp::log("ticketsystem");
 
     // Server wird gestartet mit dem Port 5555

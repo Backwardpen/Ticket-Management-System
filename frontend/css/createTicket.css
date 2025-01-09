@@ -4,33 +4,6 @@ main{
     align-items: center;
 }
 
-<<<<<<< HEAD
-=======
-form{
-    margin-top: 25px;
-    background-color: #fff;
-    padding: 50px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 75vw;
-    font-weight: bold;
-}
-
-.form-status {
-    margin-top: 10px;
-    padding: 15px 20px;
-    background-color: #f5c418;
-    color: #000;
-    border: 1px solid #ffdc6c;
-    border-radius: 4px;
-    display: none;
-    width: 220px;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-}
-
->>>>>>> 1a68b1f3a3def8f8d440aa150609c392b4d668ac
 input[type="text"],
 input[type="email"],
 textarea,
@@ -48,7 +21,6 @@ textarea {
     height: 200px;
 }
 
-<<<<<<< HEAD
 form{
     margin-top: 25px;
     background-color: #fff;
@@ -79,14 +51,6 @@ form{
     color: #155724;
 }
 
-=======
-.form-status.success {
-    background: #d4edda;
-    border: 1px solid #c3e6cb;
-    color: #155724;
-}
-
->>>>>>> 1a68b1f3a3def8f8d440aa150609c392b4d668ac
 .form-status.error {
     background: #f8d7da;
     border: 1px solid #f5c6cb;
