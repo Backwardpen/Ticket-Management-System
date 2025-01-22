@@ -1,3 +1,94 @@
+
+/* Farbvariablen für das Dunkle Farbschema (Standard) */
+body {
+    --bg-colour: #000;
+
+    --text-primary: #b179ec;
+    --text-primary-shadow: 0;
+    --text-secondary: #2575fc;
+    --text-secondary-shadow: 0 0 15px #5191ff;
+
+    --input-bg: #171519;
+    --input-text-colour: white;
+    --input-border: 1px solid #ddbdff;
+
+    --form-bg: #171519;
+    --form-border: 1px solid #ddbdffaa;
+
+    --ticket-btn-bg: linear-gradient(135deg, #6b10cb, #2575fc);
+    --ticket-btn-shadow: 0 4px 15px #6b11cb70;
+
+    --trennstrich-colour: #9C59D1;
+
+    /* Header */
+    --header-bg:
+    /* Huppsala, wie ist das denn passiert? */
+        /*
+        linear-gradient(180deg,
+            #FCF434 0%,
+            #fff952 25%,
+            #FFFFFF 25%,
+            #f3f3f3 50%,
+            #9C59D1 50%,
+            #6a11cb 75%,
+            #2C2C2C 75%,
+            #181818 100%);
+        */
+    --header-text-colour: #000;
+    /* Nav */
+    --nav-button-bg: #000000;
+    --nav-button-text-colour: white;
+    --nav-button-bg-hover: #222;
+    --nav-button-text-colour-hover: var(--text-secondary);
+    --nav-dropdown-border: 0.5px solid var(--text-secondary);
+    --nav-dropdown-bg: #222;
+    --nav-dropdown-bg-hover: var(--header-bg);
+    --nav-dropdown-text-colour: white;
+    --nav-dropdown-text-colour-hover: var(--header-text-colour);
+
+    /* Footer */
+    --footer-bg: #191919;
+    --footer-text-colour: white;
+    --footer-top-border: 2px solid #9C59D1;
+}
+
+/* Farbvariablen für das Helle Farbschema (nur wenn der Browser die Präferenz gesetzt hat) */
+@media (prefers-color-scheme: light) {
+    body {
+        --bg-colour: #f4f4f9;
+        --text-primary: #333;
+        --text-primary-shadow: none;
+        --text-secondary: #000;
+        --text-secondary-shadow: none;
+
+        --input-bg: white;
+        --input-text-colour: #000;
+        --input-border: 1px solid #ccc;
+
+        --form-bg: #fff;
+        --form-border: 1px solid #ddbdffaa;
+
+        --ticket-btn-bg: linear-gradient(135deg, #6a11cb, #2575fc);
+        --ticket-btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+
+        --trennstrich-colour: #ddd;
+
+        /* Header */
+        --header-bg: #333;
+        --header-text-colour: white;
+
+        --nav-button-bg: gray;
+        --nav-button-text-colour: white;
+
+        --nav-dropdown-border: 0.5px solid #ccc;
+
+        /* Footer */
+        --footer-bg: #aaa;
+        --footer-text-colour: #000;
+        --footer-top-border: 2px solid #ddd;
+    }
+}
+
 @media (max-width: 767px) {
 
     .left-side,
@@ -35,7 +126,8 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+    background-color: var(--bg-colour);
+    color: var(--text-primary);
     overflow: hidden;
 }
 
@@ -43,10 +135,11 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #333;
-    padding: 10px 20px;
-    color: white;
+    background: var(--header-bg);
+    padding: 12px 20px;
+    color: var(--header-text-colour);
     text-align: center;
+    border-bottom: 2px solid var(--trennstrich-colour);
 }
 
 h1 {
@@ -56,12 +149,22 @@ h1 {
     text-align: center;
 }
 
+h2 {
+    color: var(--text-primary);
+    text-shadow: var(--text-primary-shadow);
+}
+
+label {
+    color: var(--text-secondary);
+    text-shadow: var(--text-secondary-shadow);
+}
+
 .nav-button {
     display: inline-block;
     padding: 5px 10px;
     margin-top: auto;
-    background-color: gray;
-    color: white;
+    background: var(--nav-button-bg);
+    color: var(--nav-button-text-colour);
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s ease;
@@ -74,7 +177,7 @@ h1 {
 
 .ticket-button {
     padding: 15px 20px;
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    background: var(--ticket-btn-bg);
     color: white;
     border: none;
     border-radius: 30px;
@@ -83,7 +186,7 @@ h1 {
     font-weight: bold;
     letter-spacing: 1px;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--ticket-btn-shadow);
     margin: 10px;
     width: 220px;
     text-align: center;
@@ -104,11 +207,33 @@ h1 {
 }
 
 footer {
-    background-color: #f1f1f1;
+    background-color: var(--footer-bg);
     padding: 10px;
     text-align: center;
-    border-top: 1px solid #ddd;
+    border-top: var(--footer-top-border);
+    color: var(--footer-text-colour);
     position: fixed;
     bottom: 0;
     width: 100%;
+}
+
+input, textarea {
+    /* Von index.css */
+    padding: 10px;
+    margin-bottom: 20px;
+    border: var(--input-border);
+    color: var(--input-text-colour);
+    border-radius: 4px;
+    background: var(--input-bg);
+}
+
+form{
+    margin-top: 25px;
+    background: var(--form-bg);
+    border: var(--form-border);
+    padding: 50px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 75vw;
+    font-weight: bold;
 }
