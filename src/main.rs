@@ -44,6 +44,7 @@ async fn main() {
 
     // Route für den Login
     let login = {
+        println!("login route gestartet");
         let pool = pool_clone.clone(); // Datenbankpool klonen
         warp::post()
             .and(warp::path("login")) // Pfad: /login

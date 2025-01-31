@@ -21,7 +21,6 @@ document.getElementById('loginForm').addEventListener('submit', async function (
     }
 
     try {
-        // CORS Problem smh --> NEEDS FIX
         const response = await fetch("http://127.0.0.1:5555/login", {
             method: "POST",
             headers: {
@@ -29,6 +28,8 @@ document.getElementById('loginForm').addEventListener('submit', async function (
             },
             body: JSON.stringify(loginData)
         });
+
+        console.log('Response:', response);
 
         if (response.ok) {
             try {
@@ -44,7 +45,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
                             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
                         }).join(''));
                         const decodedPayload = JSON.parse(jsonPayload);
-                        userEmail = decodedPayload.sub || token; // Nutze sub für email oder fallback auf token wenn sub nicht vorhanden ist 
+                        userEmail = decodedPayload.sub || token;
                     } catch (e) {
                         console.error("Token konnte nicht korrekt oder gar nicht decodiert werden: ", e);
                         userEmail = token
@@ -75,7 +76,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
                 loginStatusDiv.className = 'form-status error';
                 loginStatusDiv.style.display = "block";
             } catch (error) {
-                console.error("Fehler beim Auslesen der Daten der Antwort:", error);
+                console.error("Fehler beim Auslesen der Daten mit der Antwort:", error);
 
                 loginStatusDiv.textContent = 'Fehler bei der Antwort\n';
                 loginStatusDiv.className = 'form-status error';
@@ -83,7 +84,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
             }
         }
     } catch (error) {
-        console.error("Fehler beim Anmelden: ", error)
+        console.error("Fehler beim Anmelden mit dem Fehler: ", error)
 
         loginStatusDiv.textContent = 'Ein Fehler ist beim Login aufgetreten:\n' + (error.message || 'Unbekannter Fehler');
         loginStatusDiv.className = 'form-status error';
