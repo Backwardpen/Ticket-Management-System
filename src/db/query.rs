@@ -29,7 +29,6 @@ pub async fn create_ticket_query(
     ticket: Ticket,
     mysql_pool: &Pool,
 ) -> Result<String, warp::Rejection> {
-    println!("Eingehendes Ticket: {:?}", ticket);
     let result = mysql_pool.get_conn().and_then(|mut conn| {
         println!("SQL Query wird ausgeführt mit Ticket-Daten: {:?}", ticket);
         conn.exec_drop(

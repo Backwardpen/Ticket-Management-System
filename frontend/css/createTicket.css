@@ -1,3 +1,7 @@
+body {
+    overflow: scroll;
+}
+
 main{
     display: flex;
     flex-direction: column;
@@ -10,7 +14,9 @@ textarea,
 select {
     padding: 10px;
     margin-bottom: 15px;
-    border: 1px solid #ddd;
+    border: var(--input-border);
+    background: var(--input-bg);
+    color: var(--input-text-colour);
     border-radius: 4px;
     font-size: 16px;
     width: 100%;
@@ -23,7 +29,8 @@ textarea {
 
 form{
     margin-top: 25px;
-    background-color: #fff;
+    background: var(--form-bg);
+    border: var(--form-border);
     padding: 50px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

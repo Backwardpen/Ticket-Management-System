@@ -8,43 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const viewTicketForm = document.getElementById("viewTicketForm");
     const formStatusViewDiv = document.getElementById('formStatusView');
 
-    // ViewTicket Form soll die Email abrufen und dann weiterleiten auf die viewTicket.html Seite mit der eingetragenen Email
-    viewTicketForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-        function viewTickets() {
-            const emailInput = document.getElementById('emailView');
-            const email = emailInput.value;
-            if (email) {
-                fetch(`http://127.0.0.1:5555/tickets/by_email/${email}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data && data.length > 0) { // Hier wird geprüft ob Daten vorhanden sind
-                            sessionStorage.setItem('tickets', JSON.stringify(data));
-                            window.location.href = `viewTicket.html`;
-                        } else {
-                            formStatusViewDiv.textContent = 'Keine Tickets für diese E-Mail-Adresse gefunden.';
-                            formStatusViewDiv.style.display = "block";
-                            formStatusViewDiv.className = 'form-status error';
-                        }
-
-                    }).catch(error => {
-                        console.error('There has been a problem with your fetch operation:', error);
-                        formStatusViewDiv.textContent = 'Fehler beim abrufen der Daten!\n' + (error.message || 'Unbekannter Fehler');
-                        formStatusViewDiv.style.display = "block";
-                        formStatusViewDiv.className = 'form-status error';
-                    });
-            } else {
-                formStatusViewDiv.textContent = 'Bitte geben Sie eine gültige Email-Adresse ein';
-                formStatusViewDiv.style.display = "block";
-                formStatusViewDiv.className = 'form-status error';
-            }
-        }
-        viewTickets();
-    });
-
     // CreateTicket Form soll die Daten an den Server senden und dann eine Erfolgsmeldung oder Fehlermeldung anzeigen
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
+
         const selectedRoom = roomInput.value.trim();
         if (selectedRoom === "" || !roomOptions.includes(selectedRoom)) {
             roomErrorDiv.style.display = "block";
@@ -53,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             roomErrorDiv.style.display = "none";
         }
+
         formStatusDiv.style.display = "none";
         formStatusDiv.textContent = "";
 
@@ -93,7 +61,42 @@ document.addEventListener('DOMContentLoaded', () => {
             formStatusDiv.style.display = "block";
         }
     });
+    
     roomInput.addEventListener('input', () => {
         roomErrorDiv.style.display = 'none';
+    });
+
+    // ViewTicket Form soll die Email abrufen und dann weiterleiten auf die viewTicket.html Seite mit der eingetragenen Email
+    viewTicketForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        function viewTickets() {
+            const emailInput = document.getElementById('emailView');
+            const email = emailInput.value;
+            if (email) {
+                fetch(`http://127.0.0.1:5555/tickets/by_email/${email}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data && data.length > 0) { // Hier wird geprüft ob Daten vorhanden sind
+                            sessionStorage.setItem('tickets', JSON.stringify(data));
+                            window.location.href = `viewTicket.html`;
+                        } else {
+                            formStatusViewDiv.textContent = 'Keine Tickets für diese E-Mail-Adresse gefunden.';
+                            formStatusViewDiv.style.display = "block";
+                            formStatusViewDiv.className = 'form-status error';
+                        }
+
+                    }).catch(error => {
+                        console.error('There has been a problem with your fetch operation:', error);
+                        formStatusViewDiv.textContent = 'Fehler beim abrufen der Daten!\n' + (error.message || 'Unbekannter Fehler');
+                        formStatusViewDiv.style.display = "block";
+                        formStatusViewDiv.className = 'form-status error';
+                    });
+            } else {
+                formStatusViewDiv.textContent = 'Bitte geben Sie eine gültige Email-Adresse ein';
+                formStatusViewDiv.style.display = "block";
+                formStatusViewDiv.className = 'form-status error';
+            }
+        }
+        viewTickets();
     });
 });

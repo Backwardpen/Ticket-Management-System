@@ -6,8 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Falls Tickets vorhanden sind, wird dieser Code aufgerufen
     if (storedTickets) {
         const tickets = JSON.parse(storedTickets);
+        
         tickets.forEach(ticket => {
-
             const ticketElement = document.createElement('div');
             ticketElement.classList.add('ticket');
             // Fügt die Ticket-Informationen in das HTML ein pro Ticket

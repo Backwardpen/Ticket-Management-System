@@ -37,7 +37,22 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.ok) {
                 const result = await response.json();
 
-                sessionStorage.setItem('users', JSON.stringify(result));
+                let existingUsers = sessionStorage.getItem('users');
+                if (existingUsers) {
+                    let parsedUsers = JSON.parse(existingUsers);
+                    if (!Array.isArray(parsedUsers)) {
+                        parsedUsers = [parsedUsers];
+                    }
+
+                    if (Array.isArray(result)) {
+                        sessionStorage.setItem('users', JSON.stringify([...parsedUsers, ...result]))
+                    } else {
+                        sessionStorage.setItem('users', JSON.stringify([...parsedUsers, result]))
+                    }
+                }
+                else {
+                    sessionStorage.setItem('users', JSON.stringify(result));
+                }
 
                 loginStatusDiv.textContent = 'Registrierung war erfolgreich!\n'
                 loginStatusDiv.className = 'form-status success';
@@ -60,51 +75,40 @@ document.addEventListener('DOMContentLoaded', () => {
             loginStatusDiv.className = 'form-status error';
             loginStatusDiv.style.display = "block";
         }
+
+        benutzerDatenAnzeige();
     });
     benutzerDatenAnzeige();
 });
 
 function benutzerDatenAnzeige() {
-    // Holt sich die Tickets aus dem sessionStorage des Browsers
     const userContainer = document.getElementById('userContainer');
     const storedUsers = sessionStorage.getItem('users');
-    // Falls Tickets vorhanden sind, wird dieser Code aufgerufen
+
     if (storedUsers) {
         let users = JSON.parse(storedUsers);
 
-        // Bisher angezeigte Daten Löschen
-        userContainer.innerHTML = "";
+        if (!Array.isArray(users)) {
+            users = [users];
+        }
 
-        console.log(storedUsers);
-
-        if (Array.isArray(users)) {
+        if (userContainer.childElementCount === 0) {
             users.forEach(user => {
                 const userElement = document.createElement('div');
                 userElement.classList.add('user');
-                // Fügt die User-Informationen in das HTML ein pro User
                 userElement.innerHTML = `
                 <h3>${user.username}</h3>
                 <p><strong>Email:</strong> ${user.email}</p>
                 <p><strong>ID:</strong> ${user.id}</p>
-            `;
-                // Fügt das User-Element in das userContainer ein
+                `;
                 userContainer.appendChild(userElement);
             });
-        } else {
-            // Wenn es kein Array ist, gehe davon aus, dass es ein einzelnes User-Objekt ist und erstelle direkt die div.
-            const userElement = document.createElement('div');
-            userElement.classList.add('user');
-            userElement.innerHTML = `
-                <h3>${users.username}</h3>
-                <p><strong>Email:</strong> ${users.email}</p>
-                <p><strong>ID:</strong> ${users.id}</p>
-              `;
-            userContainer.appendChild(userElement);
         }
     } else {
-        // Falls keine User vorhanden sind, wird dieser Code aufgerufen --> sollte nie vorkommen, da es immer einen Standard-User (Id: 1) geben muss
         userContainer.innerHTML = '<p>Es sind keine User vorhanden</p>';
     }
 }
 
-document.addEventListener('DOMContentLoaded', benutzerDatenAnzeige);
+function refreshButton() {
+    window.location.reload();
+}

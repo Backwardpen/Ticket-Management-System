@@ -23,6 +23,7 @@ async fn main() {
     // CORS Konfiguration: Erlaubt Anfragen von http://127.0.0.1:5501 mit bestimmten Methoden und Headern
     let cors = warp::cors()
         .allow_origin("http://127.0.0.1:5501")
+        .allow_origin("http://127.0.0.1:5555")
         .allow_methods(vec!["POST", "GET", "OPTIONS"])
         .allow_headers(vec!["Content-Type", "*"])
         .build();
@@ -44,12 +45,13 @@ async fn main() {
 
     // Route für den Login
     let login = {
-        println!("login route gestartet");
         let pool = pool_clone.clone(); // Datenbankpool klonen
         warp::post()
             .and(warp::path("login")) // Pfad: /login
             .and(warp::body::json()) // Erwartet einen JSON-Body
             .and_then(move |auth: Auth| {
+                println!("login route gestartet");
+                
                 // Übergibt die Auth-Daten an den Handler
                 let pool = pool.clone(); // Datenbankpool klonen (innerhalb des Handlers)
                 async move { login_handler(auth, &pool).await }

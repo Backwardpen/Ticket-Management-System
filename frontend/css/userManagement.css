@@ -3,7 +3,6 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
     min-height: 100vh;
     overflow-y: auto;
 }
@@ -20,7 +19,7 @@ main {
 /* Style für den Formularbereich */
 .user-form-section {
     margin-top: 25px;
-    background-color: #fff;
+    background: #fff;
     padding: 50px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -30,7 +29,7 @@ main {
 
 /* Style für den Listenbereich */
 .user-list-section {
-    background-color: #fff;
+    background: var(--form-bg);
     padding: 50px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -52,14 +51,14 @@ main {
 #createUserForm select {
     padding: 8px;
     margin-bottom: 10px;
-    border: 1px solid #ddd;
+    /* border: 1px solid #ddd; */
     border-radius: 4px;
     font-size: 16px;
 }
 
 form {
     margin-top: 25px;
-    background-color: #fff;
+    background: var(--form-bg);
     padding: 50px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -125,10 +124,10 @@ form {
 }
 
 
-.user-item {
+/* .user-item {
     background-color: #f9f9f9;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
     margin-bottom: 5px;
-}
+} */
