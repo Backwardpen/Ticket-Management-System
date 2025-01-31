@@ -40,7 +40,7 @@
     - Wenn man auf eine Seite geht sucht man nach Login Daten und wenn diese nicht vorhanden sind und vom Server als valide zurückgegeben werden, dann wird man einfach wieder auf die Index.html geleitet
 
 ## User Management
-- Anzeigen aller vorhandenen User
+✅ Anzeigen aller vorhandenen User via Sessionsstorage
 - Löschen von Usern
 - User umbenennen
 - Einstellen der User Berechtigungen
