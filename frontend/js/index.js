@@ -45,7 +45,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
                             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
                         }).join(''));
                         const decodedPayload = JSON.parse(jsonPayload);
-                        userEmail = decodedPayload.sub || token;
+                        userEmail = decodedPayload.sub || token; // Nutze sub für email oder fallback auf token wenn sub nicht vorhanden ist 
                     } catch (e) {
                         console.error("Token konnte nicht korrekt oder gar nicht decodiert werden: ", e);
                         userEmail = token

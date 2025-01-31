@@ -21,7 +21,7 @@ form {
 }
 
 .right-side {
-    border-left: 2px solid #ddd;
+    border-left: 2px solid var(--trennstrich-colour);
 }
 
 header {
@@ -43,7 +43,8 @@ h1 {
 
 h2 {
     margin-bottom: 20px;
-    color: #333;
+    color: var(--text-primary);
+    text-shadow: var(--text-primary-shadow);
 }
 
 label {
@@ -54,8 +55,10 @@ label {
 input {
     padding: 10px;
     margin-bottom: 20px;
-    border: 1px solid #ccc;
+    border: var(--input-border);
+    color: var(--input-text-colour);
     border-radius: 4px;
+    background: var(--input-bg);
 }
 
 .form-status {
