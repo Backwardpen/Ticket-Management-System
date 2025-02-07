@@ -129,13 +129,14 @@ pub async fn get_tickets_by_email_query(
 // Registrierung eines neuen Nutzers in der Anwendung
 pub async fn register_user_query(auth: Auth, mysql_pool: &Pool) -> Result<Auth, warp::Rejection> {
     let email_clone = auth.email.clone();
-    let existing_user = mysql_pool.get_conn().and_then(move |mut conn| {
+    let existing_user = mysql_pool.get_conn().and_then(move | mut conn | {
         conn.exec_first::<(String,), _, _>(
             "SELECT email FROM users WHERE lower(email) = lower(?)",
             (email_clone,),
         )
     });
 
+    // Überprüfung, ob ein Nutzer mit der angegebenen Email bereits existiert
     match existing_user {
         Ok(Some(_)) => {
             eprintln!(
@@ -150,11 +151,16 @@ pub async fn register_user_query(auth: Auth, mysql_pool: &Pool) -> Result<Auth, 
             }));
         }
 
+        // Falls kein Nutzer mit der angegebenen Email gefunden wird, wird der Nutzer in die Datenbank eingefügt
         Ok(None) => {
             println!("Kein User mit Email gefunden: {}", auth.email);
 
+            // Das Passwort wird gehasht, bevor es in die Datenbank gespeichert wird
+            // Dies passiert mit der bcrypt-Bibliothek
+            // Ich mache dies, damit man selbst mit Zugang zur Datenbank keine Passwörter einsehen kann
             let password_hash_result = hash(auth.password.clone(), bcrypt::DEFAULT_COST);
 
+            // Überprüfung des Hash-Ergebnisses
             let password_hash = match password_hash_result {
                 Ok(hash) => hash,
                 Err(err) => {
@@ -164,11 +170,14 @@ pub async fn register_user_query(auth: Auth, mysql_pool: &Pool) -> Result<Auth, 
                     }));
                 }
             };
+
+            // Ein neuer User wird in die Datenbank eingefügt
             let result = mysql_pool.get_conn().and_then(|mut conn| {
                 conn.exec_drop(
                     "INSERT INTO users (email, username, password_hash) VALUES (?, ?, ?)",
                     (&auth.email, &auth.username, &password_hash),
                 )
+                // Die ID des neuen Users wird zurückgegeben zur Überprüfung und Bestätigung, dass alles funktioniert hat
                 .map(move |_| Ok::<_, mysql::Error>(conn.last_insert_id()))
             });
 
@@ -205,7 +214,26 @@ pub async fn register_user_query(auth: Auth, mysql_pool: &Pool) -> Result<Auth, 
     }
 }
 
-// Funktion zum Einloggen eines Nutzers in die Anwendung
+// muss noch vollständig in den Rustteil implementiert werden
+pub async fn get_users_query(mysql_pool: &Pool) -> Result<Vec<Auth>, warp::Rejection> {
+    let result = mysql_pool.get_conn().and_then(|mut conn| {
+        conn.exec_map(
+            "SELECT email, username FROM users", (), |(email, username)| Auth { email, username },
+        )
+    });
+
+    match result {
+        Ok(users) => Ok(users),
+        Err(err) => {
+            eprintln!("Fehler beim Abrufen der Nutzer: {:?}", err);
+            Err(warp::reject::custom(CustomError {
+                message: format!("{:?}", err),
+            }))
+        }
+    }
+}
+
+// Funktion zum Einloggen eines Nutzers in die Anwendung --> funkt noch nicht vollständig
 pub async fn login_user_query(auth: Auth, mysql_pool: &Pool) -> Result<String, warp::Rejection> {
     let email_clone = auth.email.clone();
     let result = mysql_pool.get_conn().and_then(move |mut conn| {
@@ -229,17 +257,19 @@ pub async fn login_user_query(auth: Auth, mysql_pool: &Pool) -> Result<String, w
         }
     };
 
-    // Überprüfen des Passworts
+    // Überprüfung des Passworts
     // Falls das Passwort korrekt ist, wird ein JWT-Token erstellt und zurückgegeben
-    // 3600 für 1 Stunde Gültigkeit
-    // Die Gültigkeit des Tokens wird in der Claims-Struktur festgelegt
     match verify(auth.password, &password_hash) {
         Ok(true) => {
             let jwt_secret = env::var("JWT_SECRET").expect("JWT_SECRET muss gesetzt sein");
+            // exp ist die Gültigkeit des Tokens verbunden mit aktuellen Zeit (SystemZeit des Geräts)
             let exp = SystemTime::now()
+                // UNIX_EPOCH ist der 1. Januar 1970
                 .duration_since(UNIX_EPOCH)
                 .unwrap()
+                // as_secs() gibt die Sekunden seit dem 1. Januar 1970 zurück
                 .as_secs() as usize
+                // Rechnet auf .as_secs() 1 Stunde dazu
                 + 3600;
             let claims = Claims {
                 sub: auth.email,

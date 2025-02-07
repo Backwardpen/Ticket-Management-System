@@ -1,5 +1,5 @@
 ## Frontend
-### Pages
+Aussehen noch ein wenig abändern, damit es etwas moderner aussieht
 
 ## Index
     ✅ Login
@@ -32,19 +32,16 @@
 ✅ Willkommensnachricht ist noch nicht korrekt (JSON-String statt Name/Email)
 ✅ Profil-Button muss noch angepasst werden
     ✅ Falsche Position
-- Wenn man eingeloggt ist, dann sollte man wenn man ein neues Ticket erstellt nicht ausgeloggt werden, sondern im Dashboard bleiben.
-- Des Weiteren sollten direkt die Email und der Name eingetragen sein, da man ja noch eingeloggt ist.
+- Des Weiteren sollten direkt die Email und der Name eingetragen sein, da man ja eingeloggt ist.
     - Eventuell muss hierfür eine neue Seite erstellt werden, die gleich aussieht wie das normale createTicket, aber den Funktionen des Dashboards entspricht.
 - Ohne Login sollte man gar keinen Zugriff auf das Dashboard haben. 
     - Auch nicht als "Gast", da das den Sinn eines Logins untergräbt und deshalb das Konzept von "Gast" nur ein Fallback für einen Fehler sein soll
     - Wenn man auf eine Seite geht sucht man nach Login Daten und wenn diese nicht vorhanden sind und vom Server als valide zurückgegeben werden, dann wird man einfach wieder auf die Index.html geleitet
 
 ## User Management
-✅ Anzeigen aller vorhandenen User via Sessionsstorage
 - Löschen von Usern
-- User umbenennen
 - Einstellen der User Berechtigungen
-- Benutzerliste richtig anzeigen lassen 
+- Benutzerliste richtig anzeigen lassen
     - Benutzerliste aus der Datenbank statt aus dem sessionStorage abfragen
 
 ## Archivierte Tickets
@@ -55,14 +52,13 @@
 ### User
 - Berechtigungen
     - Admin
-    - Standard User
+    ✅ Standard User
 ✅ Passwörter
     ✅ Hashen
 ✅ Username
     - Passwort ändern
 
 ### Tickets
-- Kategorien
 ✅ Datum
 ✅ Inhalt
     ✅ Überschrift
