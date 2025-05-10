@@ -14,13 +14,16 @@
     <header>
         <nav>
             <a href="createTicket.html" class="ticket-nav-dashboard">Neues Ticket</a> <!-- Seite muss noch überarbeitet werden; existiert aber schon -->
-            <a href="stashedTickets.html" class="ticket-nav-dashboard">Archivierte Tickets</a> <!-- Seite muss noch erstellt werden -->
+            <a href="archived.html" class="ticket-nav-dashboard" disabled style="pointer-events: none; opacity: 0.5;">WIP - Archivierte Tickets</a> <!-- Seite muss noch erstellt werden -->
         </nav>
+        
         <h1>Ticket Management System - Dashboard</h1>
+
+        <!-- Dashboard Bereich im Nav Bereich-->
         <div class="dashboard-dropdown">
             <button onclick="toggleDropdown()" class="dropbtn">Profil &#9662;</button> <!-- &#9662; ist das Unicode-Zeichen für ein nach unten zeigendes Dreieck -->
             <div id="dropdown-content" class="dropdown-content">
-                <a href="einstellungen.html">Einstellungen</a> <!-- Seite muss noch erstellt werden -->
+                <!-- Seite muss noch erstellt werden --> <a href="einstellungen.html">WIP(Einstellungen)</a> <!-- Seite muss noch erstellt werden -->
                 <a href="userManagement.html">Nutzer bearbeiten</a>
                 <a href="index.html">Abmelden</a>
             </div>
@@ -28,35 +31,34 @@
     </header>
 
     <main>
+        <!-- Dieser Punkt dürfte nie passieren-->
         <h1 id="greeting">Willkommen, Gast</h1>
 
         <div class="container">
             <!-- Link Seite für alle aktiven Tickets -->
             <div class="left-side">
-                <h2>Aktive Tickets</h2>
+                <h2 class="h2-dashboard">Aktive Tickets</h2>
                 <form class="search-form">
                     <label for="search">Suche:</label>
                     <input type="text" id="search" name="search" placeholder="Suche nach Tickets" autocomplete="on">
                 </form>
                 <div id="activeTickets">
-                    <!-- Hier werden die Tickets angezeigt -->
-                    
+                    <!-- Hier werden die Tickets angezeigt auf der Seite, müssen durch den Code hier nicht gehart-coded werden-->
                 </div>
             </div>
 
             <!-- Rechte Seite für die zugeordneten Tickets -->
             <div class="right-side">
-                <h2>Zugeordnete Tickets</h2>
+                <h2 class="h2-dashboard">WIP (Zugeordnete Tickets)</h2>
                 <div id="assignedTickets">
-                    <!-- Hier werden die Tickets angezeigt -->
-
+                    <!-- Hier werden die Tickets angezeigt auf der Seite, müssen durch den Code hier nicht gehart-coded werden-->
                 </div>
             </div>
         </div>
     </main>
 
     <footer class="footer">
-        <p>© 2024 Ticket System von Jonas Niggemann</p>
+        <p>© 2025 Ticket System von Backwardpen</p>
     </footer>
 </body>
 

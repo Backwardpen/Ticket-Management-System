@@ -1,0 +1,29 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.ticket {
+    background-color: #fff;
+    border-left: 5px solid #888;
+    padding: 15px;
+    margin: 10px auto;
+    max-width: 600px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.ticket h3 {
+    margin-top: 0;
+    color: #555;
+}
+
+.ticket p {
+    margin: 5px 0;
+    color: #666;
+}

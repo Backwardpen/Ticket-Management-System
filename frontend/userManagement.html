@@ -29,8 +29,23 @@
             <label for="loginPassword">Password:</label>
             <input type="password" id="loginPassword" name="password" placeholder="Gib dein Passwort ein" autocomplete="on" required>
 
+            <label for="loginPasswordRepeat">Passwort wiederholen:</label>
+            <input type="password" id="loginPasswordRepeat" name="passwordRepeat" placeholder="Wiederhole dein Passwort" autocomplete="on" required>
+
+            <!-- Optional: Rollenauswahl -->
+            <!-- Hierfür habe ich aber keinen Nutzen gefunden, also habe ich es auskommentiert -->
+             
+            <!--
+            <label for="loginRole">Rolle:</label>
+            <select id="loginRole" name="role" required>
+                <option value="" disabled selected>Bitte Rolle auswählen</option>
+                <option value="admin">Admin</option>
+                <option value="user">User</option>
+            </select>
+            -->
+
             <button type="submit" id="registerButton" class="createUser">Neuen Benutzer erstellen</button>
-            <button type="button" id="refreshButton" class="createUser" onclick="benutzerDatenAnzeige()">Aktualisieren der Benutzer</button>
+            <button type="button" id="refreshButton" class="createUser" onclick="benutzerDatenAnzeige()">Aktualisieren der Benutzerliste</button>
             <div id="loginStatus" class="form-status" style="display:none;"></div>
         </form>
 

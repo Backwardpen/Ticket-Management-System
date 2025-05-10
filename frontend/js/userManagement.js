@@ -1,18 +1,17 @@
 const loginStatusDiv = document.getElementById('loginStatus');
-const formStatusDiv = document.getElementById('formStatus');
-document.addEventListener('DOMContentLoaded', () => {
 
+document.addEventListener('DOMContentLoaded', () => {
     const createUserForm = document.getElementById('createUserForm');
 
-    // Event Listener für Register Button
+    // Benutzerliste beim Laden der Seite direkt abrufen
+    benutzerDatenAnzeige();
+
+    // Event Listener für das Formular
     createUserForm.addEventListener('submit', async function (event) {
         event.preventDefault();
 
-        const emailInput = document.getElementById('loginEmail');
-        const passwordInput = document.getElementById('loginPassword');
-
-        const email = emailInput.value;
-        const password = passwordInput.value;
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
 
         loginStatusDiv.style.display = "none";
         loginStatusDiv.textContent = "";
@@ -20,10 +19,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const registerData = {
             email: email,
             password: password,
-        }
+        };
 
         try {
-            const response = await fetch("http://127.0.0.1:5555/register", {
+            /**
+             * Das Response-Objekt, das von der fetch-API beim Aufruf des User-Registrierungsendpunkts zurückgegeben wird.
+             * 
+             * @type {Response}
+             * @siehe {@link https://developer.mozilla.org/de/docs/Web/API/Response}
+             */
+            const response = await fetch("http://10.10.10.194:5555/register", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -32,46 +37,112 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (response.ok) {
-                const result = await response.json();
-
-                let existingUsers = sessionStorage.getItem('users');
-                if (existingUsers) {
-                    let parsedUsers = JSON.parse(existingUsers);
-                    if (!Array.isArray(parsedUsers)) {
-                        parsedUsers = [parsedUsers];
-                    }
-
-                    if (Array.isArray(result)) {
-                        sessionStorage.setItem('users', JSON.stringify([...parsedUsers, ...result]))
-                    } else {
-                        sessionStorage.setItem('users', JSON.stringify([...parsedUsers, result]))
-                    }
-                }
-                else {
-                    sessionStorage.setItem('users', JSON.stringify(result));
-                }
-
-                loginStatusDiv.textContent = 'Registrierung war erfolgreich!\n'
+                loginStatusDiv.textContent = 'Registrierung war erfolgreich!';
                 loginStatusDiv.className = 'form-status success';
                 loginStatusDiv.style.display = "block";
-
                 createUserForm.reset();
+
+                // Benutzerliste nach erfolgreicher Registrierung neu laden
+                benutzerDatenAnzeige();
             } else {
                 const result = await response.json();
-
-                console.error("Fehler bei der Registrierung: ", result)
-
+                console.error("Fehler bei der Registrierung: ", result);
                 loginStatusDiv.textContent = 'Fehler bei der Registrierung:\n' + (result.message || 'Unbekannter Fehler');
                 loginStatusDiv.className = 'form-status error';
                 loginStatusDiv.style.display = "block";
             }
         } catch (error) {
-            console.error("Fehler: ", error)
-
-            loginStatusDiv.textContent = 'Ein Fehler beim Registrieren ist aufgetreten: \n' + (error.message || 'Unbekannter Fehler');
+            console.error("Fehler: ", error);
+            loginStatusDiv.textContent = 'Ein Fehler beim Registrieren ist aufgetreten:\n' + (error.message || 'Unbekannter Fehler');
             loginStatusDiv.className = 'form-status error';
             loginStatusDiv.style.display = "block";
         }
-
     });
 });
+
+/**
+ * Lädt die Benutzerliste vom Server und zeigt sie im HTML-Element mit der ID 'userContainer' an.
+ * 
+ * Für jeden Benutzer wird eine E-Mail-Adresse sowie ein Lösch-Button angezeigt.
+ * Bei Klick auf den Lösch-Button wird die Funktion `deleteUser` mit der E-Mail des Benutzers aufgerufen.
+ * 
+ * Fehler beim Laden oder Abrufen der Benutzerliste werden im Container angezeigt und in der Konsole protokolliert.
+ * 
+ * @async
+ * @function benutzerDatenAnzeige
+ * @returns {Promise<void>} Gibt ein Promise zurück, das abgeschlossen ist, wenn die Benutzer angezeigt wurden.
+ */
+async function benutzerDatenAnzeige() {
+    const userContainer = document.getElementById('userContainer');
+    userContainer.innerHTML = '';
+
+    try {
+        const response = await fetch("http://10.10.10.194:5555/users");
+        if (response.ok) {
+            const users = await response.json();
+
+            if (users.length === 0) {
+                userContainer.innerHTML = '<p>Keine Benutzer gefunden.</p>';
+                return;
+            }
+
+            users.forEach(user => {
+                const userDiv = document.createElement('div');
+                userDiv.classList.add('user-entry');
+
+                // Email
+                const userText = document.createElement('span');
+                userText.textContent = `Email: ${user.email}`;
+                userDiv.appendChild(userText);
+
+                // Delete Button
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Löschen';
+                deleteBtn.classList.add('delete-user-button');
+                deleteBtn.onclick = () => deleteUser(user.email);
+
+                userDiv.appendChild(deleteBtn);
+                userContainer.appendChild(userDiv);
+            });
+        } else {
+            userContainer.innerHTML = '<p>Fehler beim Laden der Benutzerliste.</p>';
+        }
+    } catch (error) {
+        console.error("Fehler beim Abrufen der Benutzerliste:", error);
+        userContainer.innerHTML = '<p>Fehler beim Abrufen der Benutzerliste.</p>';
+    }
+}
+
+/**
+ * Löscht einen Benutzer anhand seiner E-Mail-Adresse nach Bestätigung durch den Nutzer.
+ *
+ * Zeigt eine Bestätigungsabfrage an und sendet anschließend eine DELETE-Anfrage an den Server,
+ * um den Benutzer zu löschen. Bei Erfolg wird eine Benachrichtigung angezeigt und die Benutzerliste aktualisiert.
+ * Bei Fehlern werden entsprechende Fehlermeldungen angezeigt.
+ *
+ * @async
+ * @function
+ * @param {string} email - Die E-Mail-Adresse des zu löschenden Benutzers.
+ * @returns {Promise<void>} 
+ */
+async function deleteUser(email) {
+    const confirmed = confirm(`Möchtest du den Benutzer "${email}" wirklich löschen?`);
+    if (!confirmed) return;
+
+    try {
+        const response = await fetch(`http://10.10.10.194:5555/users/delete/${encodeURIComponent(email)}`, {
+            method: 'DELETE',
+        });
+
+        if (response.ok) {
+            alert("Benutzer wurde erfolgreich gelöscht.");
+            benutzerDatenAnzeige();
+        } else {
+            const result = await response.json();
+            alert("Fehler beim Löschen:\n" + (result.message || 'Unbekannter Fehler'));
+        }
+    } catch (err) {
+        console.error("Fehler beim Löschen des Benutzers:", err);
+        alert("Netzwerkfehler beim Löschen des Benutzers.");
+    }
+}

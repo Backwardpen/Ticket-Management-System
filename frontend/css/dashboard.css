@@ -1,8 +1,7 @@
 .ticket-nav-dashboard {
     display: inline-block;
     padding: 5px 10px;
-    margin-top: auto;
-    background: var(--nav-button-bg);
+    background-color: var(--card-bg);
     color: var(--nav-button-text-colour);
     text-decoration: none;
     border-radius: 5px;
@@ -16,20 +15,23 @@
 
 .container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     min-height: 100vh;
 }
 
-/* Neues von Ziggy */
+.h2-dashboard {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 #greeting {
     border: 2px solid var(--trennstrich-colour);
     border-top: none;
-    margin-bottom: 0;
-    margin-top: 0;
+    margin: 0;
+    padding: 10px;
 }
 
 input {
-    /* Größtenteils von index.css kopiert */
     padding: 10px;
     margin-left: 10px;
     border: var(--input-border);
@@ -37,49 +39,49 @@ input {
     border-radius: 4px;
     background: var(--input-bg);
 }
-/* Ende Neues von Ziggy */
 
-.left-side,
-.right-side {
+/* Linker Bereich (Aktive Tickets) */
+.left-side {
     padding: 20px;
+    width: 50%;
+    max-height: 80vh;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    flex: 1;
+    border-right: 2px solid var(--trennstrich-colour);
 }
 
+/* Rechter Bereich (Zugeordnete Tickets) */
 .right-side {
-    border-left: 2px solid var(--trennstrich-colour);
+    padding: 20px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.search-form {
+form.search-form {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    justify-content: center;
+    width: 100%;
 }
 
 .dropbtn {
-    display: inline-block;
     padding: 5px 10px;
-    margin-top: auto;
     background: var(--nav-button-bg);
     color: var(--nav-button-text-colour);
-    text-decoration: none;
     border-radius: 5px;
-    transition: 0.3s ease;
     cursor: pointer;
     border: none;
+    transition: 0.3s ease;
 }
 
-.dropbtn:hover,
-.dropbtn:focus {
+.dropbtn:hover {
     background: var(--nav-button-bg-hover);
     color: var(--nav-button-text-colour-hover);
-}
-
-.dropdown {
-    position: relative;
 }
 
 .dropdown-content {
@@ -88,9 +90,8 @@ input {
     background-color: #f1f1f1;
     min-width: 160px;
     right: 0;
-    left: auto;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .dropdown-content a {
@@ -99,8 +100,8 @@ input {
     padding: 12px 16px;
     text-decoration: none;
     display: block;
-    transition: background-color 0.3s ease, color 0.3s ease;
     border: var(--nav-dropdown-border);
+    transition: 0.3s ease;
 }
 
 .dropdown-content a:hover {
@@ -110,4 +111,99 @@ input {
 
 .show {
     display: block;
+}
+
+/* Ticket-Karten */
+.ticket {
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 1000px;
+}
+
+.ticket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ticket h3 {
+    color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+}
+
+.ticket p {
+    color: #555;
+    margin: 5px 0;
+}
+
+.ticket-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.ticket-actions-bottom {
+    margin-top: 10px;
+}
+
+.edit-button,
+.close-button {
+    padding: 10px 15px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-button {
+    background-color: #555;
+    color: white;
+}
+
+.close-button {
+    background-color: #e03c30;
+    color: white;
+}
+
+.ticket-actions-top .close-button {
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+}
+
+.ticket-actions-top .close-button:hover {
+    background-color: #b32626;
+}
+
+#activeTickets {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.user-entry,
+.user-list-section,
+form,
+.user-form-section {
+    background-color: var(--card-bg);
+    border: var(--card-border);
+    color: var(--card-text);
+    box-shadow: var(--card-shadow);
+}
+
+.ticket{
+    background-color: rgb(189, 188, 188);
+}
+.ticket strong,
+.ticket p {
+    color : rgb(0, 0, 0);
 }

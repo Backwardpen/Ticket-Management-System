@@ -1,0 +1,132 @@
+/*  Basis Layout  */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    overflow-y: auto;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    /* Fügt einen allgemeinen Padding hinzu */
+    margin-bottom: 15px;
+}
+
+/* Style für den Formularbereich */
+.user-form-section {
+    margin-top: 25px;
+    background: #fff;
+    padding: 50px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 75vw;
+    font-weight: bold;
+}
+
+/* Style für den Listenbereich */
+.user-list-section {
+    background: var(--form-bg);
+    padding: 50px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 25px;
+    width: 75vw;
+}
+
+#createUserForm {
+    display: flex;
+    flex-direction: column;
+}
+
+#createUserForm label {
+    margin-bottom: 5px;
+}
+
+#createUserForm input,
+#createUserForm select {
+    padding: 8px;
+    margin-bottom: 10px;
+    /* border: 1px solid #ddd; */
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+form {
+    margin-top: 25px;
+    background: var(--form-bg);
+    padding: 50px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 75vw;
+    font-weight: bold;
+}
+
+.form-status {
+    margin-top: 10px;
+    padding: 15px 20px;
+    background-color: #f5c418;
+    color: #000;
+    border: 1px solid #ffdc6c;
+    border-radius: 4px;
+    display: none;
+    width: 220px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.form-status.success {
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+.form-status.error {
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+.createUser {
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    margin: 10px;
+    width: 220px;
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.createUser:hover {
+    background: linear-gradient(135deg, #2575fc, #6a11cb);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-3px);
+}
+
+.createUser:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+/* .user-item {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 5px;
+} */
