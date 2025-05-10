@@ -1,4 +1,6 @@
-use crate::db::query::{create_ticket_query, get_tickets_by_email_query, get_ticket_by_id_query};
+use crate::db::query::{
+    create_ticket_query, get_all_tickets_query, get_ticket_by_id_query, get_tickets_by_email_query,
+};
 use crate::models::ticket::Ticket;
 use mysql::Pool;
 use warp::{http::StatusCode, reply, Rejection}; // neue Import zu addiere /importiere!
@@ -50,6 +52,17 @@ pub async fn get_ticket_by_id_handler(
                 StatusCode::NOT_FOUND,
             )),
         },
+        Err(err) => Ok(reply::with_status(
+            reply::json(&format!("{:?}", err)),
+            StatusCode::INTERNAL_SERVER_ERROR,
+        )),
+    }
+}
+
+// Hier wird die Funktion get_all_tickets_handler definiert, die alle Tickets abruft und zurückgibt.
+pub async fn get_all_tickets_handler(mysql_pool: &Pool) -> Result<impl warp::Reply, Rejection> {
+    match get_all_tickets_query(mysql_pool).await {
+        Ok(tickets) => Ok(reply::with_status(reply::json(&tickets), StatusCode::OK)),
         Err(err) => Ok(reply::with_status(
             reply::json(&format!("{:?}", err)),
             StatusCode::INTERNAL_SERVER_ERROR,

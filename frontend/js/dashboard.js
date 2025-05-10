@@ -33,12 +33,12 @@ async function loadTickets() {
     }
 
     try {
-        const response = await fetch(`http://127.0.0.1:5555/tickets/by_email/${userEmail}`);
+        // Neue API-Route für alle Tickets
+        const response = await fetch('http://127.0.0.1:5555/tickets/all_tickets',);
 
         if (!response.ok) {
             activeTicketsDiv.innerHTML = '<p>Es konnten keine Tickets geladen werden.</p>';
             assignedTicketsDiv.innerHTML = '<p>Es konnten keine Tickets geladen werden.</p>';
-
             console.error(`HTTP error! status: ${response.status}`);
             return;
         }
@@ -46,34 +46,37 @@ async function loadTickets() {
         const tickets = await response.json();
         console.log(tickets);
 
-        if (tickets.length === 0) {
+        if (!Array.isArray(tickets) || tickets.length === 0) {
             activeTicketsDiv.innerHTML = "<p>Keine aktiven Tickets vorhanden.</p>";
             assignedTicketsDiv.innerHTML = "<p>Keine zugewiesenen Tickets vorhanden.</p>";
             return;
         }
 
-        // Aufteilung der Tickets
+        // Eigene Tickets (erstellt vom Nutzer)
         let activeTicketsHtml = '';
+        // Zugewiesene Tickets (dem Nutzer zugewiesen)
         let assignedTicketsHtml = '';
 
-        tickets.forEach(ticket => {
-            activeTicketsHtml += `
-                <div class="ticket-card">
-                    <h3>${ticket.ticket_title}</h3>
-                    <p><strong>Name:</strong> ${ticket.name}</p>
-                    <p><strong>Raum:</strong> ${ticket.raum}</p>
-                    <p><strong>Beschreibung:</strong> ${ticket.ticket_description}</p>
-                </div>
-           `;
-            assignedTicketsHtml = activeTicketsHtml;
-        });
-        activeTicketsDiv.innerHTML = activeTicketsHtml;
-        assignedTicketsDiv.innerHTML = assignedTicketsHtml;
+        tickets.forEach(ticket => {ticket.email === userEmail})
+                activeTicketsHtml += `
+                    <div class="ticket-card">
+                        <h3>${ticket.ticket_title}</h3>
+                        <p><strong>Name:</strong> ${ticket.name}</p>
+                        <p><strong>Raum:</strong> ${ticket.raum}</p>
+                        <p><strong>Beschreibung:</strong> ${ticket.ticket_description}</p>
+                    </div>
+                `;
+        ;
+
+        activeTicketsDiv.innerHTML = activeTicketsHtml || "<p>Keine aktiven Tickets vorhanden.</p>";
+        assignedTicketsDiv.innerHTML = assignedTicketsHtml || "<p>Keine zugewiesenen Tickets vorhanden.</p>";
 
     } catch (error) {
         console.error("Fehler beim Laden der Tickets:", error);
-
         activeTicketsDiv.innerHTML = '<p>Fehler beim Laden der Tickets.</p>';
         assignedTicketsDiv.innerHTML = '<p>Fehler beim Laden der Tickets.</p>';
     }
 }
+
+// Tickets beim Laden der Seite laden
+document.addEventListener('DOMContentLoaded', loadTickets);

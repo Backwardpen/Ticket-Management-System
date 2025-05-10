@@ -13,7 +13,7 @@ USE ticketsystem;
 INSERT INTO tickets (title, email, name, description, raum) 
 VALUES ("Test Title", "test@example.com", "Test User", "Test Description", "E01");
 
-How 
+How
 
 Als Hintergrundinformation:
 https://www.youtube.com/watch?v=2HVKizgcfjo

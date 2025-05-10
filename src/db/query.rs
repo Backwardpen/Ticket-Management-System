@@ -127,7 +127,7 @@ pub async fn get_tickets_by_email_query(
 }
 
 // Registrierung eines neuen Nutzers in der Anwendung
-pub async fn register_user_query(auth: Auth, mysql_pool: &Pool) -> Result<Auth, warp::Rejection> {
+pub async fn create_user_query(auth: Auth, mysql_pool: &Pool) -> Result<Auth, warp::Rejection> {
     let email_clone = auth.email.clone();
     let existing_user = mysql_pool.get_conn().and_then(move |mut conn| {
         conn.exec_first::<(String,), _, _>(
@@ -166,8 +166,8 @@ pub async fn register_user_query(auth: Auth, mysql_pool: &Pool) -> Result<Auth, 
             };
             let result = mysql_pool.get_conn().and_then(|mut conn| {
                 conn.exec_drop(
-                    "INSERT INTO users (email, username, password_hash) VALUES (?, ?, ?)",
-                    (&auth.email, &auth.username, &password_hash),
+                    "INSERT INTO users (email, password_hash) VALUES (?, ?)",
+                    (&auth.email, &password_hash),
                 )
                 .map(move |_| Ok::<_, mysql::Error>(conn.last_insert_id()))
             });
@@ -175,8 +175,8 @@ pub async fn register_user_query(auth: Auth, mysql_pool: &Pool) -> Result<Auth, 
             match result {
                 Ok(Ok(id)) => {
                     let msg = format!(
-                        "User erfolgreich erstellt mit ID: {:?}; Username: {:?}; Email: {:?}",
-                        id, auth.username, auth.email
+                        "User erfolgreich erstellt mit ID: {:?}; Email: {:?}",
+                        id, auth.email
                     );
                     println!("{}", msg);
                     Ok(auth)
@@ -235,7 +235,7 @@ pub async fn login_user_query(auth: Auth, mysql_pool: &Pool) -> Result<String, w
     // Die Gültigkeit des Tokens wird in der Claims-Struktur festgelegt
     match verify(auth.password, &password_hash) {
         Ok(true) => {
-            let jwt_secret = env::var("JWT_SECRET").expect("JWT_SECRET muss gesetzt sein");
+            let jwt_secret = env::var("JWT_SECRET").expect("JWT_SECRET muss gesetzt sein"); // JWT Secret ist der Schlüssel, der zum Signieren des Tokens verwendet wird --> muss gesetzt sein
             let exp = SystemTime::now()
                 .duration_since(UNIX_EPOCH)
                 .unwrap()
@@ -269,6 +269,35 @@ pub async fn login_user_query(auth: Auth, mysql_pool: &Pool) -> Result<String, w
         }
         Err(err) => {
             eprintln!("Fehler beim Überprüfen des Passworts: {:?}", err);
+            Err(warp::reject::custom(CustomError {
+                message: format!("{:?}", err),
+            }))
+        }
+    }
+}
+
+// TO be tested
+
+// Funktion zum Abrufen aller Tickets aus der Datenbank
+pub async fn get_all_tickets_query(mysql_pool: &Pool) -> Result<Vec<Ticket>, warp::Rejection> {
+    let result = mysql_pool.get_conn().and_then(move |mut conn| {
+        conn.exec_map(
+            "SELECT title, email, name, description, raum FROM tickets",
+            (), // Keine Parameter
+            |(ticket_title, email, name, ticket_description, raum)| Ticket {
+                ticket_title,
+                email,
+                name,
+                ticket_description,
+                raum,
+            },
+        )
+    });
+
+    match result {
+        Ok(tickets) => Ok(tickets),
+        Err(err) => {
+            eprintln!("Fehler beim Abrufen der Tickets: {:?}", err);
             Err(warp::reject::custom(CustomError {
                 message: format!("{:?}", err),
             }))

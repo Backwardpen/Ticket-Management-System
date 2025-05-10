@@ -5,7 +5,7 @@
     ✅ Login
         - FIX LOGIN OR BAD
             - Username sollte nicht abgefragt werden, wird aber versucht abzufragen, da ich es für die Registrierung brauche
-                --> Lösung: GET GOOD --> Backend Problem
+                --> Lösung: Löschen und sagen, dass man so ein Feature nicht braucht
     ✅ Registrieren muss noch verschoben werden aufs Dashboard, da der Zugang nur für Admins ist
     - Passwort vergessen?
     - Passwort falsch eingegeben --> Fehlermeldung oder Fehlermeldung
@@ -53,13 +53,14 @@
 
 ## Backend
 ### User
-- Berechtigungen
+???? Berechtigungen <--- Brauchen an sowas wirklich?
     - Admin
     - Standard User
 ✅ Passwörter
     ✅ Hashen
-✅ Username
-    - Passwort ändern
+🚫 Username    
+    🚫 Entfernt, da nicht benötigt
+
 
 ### Tickets
 - Kategorien
@@ -88,7 +89,7 @@
 - User
     ✅ Id
     ✅ Email
-        - Email hashing? --> Vorschlag von CS Students
+        🤔 Email hashing? --> Vorschlag von CS Students
     ✅ Passwort
     ✅ Berechtigungen (Rollen)
         - Berechtigungen soll im Adminbereich angepasst werden können

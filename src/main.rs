@@ -7,7 +7,8 @@ use crate::models::auth::Auth;
 use db::connection::get_db_pool;
 use handlers::auth_handler::{login_handler, register_handler};
 use handlers::ticket_handler::{
-    create_ticket_handler, get_ticket_by_id_handler, get_tickets_by_email_handler,
+    create_ticket_handler, get_all_tickets_handler, get_ticket_by_id_handler,
+    get_tickets_by_email_handler,
 };
 use warp::Filter;
 
@@ -50,8 +51,8 @@ async fn main() {
             .and(warp::path("login")) // Pfad: /login
             .and(warp::body::json()) // Erwartet einen JSON-Body
             .and_then(move |auth: Auth| {
-                println!("login route gestartet");
-                
+                println!("login route gestartet"); // Debugging-Ausgabe
+
                 // Übergibt die Auth-Daten an den Handler
                 let pool = pool.clone(); // Datenbankpool klonen (innerhalb des Handlers)
                 async move { login_handler(auth, &pool).await }
@@ -101,13 +102,27 @@ async fn main() {
             .with(cors.clone()) // CORS-Middleware hinzufügen
     };
 
+    let all_tickets = {
+        let pool = pool_clone.clone(); // Datenbankpool klonen
+        warp::get()
+            .and(warp::path("tickets")) // Pfad: /tickets
+            .and(warp::path("all_tickets")) // Pfad: /tickets/all
+            .and_then(move || {
+                // Übergibt die E-Mail an den Handler
+                let pool = pool.clone(); // Datenbankpool klonen (innerhalb des Handlers)
+                async move { get_all_tickets_handler(&pool).await }
+            })
+            .with(cors.clone()) // CORS-Middleware hinzufügen
+    };
+
     // -------------------- Routen zusammenführen --------------------
     // Alle Routen mit 'or' kombinieren
     let routes = register
         .or(login)
         .or(tickets)
         .or(tickets_by_email)
-        .or(ticket_by_id);
+        .or(ticket_by_id)
+        .or(all_tickets);
 
     let routes = routes.with(cors.clone()); // CORS-Middleware hinzufügen
                                             // Logging-Middleware hinzufügen

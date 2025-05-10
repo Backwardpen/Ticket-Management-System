@@ -71,7 +71,6 @@ pub async fn get_db_pool() -> Pool {
         CREATE TABLE IF NOT EXISTS users (
             id INT AUTO_INCREMENT PRIMARY KEY,
             email VARCHAR(255) NOT NULL UNIQUE,
-            username VARCHAR(255) NOT NULL,
             password_hash VARCHAR(255) NOT NULL,
             role VARCHAR(50) NOT NULL DEFAULT 'user',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -108,20 +107,18 @@ pub async fn get_db_pool() -> Pool {
                 env::var("DEFAULT_USER_EMAIL").expect("DEFAULT_USER_EMAIL muss gesetzt sein in der .env Datei");
             let default_password =
                 env::var("DEFAULT_USER_PASSWORD").expect("DEFAULT_USER_PASSWORD muss gesetzt sein in der .env Datei");
-            let default_username =
-                env::var("DEFAULT_USER_USERNAME").expect("DEFAULT_USER_USERNAME muss gesetzt sein in der .env Datei");
             let default_role =
                 env::var("DEFAULT_USER_ROLE").expect("DEFAULT_USER_ROLE muss gesetzt sein in der .env Datei");
             let default_password_hash =
                 bcrypt::hash(default_password, bcrypt::DEFAULT_COST).unwrap();
             let insert_default_user = "
-                INSERT INTO users (id, email, username, password_hash, role)
-                 VALUES (1, ?, ?, ?, ?)";
+                INSERT INTO users (id, email, password_hash, role)
+                 VALUES (1, ?, ?, ?)";
 
             match mysql_pool.get_conn().and_then(|mut conn: PooledConn| {
                 conn.exec_drop(
                     insert_default_user,
-                    (&default_email, &default_username, &default_password_hash, &default_role),
+                    (&default_email, &default_password_hash, &default_role),
                 )
             }) {
                 Ok(_) => println!("Standard User (id=1) erfolgreich erstellt!"),

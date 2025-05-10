@@ -10,18 +10,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const emailInput = document.getElementById('loginEmail');
         const passwordInput = document.getElementById('loginPassword');
-        const usernameInput = document.getElementById('username');
 
         const email = emailInput.value;
         const password = passwordInput.value;
-        const username = usernameInput.value;
 
         loginStatusDiv.style.display = "none";
         loginStatusDiv.textContent = "";
 
         const registerData = {
             email: email,
-            username: username,
             password: password,
         }
 
@@ -76,39 +73,5 @@ document.addEventListener('DOMContentLoaded', () => {
             loginStatusDiv.style.display = "block";
         }
 
-        benutzerDatenAnzeige();
     });
-    benutzerDatenAnzeige();
 });
-
-function benutzerDatenAnzeige() {
-    const userContainer = document.getElementById('userContainer');
-    const storedUsers = sessionStorage.getItem('users');
-
-    if (storedUsers) {
-        let users = JSON.parse(storedUsers);
-
-        if (!Array.isArray(users)) {
-            users = [users];
-        }
-
-        if (userContainer.childElementCount === 0) {
-            users.forEach(user => {
-                const userElement = document.createElement('div');
-                userElement.classList.add('user');
-                userElement.innerHTML = `
-                <h3>${user.username}</h3>
-                <p><strong>Email:</strong> ${user.email}</p>
-                <p><strong>ID:</strong> ${user.id}</p>
-                `;
-                userContainer.appendChild(userElement);
-            });
-        }
-    } else {
-        userContainer.innerHTML = '<p>Es sind keine User vorhanden</p>';
-    }
-}
-
-function refreshButton() {
-    window.location.reload();
-}
