@@ -3,7 +3,7 @@ mod error;
 mod handlers;
 mod models;
 
-use crate::models::auth::Auth;
+use models::auth::Auth;
 use db::connection::get_db_pool;
 use handlers::auth_handler::{login_handler, register_handler};
 use handlers::ticket_handler::{
@@ -39,9 +39,9 @@ async fn main() {
             .and_then(move |auth: Auth| {
                 // Übergibt die Auth-Daten an den Handler
                 let pool = pool.clone(); // Datenbankpool klonen (innerhalb des Handlers)
-                async move { register_handler(auth, &pool).await }
+                async move{register_handler(auth, &pool).await}
             })
-            .with(cors.clone()) // CORS-Middleware hinzufügen
+        .with(cors.clone()) // CORS-Middleware hinzufügen
     };
 
     // Route für den Login
@@ -55,9 +55,9 @@ async fn main() {
 
                 // Übergibt die Auth-Daten an den Handler
                 let pool = pool.clone(); // Datenbankpool klonen (innerhalb des Handlers)
-                async move { login_handler(auth, &pool).await }
+                async move{login_handler(auth, &pool).await }
             })
-            .with(cors.clone()) // CORS-Middleware hinzufügen
+        .with(cors.clone()) // CORS-Middleware hinzufügen
     };
 
     // Route für das Erstellen von Tickets
@@ -68,9 +68,9 @@ async fn main() {
             .and(warp::body::json()) // Erwartet einen JSON-Body
             .and_then(move |ticket| {
                 let pool = pool.clone(); // Datenbankpool klonen (innerhalb des Handlers)
-                async move { create_ticket_handler(ticket, &pool).await }
+                async move{create_ticket_handler(ticket, &pool).await}
             })
-            .with(cors.clone()) // CORS-Middleware hinzufügen
+        .with(cors.clone()) // CORS-Middleware hinzufügen
     };
 
     // Route für das Abrufen von Tickets nach E-Mail
@@ -83,9 +83,9 @@ async fn main() {
             .and_then(move |email: String| {
                 // Übergibt die E-Mail an den Handler
                 let pool = pool.clone(); // Datenbankpool klonen (innerhalb des Handlers)
-                async move { get_tickets_by_email_handler(email, &pool).await }
+                async move{get_tickets_by_email_handler(email, &pool).await}
             })
-            .with(cors.clone()) // CORS-Middleware hinzufügen
+        .with(cors.clone()) // CORS-Middleware hinzufügen
     };
 
     // Route für das Abrufen eines Tickets nach ID
@@ -97,9 +97,9 @@ async fn main() {
             .and_then(move |id: u32| {
                 // Übergibt die ID an den Handler
                 let pool = pool.clone(); // Datenbankpool klonen (innerhalb des Handlers)
-                async move { get_ticket_by_id_handler(id, &pool).await }
+                async move{get_ticket_by_id_handler(id, &pool).await}
             })
-            .with(cors.clone()) // CORS-Middleware hinzufügen
+        .with(cors.clone()) // CORS-Middleware hinzufügen
     };
 
     let all_tickets = {
@@ -125,7 +125,7 @@ async fn main() {
         .or(all_tickets);
 
     let routes = routes.with(cors.clone()); // CORS-Middleware hinzufügen
-                                            // Logging-Middleware hinzufügen
+    // Logging-Middleware hinzufügen
     let log = warp::log("ticketsystem");
 
     // Server wird gestartet mit dem Port 5555

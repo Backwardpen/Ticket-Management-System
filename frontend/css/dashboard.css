@@ -20,6 +20,13 @@
     min-height: 100vh;
 }
 
+.h2-dashboard {
+    margin-top: 0;
+    margin-bottom: 0;
+    position: absolute;
+    top: 15%;
+}
+
 /* Neues von Ziggy */
 #greeting {
     border: 2px solid var(--trennstrich-colour);
@@ -29,7 +36,6 @@
 }
 
 input {
-    /* Größtenteils von index.css kopiert */
     padding: 10px;
     margin-left: 10px;
     border: var(--input-border);
@@ -53,10 +59,22 @@ input {
     border-left: 2px solid var(--trennstrich-colour);
 }
 
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border: 2px solid var(--trennstrich-colour);
+}
+
 .search-form {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    position: absolute;
+    top: 20%;
+    justify-content: center;
 }
 
 .dropbtn {
