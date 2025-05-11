@@ -1,22 +1,71 @@
-Entweder muss mann die Dockerfiles über die Console erstellen:
-docker run --name MySQL -d --network=dockernetwork -e MYSQL_ROOT_PASSWORD=10uzb24 -e MYSQL_DATABASE=local_database -p 3306:3306 --restart=unless-stopped mysql:latest
-docker run -d --name=phpmyadmin --network=dockernetwork -e PMA_HOST=MySQL -e PMA_PORT=3306 -e MYSQL_ROOT_PASSWORD=10uzb24 -p 8080:80 phpmyadmin/phpmyadmin:latest
-Oder man kann die Dockerfiles über die Docker-Compose.yml erstellen, nachdem man in den Ordner navigiert ist in der die Datei liegt:
-docker-compose up -d
-docker-compose down
+Ticket-Management-System
 
-Befehl um den Rust-Server zu starten:
+About: 
+Dies ist ein Ticket-System, das mit Rust und MySQL entwickelt wurde. Es ermöglicht Benutzern, Tickets zu erstellen, die dann in einer MySQL-Datenbank gespeichert werden. Das System verwendet Docker-Container für die Datenbank und die Weboberfläche.
+Es dient dem Gymnasium Harksheide als Ticket-System für die Vereinfachung der Schulabläufe im Sinne der Digitalisierung. Hierbei handelt es sich um ein Abschlussprojekt eines Schülers, welche es im Rahmen der Besonderen Lernleistung (BLL) im Fach Informatik erstellt hat.
+Es wurde angefangen als Verbesserung der alten Systeme + besserer Zuschnitt auf die Bedürfnisse der Schule.
+Andere Systeme können dieses System sicherlich auch verwenden, jedoch ist es spezieller auf die Bedürfnisse des Gymnasiums Harksheide zugeschnitten.
+
+Voraussetzungen
+- Rust: Installieren Sie Rust, indem Sie die offizielle Website besuchen: https://www.rust-lang.org/tools/install
+  - Cargo: Cargo ist der Paketmanager für Rust und wird mit der Rust-Installation geliefert.
+  - rustc: rustc ist der Rust-Compiler und wird ebenfalls mit der Rust-Installation geliefert.
+  - rustup: rustup ist ein Toolchain-Manager für Rust und wird mit der Rust-Installation geliefert.
+
+- Docker: Installieren Sie Docker, indem Sie die offizielle Website besuchen: https://docs.docker.com/get-docker/
+oder
+- Docker Desktop: Installieren Sie Docker Desktop, indem Sie die offizielle Website besuchen: https://www.docker.com/products/docker-desktop
+- Docker-Compose: Installieren Sie Docker-Compose, indem Sie die offizielle Website besuchen: https://docs.docker.com/compose/install/
+
+- MySQL: Installieren Sie MySQL, indem Sie die offizielle Website besuchen: https://dev.mysql.com/downloads/mysql/
+- PHPMyAdmin: Installieren Sie PHPMyAdmin, indem Sie die offizielle Website besuchen: https://www.phpmyadmin.net/downloads/ <-- Nicht nötig, kann aber vorallem am Anfang hilfreich sein
+- Nginx: Installieren Sie Nginx, indem Sie die offizielle Website besuchen: https://nginx.org/en/docs/install.html
+
+- HTML: Kein Download nlötig, HTML ist eine Markup-Sprache und wird in der Regel in einem Texteditor geschrieben.
+- CSS: Kein Download nötig, CSS ist eine Stylesheet-Sprache und wird in der Regel in einem Texteditor geschrieben.
+- JavaScript: Kein Download nötig, JavaScript ist eine Programmiersprache und wird in der Regel in einem Texteditor geschrieben
+
+
+Wie startet man das Ticket-System?
+1. Klonen Sie das Repository auf Ihren lokalen Computer:
+git clone
+
+2. Navigieren Sie in das Verzeichnis des geklonten Repositories:
+cd Ticket-System
+
+3. Erstellen Sie ein Docker-Netzwerk:
+docker network create dockernetwork
+
+4. Erstellen Sie die Docker-Container für MySQL, PHPMyAdmin und Nginx:
+   - Entweder über die Console oder über die Docker-Compose.yml Datei
+
+   - Über die Console:
+    - docker run --name MySQL -d --network=dockernetwork -e MYSQL_ROOT_PASSWORD=10uzb24 -e MYSQL_DATABASE=local_database -p 3306:3306 --restart=unless-stopped mysql:latest
+    - docker run -d --name=phpmyadmin --network=dockernetwork -e PMA_HOST=MySQL -e PMA_PORT=3306 -e MYSQL_ROOT_PASSWORD=10uzb24 -p 8080:80 phpmyadmin/phpmyadmin:latest
+    - docker run -d --name nginx --network=dockernetwork -p 8080:80 -v ./nginx.conf:/etc/nginx/nginx.conf -v ./html:/usr/share/nginx/html nginx:latest
+
+  - Über die Docker-Compose.yml Datei:
+    - docker composer up --build -d <-- Beim ersten Mal installieren, damit alle neuen Releases installiert werden
+    - docker composer up -d <-- Danach immer nur diesen Befehl verwenden, um die Container zu starten
+
+    - docker composer down <-- Um die Container zu stoppen und zu löschen (Dies löscht auch alle Daten in der MySQL-Datenbank)
+
+5. Starten Sie den Rust-Server:
+cd backend
 cargo run
 
-Testüberprüfuingsbefehl für die MySQL-Datenbank in der MySQL-Console:
+6. Öffnen Sie Ihren Webbrowser und gehen Sie zu http://localhost:8080, um die Weboberfläche des Ticket-Systems zu sehen.
+
+
+Vorgefertigter Test für die MySQL-Datenbank:
+Testüberprüfungsbefehl für die MySQL-Datenbank in der MySQL-Console:
 USE ticketsystem;
 INSERT INTO tickets (title, email, name, description, raum) 
 VALUES ("Test Title", "test@example.com", "Test User", "Test Description", "E01");
 
-How
 
 Als Hintergrundinformation:
-https://www.youtube.com/watch?v=2HVKizgcfjo
-https://www.raghwendra.com/blog/how-to-connect-html-to-database-with-mysql-using-php-example/#Step_1_Filter_your_HTML_form_requirements_for_your_contact_us_web_page
-https://medium.com/@elaurichetoho/unlock-the-power-of-docker-effortlessly-run-mysql-and-phpmyadmin-containers-for-seamless-database-3d56fd496c4d
-https://www.w3schools.com/howto/
+https://www.youtube.com/watch?v=HVKizgcfjo
+https://www.raghwendra.com/blog/ow-to-connect-html-to-database-with-mysql-using-php-example/#Step_1_Filter_your_HTML_form_requirements_for_your_contact_us_web_page
+https://medium.com/@elaurichetoh/unlock-the-power-of-docker-effortlessly-run-mysql-and-phpmyadmin-containers-for-seamless-database-3d56fd496c4d
+https://www.w3schools.com/howto
