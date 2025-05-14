@@ -30,13 +30,29 @@ Wie startet man das Ticket-System?
 1. Klonen Sie das Repository auf Ihren lokalen Computer:
 git clone
 
-2. Navigieren Sie in das Verzeichnis des geklonten Repositories:
+2. Die Programmierumgebung öffnen:
+    - Jegliche IP-Adressen austauschen für die Server-IP-Adresse
+      - Diese lässt sich mit dem Befehl "ip addr" oder "lsof -i" im Terminal herausfinden
+    
+    - Die IP-Adressen, welche gewechselt werden müssen, befinden sich in:
+      - viewTicket.js - Zeile 13; Zeile 69
+      - userManagement.js - Zeile 31; Zeile 80; Zeile 133
+      - editTicket.js - Zeile 22
+      - dashboard.js - Zeile 63; Zeile 133
+      - archived.js - Zeile 7 (WIP, deshalb nicht wichtig)
+      
+      - index.html - Zeile 22
+      - createTicket.html - Zeile 23
+
+      - main.rs - Zeile 30
+
+3. Navigieren Sie in das Verzeichnis des geklonten Repositories im Terminal der Programmierumgebung:
 cd Ticket-System
 
-3. Erstellen Sie ein Docker-Netzwerk:
+4. Erstellen Sie ein Docker-Netzwerk:
 docker network create dockernetwork
 
-4. Erstellen Sie die Docker-Container für MySQL, PHPMyAdmin und Nginx:
+5. Erstellen Sie die Docker-Container für MySQL, PHPMyAdmin und Nginx:
    - Entweder über die Console oder über die Docker-Compose.yml Datei
 
    - Über die Console:
@@ -50,11 +66,14 @@ docker network create dockernetwork
 
     - docker composer down <-- Um die Container zu stoppen und zu löschen (Dies löscht auch alle Daten in der MySQL-Datenbank)
 
-5. Starten Sie den Rust-Server:
+6. Den Rust-Server starten:
 cd backend
 cargo run
 
-6. Öffnen Sie Ihren Webbrowser und gehen Sie zu http://localhost:8080, um die Weboberfläche des Ticket-Systems zu sehen.
+7. Öffnen Sie Ihren Webbrowser und gehen Sie zu http://localhost:8080, um die Weboberfläche des Ticket-Systems zu sehen auf dem Server oder nutzen Sie die IP-Adresse + ":8080".
+
+8. Für den aktuellen Superuser wird die Email:"Beispiel@gmail.com" und das Passwort "Test123" verwendet.
+  - Dies kann/sollte in der .env Datei geändert werden für die Produktion.
 
 
 Vorgefertigter Test für die MySQL-Datenbank:

@@ -106,16 +106,16 @@
 ⚠️ Email-Benachrichtigungen
 
 ### Dokumentation
-⚠️ Benutzerhandbuch
-⚠️ Entwicklerdokumentation
+✅ Benutzerhandbuch
+✅ Entwicklerdokumentation
 
 **potentieller Raumplan mit Tickets verbinden und dann bei Klick auf den Raum alle Tickets anzeigen lassen.**
 **Die Farben verändern sich wenn ein oder mehrere Tickets auf einem Raum liegen**
-**Anhänge (optional) --> ungeeignet**
-🚫 Datei-Uploads
-    🚫 Fotos
-    🚫 Files
-    🚫 **Dateigrößen Beschränkung**: Am server als auch frontend per html file "select" attribute, kann eine limitierte Dateiauswahl oder ein File größen  limit festgelegt werden
+**Anhänge (optional)**
+⚠️ Datei-Uploads
+    ⚠️Fotos
+    ⚠️ Files
+    ⚠️ **Dateigrößen Beschränkung**: Am server als auch frontend per html file "select" attribute, kann eine limitierte Dateiauswahl oder ein File größen  limit festgelegt werden
 
 
 
