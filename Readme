@@ -13,6 +13,7 @@ Voraussetzungen
   - rustup: rustup ist ein Toolchain-Manager für Rust und wird mit der Rust-Installation geliefert.
 
 - Docker: Installieren Sie Docker, indem Sie die offizielle Website besuchen: https://docs.docker.com/get-docker/
+- Docker-Compose: Installieren Sie Docker-Compose, indem Sie die offizielle Website besuchen: https://docs.docker.com/compose/install/
 oder
 - Docker Desktop: Installieren Sie Docker Desktop, indem Sie die offizielle Website besuchen: https://www.docker.com/products/docker-desktop
 - Docker-Compose: Installieren Sie Docker-Compose, indem Sie die offizielle Website besuchen: https://docs.docker.com/compose/install/
@@ -27,8 +28,10 @@ oder
 
 
 Wie startet man das Ticket-System?
-1. Klonen Sie das Repository auf Ihren lokalen Computer:
-git clone
+1.1 Klonen Sie das Repository (github.com/Backwardpen/Ticket-Managment-System) auf Ihren lokalen Computer:
+git clone github.com/Backwardpen/Ticket-Managment-System
+oder:
+1.2 Laden Sie von github.com/Backwardpen/Ticket-Managment-System den gesamten Ordner herunter.
 
 2. Die Programmierumgebung öffnen:
     - Jegliche IP-Adressen austauschen für die Server-IP-Adresse
@@ -49,11 +52,8 @@ git clone
 3. Navigieren Sie in das Verzeichnis des geklonten Repositories im Terminal der Programmierumgebung:
 cd Ticket-System
 
-4. Erstellen Sie ein Docker-Netzwerk:
-docker network create dockernetwork
-
-5. Erstellen Sie die Docker-Container für MySQL, PHPMyAdmin und Nginx:
-   - Entweder über die Console oder über die Docker-Compose.yml Datei
+4. Erstellen Sie die Docker-Container für MySQL, PHPMyAdmin und Nginx:
+   - Entweder über die Console oder über die Docker-Compose.yml Datei (leichter)
 
    - Über die Console:
     - docker run --name MySQL -d --network=dockernetwork -e MYSQL_ROOT_PASSWORD=10uzb24 -e MYSQL_DATABASE=local_database -p 3306:3306 --restart=unless-stopped mysql:latest
@@ -66,17 +66,17 @@ docker network create dockernetwork
 
     - docker composer down <-- Um die Container zu stoppen und zu löschen (Dies löscht auch alle Daten in der MySQL-Datenbank)
 
-6. Den Rust-Server starten:
+5. Den Rust-Server starten:
 cd backend
 cargo run
 
-7. Öffnen Sie Ihren Webbrowser und gehen Sie zu http://localhost:8080, um die Weboberfläche des Ticket-Systems zu sehen auf dem Server oder nutzen Sie die IP-Adresse + ":8080".
+6. Öffnen Sie Ihren Webbrowser und gehen Sie zu http://localhost:8080, um die Weboberfläche des Ticket-Systems zu sehen auf dem Server oder nutzen Sie die IP-Adresse + ":8080".
 
-8. Für den aktuellen Superuser wird die Email:"Beispiel@gmail.com" und das Passwort "Test123" verwendet.
+7. Für den aktuellen Superuser wird die Email:"Beispiel@gmail.com" und das Passwort "Test123" verwendet.
   - Dies kann/sollte in der .env Datei geändert werden für die Produktion.
 
 
-Vorgefertigter Test für die MySQL-Datenbank:
+Vorgefertigter Test für die MySQL-Datenbank, falls man dies überprüfen möchte:
 Testüberprüfungsbefehl für die MySQL-Datenbank in der MySQL-Console:
 USE ticketsystem;
 INSERT INTO tickets (title, email, name, description, raum) 
