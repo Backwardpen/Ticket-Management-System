@@ -28,10 +28,10 @@ oder
 
 
 Wie startet man das Ticket-System?
-1.1 Klonen Sie das Repository (github.com/Backwardpen/Ticket-Managment-System) auf Ihren lokalen Computer:
+1.1 Klonen Sie das Repository (https://github.com/Backwardpen/Ticket-Management-System) auf Ihren lokalen Computer:
 git clone github.com/Backwardpen/Ticket-Managment-System
 oder:
-1.2 Laden Sie von github.com/Backwardpen/Ticket-Managment-System den gesamten Ordner herunter.
+1.2 Laden Sie von https://github.com/Backwardpen/Ticket-Management-System den gesamten Ordner herunter.
 
 2. Die Programmierumgebung öffnen:
     - Jegliche IP-Adressen austauschen für die Server-IP-Adresse
