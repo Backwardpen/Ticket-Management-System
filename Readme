@@ -6,76 +6,99 @@ Es dient dem Gymnasium Harksheide als Ticket-System für die Vereinfachung der S
 Es wurde angefangen als Verbesserung der alten Systeme + besserer Zuschnitt auf die Bedürfnisse der Schule.
 Andere Systeme können dieses System sicherlich auch verwenden, jedoch ist es spezieller auf die Bedürfnisse des Gymnasiums Harksheide zugeschnitten.
 
-Voraussetzungen für den Server (muss nur zum Neuaufsetzten des Servers installiert werden)
-- Rust: Installieren Sie Rust, indem Sie die offizielle Website besuchen: https://www.rust-lang.org/tools/install
-  - Cargo: Cargo ist der Paketmanager für Rust und wird mit der Rust-Installation geliefert.
-  - rustc: rustc ist der Rust-Compiler und wird ebenfalls mit der Rust-Installation geliefert.
-  - rustup: rustup ist ein Toolchain-Manager für Rust und wird mit der Rust-Installation geliefert.
+Voraussetzungen für den Server
+(Diese Programme müssen nur einmal installiert werden, um den Server neu aufzusetzen.)
 
-- Docker: Installieren Sie Docker, indem Sie die offizielle Website besuchen: https://docs.docker.com/get-docker/
-- Docker-Compose: Installieren Sie Docker-Compose, indem Sie die offizielle Website besuchen: https://docs.docker.com/compose/install/
-oder
-- Docker Desktop: Installieren Sie Docker Desktop, indem Sie die offizielle Website besuchen: https://www.docker.com/products/docker-desktop
-- Docker-Compose: Installieren Sie Docker-Compose, indem Sie die offizielle Website besuchen: https://docs.docker.com/compose/install/
+Rust (Programmiersprache für das Backend)
+Rust ist notwendig, um den Server starten zu können.
+Installieren Sie Rust über die offizielle Webseite:
+https://www.rust-lang.org/tools/install
 
-Genutzte Programme
-- Rust: s.o.
-- MySQL: Installieren Sie MySQL, indem Sie die offizielle Website besuchen: https://dev.mysql.com/downloads/mysql/
-- PHPMyAdmin: Installieren Sie PHPMyAdmin, indem Sie die offizielle Website besuchen: https://www.phpmyadmin.net/downloads/ <-- Nicht nötig, kann aber vorallem am Anfang hilfreich sein
-- Nginx: Installieren Sie Nginx, indem Sie die offizielle Website besuchen: https://nginx.org/en/docs/install.html
+Mit Rust werden automatisch mit installiert:
+Cargo: verwaltet die Rust-Projekte
+rustc: übersetzt den Rust-Code in ausführbare Programme
+rustup: verwaltet die Rust-Versionen
 
-- HTML: Kein Download nlötig, HTML ist eine Markup-Sprache und wird in der Regel in einem Texteditor geschrieben.
-- CSS: Kein Download nötig, CSS ist eine Stylesheet-Sprache und wird in der Regel in einem Texteditor geschrieben.
-- JavaScript: Kein Download nötig, JavaScript ist eine Programmiersprache und wird in der Regel in einem Texteditor geschrieben
+Docker (Umgebung für das System)
+Docker wird verwendet, um die Datenbank und den Webserver bereitzustellen.
+Installieren Sie Docker hier:
+https://docs.docker.com/get-docker/
+
+Docker-Compose
+Zusatztool für Docker, um alles einfacher starten zu können.
+Installation:
+https://docs.docker.com/compose/install/
+
+Alternativ kann auch Docker Desktop verwendet werden (für Windows/Mac empfohlen):
+https://www.docker.com/products/docker-desktop
+
+Verwendete Programme
+Rust: siehe oben
+
+MySQL: Datenbank.
+PHPMyAdmin: Verwaltungstool für die MySQL-Datenbank (optional, aber am Anfang hilfreich)
+Nginx: Webserver zum Anzeigen der Webseite.
+
+Frontend-Sprachen
+HTML: Struktur der Webseite
+CSS: Gestaltung und Farben
+JavaScript: Programmlogik auf der Webseite
+Diese drei Sprachen laufen direkt im Browser und benötigen keine Installation.
 
 
-Wie setzt man den Server und das Ticket-System neu auf?
-1.1 Klonen Sie das Repository (https://github.com/Backwardpen/Ticket-Management-System) auf Ihren lokalen Computer:
-git clone github.com/Backwardpen/Ticket-Managment-System
-oder:
-1.2 Laden Sie von https://github.com/Backwardpen/Ticket-Management-System den gesamten Ordner herunter.
+Wie wird das Ticket-System gestartet?
+1. Projekt herunterladen
+Laden Sie das Projekt von GitHub herunter:
+https://github.com/Backwardpen/Ticket-Management-System
+→ Entweder mit einem Klick auf "Code" → "Download ZIP"
+→ Oder über das Terminal mit:
+git clone https://github.com/Backwardpen/Ticket-Management-System
 
-2. Die Programmierumgebung öffnen:
-    - Jegliche IP-Adressen austauschen für die Server-IP-Adresse
-      - Diese lässt sich mit dem Befehl "ip addr" oder "lsof -i" im Terminal herausfinden
-    
-    - Die IP-Adressen, welche gewechselt werden müssen, befinden sich in:
-      - viewTicket.js - Zeile 13; Zeile 69
-      - userManagement.js - Zeile 31; Zeile 80; Zeile 133
-      - editTicket.js - Zeile 22
-      - dashboard.js - Zeile 63; Zeile 133
-      - archived.js - Zeile 7 (WIP, deshalb nicht wichtig)
-      
-      - index.html - Zeile 22
-      - createTicket.html - Zeile 23
+2. IP-Adressen anpassen (nur bei Serverbetrieb wichtig)
+Damit das System auf einem Server funktioniert, müssen in ein paar Dateien die Platzhalter durch die echte IP-Adresse des Servers ersetzt werden.
+→ Die IP-Adresse erfährt man z. B. mit dem Terminalbefehl:
+ip addr
 
-      - main.rs - Zeile 30
+→ Danach bitte folgende Dateien öffnen und die IP ersetzen:
+viewTicket.js, userManagement.js, editTicket.js, dashboard.js, archived.js
+index.html, createTicket.html
+main.rs (Backend-Datei)
 
-3. Navigieren Sie in das Verzeichnis des geklonten Repositories im Terminal der Programmierumgebung:
-cd Ticket-System
+Hinweis: Wenn das System nur lokal getestet wird, ist das in der Regel nicht nötig.
 
-4. Erstellen Sie die Docker-Container für MySQL, PHPMyAdmin und Nginx:
-   - Entweder über die Console oder über die Docker-Compose.yml Datei (leichter)
+3. In den Projektordner wechseln
+Im Terminal:
+cd Ticket-Management-System
 
-   - Über die Console:
-    - docker run --name MySQL -d --network=dockernetwork -e MYSQL_ROOT_PASSWORD=10uzb24 -e MYSQL_DATABASE=local_database -p 3306:3306 --restart=unless-stopped mysql:latest
-    - docker run -d --name=phpmyadmin --network=dockernetwork -e PMA_HOST=MySQL -e PMA_PORT=3306 -e MYSQL_ROOT_PASSWORD=10uzb24 -p 8080:80 phpmyadmin/phpmyadmin:latest
-    - docker run -d --name nginx --network=dockernetwork -p 8080:80 -v ./nginx.conf:/etc/nginx/nginx.conf -v ./html:/usr/share/nginx/html nginx:latest
+4. Die Systemumgebung starten (MySQL, Webserver usw.)
+Das passiert am einfachsten über Docker.
+Nutzen Sie dazu diesen Befehl:
+docker-compose up --build -d
+→ Beim ersten Mal wird alles automatisch eingerichtet.
+→ Später reicht:
+docker-compose up -d
 
-  - Über die Docker-Compose.yml Datei:
-    - docker composer up --build -d <-- Beim ersten Mal installieren, damit alle neuen Releases installiert werden
-    - docker composer up -d <-- Danach immer nur diesen Befehl verwenden, um die Container zu starten
+Um das System wieder zu stoppen:
+docker-compose down
 
-    - docker composer down <-- Um die Container zu stoppen und zu löschen (Dies löscht auch alle Daten in der MySQL-Datenbank)
-
-5. Den Rust-Server starten:
+5. Rust-Server starten (Backend)
+Wechseln Sie ins Backend-Verzeichnis und starten Sie den Server:
 cd backend
 cargo run
 
-6. Öffnen Sie Ihren Webbrowser und gehen Sie zu http://localhost:8080, um die Weboberfläche des Ticket-Systems zu sehen auf dem Server oder nutzen Sie die IP-Adresse + ":8080".
+6. Ticket-System im Browser öffnen
+Gehen Sie im Browser auf:
+http://localhost:8080
 
-7. Für den aktuellen Superuser wird die Email:"Beispiel@gmail.com" und das Passwort "Test123" verwendet.
-  - Dies kann/sollte in der .env Datei geändert werden für die Produktion.
+Oder (wenn auf einem Server):
+http://<Server-IP>:8080
+
+7. Standard-Login für Administrator
+E-Mail: Beispiel@gmail.com
+Passwort: Test123
+
+Diese Zugangsdaten befinden sich in der .env-Datei und können/sollten dort geändert werden.
+
 
 
 Vorgefertigter Test für die MySQL-Datenbank, falls man dies überprüfen möchte:
