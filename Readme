@@ -6,7 +6,7 @@ Es dient dem Gymnasium Harksheide als Ticket-System für die Vereinfachung der S
 Es wurde angefangen als Verbesserung der alten Systeme + besserer Zuschnitt auf die Bedürfnisse der Schule.
 Andere Systeme können dieses System sicherlich auch verwenden, jedoch ist es spezieller auf die Bedürfnisse des Gymnasiums Harksheide zugeschnitten.
 
-Voraussetzungen
+Voraussetzungen für den Server (muss nur zum Neuaufsetzten des Servers installiert werden)
 - Rust: Installieren Sie Rust, indem Sie die offizielle Website besuchen: https://www.rust-lang.org/tools/install
   - Cargo: Cargo ist der Paketmanager für Rust und wird mit der Rust-Installation geliefert.
   - rustc: rustc ist der Rust-Compiler und wird ebenfalls mit der Rust-Installation geliefert.
@@ -18,6 +18,7 @@ oder
 - Docker Desktop: Installieren Sie Docker Desktop, indem Sie die offizielle Website besuchen: https://www.docker.com/products/docker-desktop
 - Docker-Compose: Installieren Sie Docker-Compose, indem Sie die offizielle Website besuchen: https://docs.docker.com/compose/install/
 
+Genutzte Programme
 - MySQL: Installieren Sie MySQL, indem Sie die offizielle Website besuchen: https://dev.mysql.com/downloads/mysql/
 - PHPMyAdmin: Installieren Sie PHPMyAdmin, indem Sie die offizielle Website besuchen: https://www.phpmyadmin.net/downloads/ <-- Nicht nötig, kann aber vorallem am Anfang hilfreich sein
 - Nginx: Installieren Sie Nginx, indem Sie die offizielle Website besuchen: https://nginx.org/en/docs/install.html
@@ -27,7 +28,7 @@ oder
 - JavaScript: Kein Download nötig, JavaScript ist eine Programmiersprache und wird in der Regel in einem Texteditor geschrieben
 
 
-Wie startet man das Ticket-System?
+Wie setzt man den Server und das Ticket-System neu auf?
 1.1 Klonen Sie das Repository (https://github.com/Backwardpen/Ticket-Management-System) auf Ihren lokalen Computer:
 git clone github.com/Backwardpen/Ticket-Managment-System
 oder:
