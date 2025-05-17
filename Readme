@@ -19,6 +19,7 @@ oder
 - Docker-Compose: Installieren Sie Docker-Compose, indem Sie die offizielle Website besuchen: https://docs.docker.com/compose/install/
 
 Genutzte Programme
+- Rust: s.o.
 - MySQL: Installieren Sie MySQL, indem Sie die offizielle Website besuchen: https://dev.mysql.com/downloads/mysql/
 - PHPMyAdmin: Installieren Sie PHPMyAdmin, indem Sie die offizielle Website besuchen: https://www.phpmyadmin.net/downloads/ <-- Nicht nötig, kann aber vorallem am Anfang hilfreich sein
 - Nginx: Installieren Sie Nginx, indem Sie die offizielle Website besuchen: https://nginx.org/en/docs/install.html
